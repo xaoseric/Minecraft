@@ -1,0 +1,17 @@
+#########################
+### DATABASE SETTINGS ###
+#########################
+
+host: 'localhost'
+port: '3306'
+database: 'fadelands_server'
+username: 'root'
+password: ''
+
+#########################
+### TABLIST OPTIONS###
+#########################
+
+header-text: Test
+
+footer-text: Test

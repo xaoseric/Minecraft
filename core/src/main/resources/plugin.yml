@@ -1,0 +1,35 @@
+name: FadeLandsCore
+main: com.fadelands.core.CorePlugin
+version: 1.0
+author: arrayofc
+depend: [Array]
+
+commands:
+  profile:
+  saveplayerdata:
+    aliases: [udb, refreshplayerdata, refreshpd, savepd]
+    description: Admin command to update player data.
+  achievement:
+    aliases: [achievements, ach]
+    description: Check your achievements.
+  createnpc:
+    description: Create a NPC.
+  country:
+    description: Lookup a players country.
+  help:
+    aliases: [pl,plugins,?,ver,version]
+    description: Used if you need help.
+  color:
+    aliases: [namecolor, colorname, colour]
+    description: Select a name color.
+  list:
+    aliases: [membersonline, playersonline, online, playerlist, plist, who, ewho, elist, eonline, eplayerlist, eplist]
+    description: Show who is online.
+  teleport:
+    aliases: [tp, etp, eteleport, tpo, etpo]
+  gamemode:
+    aliases: [gm, egm, egamemode]
+  sudo:
+    aliases: [esudo]
+  fly:
+    aliases: [flight, efly, eflight]
