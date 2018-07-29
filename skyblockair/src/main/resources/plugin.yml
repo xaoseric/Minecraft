@@ -1,0 +1,10 @@
+name: FadeLandsSkyblock
+main: fadelandsskyblock.Main
+version: 1.0
+author: arrayofc
+depend: [Array, SignGUI, PlaceholderAPI, ASkyBlock]
+
+commands:
+  islandmenu:
+    aliases: [ismenu, issettings, ishelp, menu]
+    description: Open the island menu.

@@ -1,0 +1,36 @@
+package com.fadelands.sbair.skyblockmanager;
+
+import com.fadelands.sbair.Main;
+import com.fadelands.sbair.Utils;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import static com.fadelands.sbair.Main.asbAPI;
+
+public class IslandManagerCommand implements CommandExecutor {
+
+    public Main plugin;
+
+    public IslandManagerCommand(Main plugin) {
+        this.plugin = plugin;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        if(!(sender instanceof Player)){
+            sender.sendMessage("This command can only be used ingame.");
+            return true;
+        }
+        if(command.getName().equalsIgnoreCase("islandmenu")) {
+            Player player = (Player) sender;
+            if(!(asbAPI.inTeam(player.getUniqueId()))){
+                player.sendMessage(Utils.Prefix_Red + "§cYou must be in a team or own an island yourself to use this command.");
+            return true;
+            }
+                IslandMenu.openIslandMenu(player);
+        }
+        return false;
+    }
+}

@@ -1,0 +1,15 @@
+name: Array
+main: com.fadelands.array.Array
+version: ARRAY-1.0
+author: arrayofc
+
+commands:
+  uptime:
+    aliases: [ut, upt]
+    description: Receive sub-server up time.
+  databasestatus:
+    aliases: [dbstatus, dbs]
+    description: Receive information about the Array database.
+  whois:
+    aliases: [userinfo]
+    description: Receive information about a player.
