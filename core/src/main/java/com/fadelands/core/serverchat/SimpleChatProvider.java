@@ -8,12 +8,17 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
 
+import java.awt.*;
+
 public class SimpleChatProvider implements ChatProvider {
     @Override
     public ComponentBuilder[] getFormat(Player player) {
 
         Chat chat = CorePlugin.getChat();
         Permission permission = CorePlugin.getPermissions();
+
+        ComponentBuilder levelComponent = new ComponentBuilder("§71 ");
+        levelComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7This user is network level 0.").create()));
 
         ComponentBuilder rankComponent = new ComponentBuilder(chat.getPlayerPrefix(player).replaceAll("&", "\u00a7"));
         rankComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("\u00a73Click to view profile." +
@@ -28,6 +33,6 @@ public class SimpleChatProvider implements ChatProvider {
         userComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("\u00a73Click to message!").create()));
         userComponent.event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName()));
 
-        return new ComponentBuilder[]{rankComponent, userComponent, new ComponentBuilder("\u00a77: \u00a7r")};
+        return new ComponentBuilder[]{levelComponent, rankComponent, userComponent, new ComponentBuilder("\u00a77: \u00a7r")};
     }
 }

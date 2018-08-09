@@ -21,7 +21,14 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.sql.*;
 import java.util.function.Consumer;
 
@@ -34,10 +41,30 @@ public class Main extends Plugin {
     private String db;
     private static HikariConfig hikariConfig;
     private static HikariDataSource hikariDataSource;
+    public static Configuration config;
+    public static File configfile;
 
     private Plugin plugin;
 
     public void onEnable() {
+        try {
+            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (!getDataFolder().exists())
+            getDataFolder().mkdir();
+
+        configfile = new File(getDataFolder(), "config.yml");
+
+
+        if (!configfile.exists()) {
+            try (InputStream in = getResourceAsStream("config.yml")) {
+                Files.copy(in, configfile.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         this.host = "localhost";
         this.user = "root";

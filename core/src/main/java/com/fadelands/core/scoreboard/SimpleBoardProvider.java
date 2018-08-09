@@ -33,71 +33,70 @@ public class SimpleBoardProvider implements BoardProvider {
                         Bukkit.getLogger().warning("TABLIST: Couldn't select from luckperms_players.");
                     } else {
                         switch (rs.getString("primary_group").toLowerCase()) {
-
                             case ("owner"): {
-                                return "&4[Owner] {player}" ;
+                                return "&4&lOWNER &f{player}" ;
                             }
 
                             case ("admin"): {
-                                return "&c[Admin] {player}";
+                                return "&c&lADMIN &f{player}";
                             }
 
                             case ("developer"): {
-                                return "&c[Dev] {player}";
+                                return "&c&lDEV &f{player}";
                             }
 
                             case ("senior"): {
-                                return "&6[Senior] {player}";
+                                return "&6&lSENIOR &f{player}";
                             }
 
                             case ("mod"): {
-                                return "&6[Mod] {player}";
+                                return "&6&lMOD &f{player}";
                             }
 
                             case ("trainee"): {
-                                return "&e[Trainee] {player}";
+                                return "&e&lTRAINEE &f{player}";
                             }
 
                             case ("builder"): {
-                                return "&9[Builder] {player}";
+                                return "&9&lBUILDER &f{player}";
                             }
 
                             case ("partner"): {
-                                return "&b[Partner] {player}";
+                                return "&b&lPARTNER &f{player}";
                             }
 
                             case ("media"): {
-                                return "&d[Media] {player}";
+                                return "&d&lMEDIA &f{player}";
                             }
 
                             case ("contributor"): {
-                                return "&3[Retired] {player}";
+                                return "&3&lRETIRED &f{player}";
                             }
 
                             case ("platinum"): {
-                                return "&5[Platinum] {player}";
+                                return "&5&lPLATINUM &f{player}";
                             }
 
                             case ("premium"): {
-                                return "&3[Premium] {player}";
+                                return "&3&lPREMIUM &f{player}";
                             }
 
                             case ("donator"): {
-                                return "&a[Donator] {player}";
+                                return "&a&lDONATOR &f{player}";
                             }
 
                             case ("default"): {
-                                return "&7{player}";
+                                return "&f{player}";
                             }
                             // den kommer bli cuttad ifall du går över 32 characters samma gäller vid scoreboard linjerna
                             // om den inte hittar någon rank så går den till denna
 
-                                // I
-                                // I   en pil neråt
-                                // I
-                                // V
+                            // I
+                            // I   en pil neråt
+                            // I
+                            // V
                             default: {
-                                return "&7{player}";
+                                return "&f{player}";
                             }
 
                         }

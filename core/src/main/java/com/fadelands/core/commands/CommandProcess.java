@@ -34,10 +34,6 @@ public class CommandProcess implements Listener {
             event.setCancelled(true);
         }else if (msg.equalsIgnoreCase("/list")) {
             event.setCancelled(true);
-
-            plugin.getListCommandHandler().updateListCommandStrings();
-
-            plugin.getListCommandHandler().handleListCommand(event.getPlayer());
         }
     }
 }

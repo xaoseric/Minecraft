@@ -44,7 +44,7 @@ public class BuildBot {
         client.addCommand(new DiscordReportInfoCommand());
 
         JDABuilder builder = new JDABuilder(AccountType.BOT);
-        builder.setToken("bot_token");
+        builder.setToken(Main.config.getString("token"));
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setAutoReconnect(true);
         builder.setGame(Game.playing("play.fadelands.com"));

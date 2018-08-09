@@ -63,7 +63,7 @@ public class SudoCommandExecutor implements CommandExecutor {
             input = new StringBuilder(input.substring(1));
             Player pu = (Player) u;
             Bukkit.dispatchCommand(u, input.toString());
-            sender.sendMessage("§aSuccessfully made " + pu.getName() + " run command [§7" + input + "§a].");
+            sender.sendMessage("§aSuccessfully made " + pu.getName() + " run command §2[§7" + input + "§2]§a.");
         } else {
             if (!(u instanceof Player)) {
                 sender.sendMessage("§cThe target you specified can not use chat.");
@@ -71,7 +71,7 @@ public class SudoCommandExecutor implements CommandExecutor {
             }
             Player p = (Player) u;
             p.chat(input.toString());
-            sender.sendMessage("§aSuccessfully made " + p.getName() + " say [§7" + input + "§a].");
+            sender.sendMessage("§aSuccessfully made " + p.getName() + " say §2[§7" + input + "§2]§a.");
         }
         return false;
     }
