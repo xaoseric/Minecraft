@@ -1,9 +1,9 @@
 package com.fadelands.bungeecore.players;
 
 import com.fadelands.bungeecore.MySQL;
-import com.fadelands.bungeecore.DM;
+import com.fadelands.bungeecore.utils.DM;
 import com.fadelands.bungeecore.Main;
-import com.fadelands.bungeecore.Utils;
+import com.fadelands.bungeecore.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

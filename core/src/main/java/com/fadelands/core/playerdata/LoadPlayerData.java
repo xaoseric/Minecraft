@@ -1,6 +1,7 @@
 package com.fadelands.core.playerdata;
 
 import com.fadelands.array.Array;
+import com.fadelands.array.events.AsyncPlayerJoinEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,26 +11,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class LoadPlayerData implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        new PlayerData(player.getUniqueId());
-        load(player);
-        player.sendMessage("§2✔ §aYour user data has been loaded.");
+        UUID uuid = event.getPlayer().getUniqueId();
+        new PlayerData(uuid);
+        load(uuid);
     }
 
-    private static void load(Player player) {
+    private static void load(UUID uuid) {
 
         try(Connection connection = Array.getConnection()){
-            try(PreparedStatement st = connection.prepareStatement("SELECT * FROM `fadelands_stats_global` WHERE `player_uuid`='" + player.getUniqueId().toString() + "'")) {
+            try(PreparedStatement st = connection.prepareStatement("SELECT * FROM `fadelands_stats_global` WHERE `player_uuid`='" + uuid.toString() + "'")) {
                 try (ResultSet resultPlayerStats = st.executeQuery()) {
 
                     if (resultPlayerStats.next()) {
 
-                        PlayerData.Statistics stats = new PlayerData(player.getUniqueId()).getStats();
+                        PlayerData.Statistics stats = new PlayerData(uuid).getStats();
                         stats.setMessagesSent(resultPlayerStats.getInt("messages_sent"));
                         stats.setCommandsUsed(resultPlayerStats.getInt("commands_used"));
                         stats.setLoginCount(resultPlayerStats.getInt("login_count"));
@@ -42,7 +43,6 @@ public class LoadPlayerData implements Listener {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            player.sendMessage("§4✖ §cCouldn't load your user data. If this issues persists, report it to a staff member.");
         }
     }
 }

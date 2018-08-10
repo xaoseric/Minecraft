@@ -1,5 +1,6 @@
 package com.fadelands.sbair.scoreboard;
 
+import com.fadelands.array.plmessaging.PluginMessage;
 import com.fadelands.core.scoreboard.SimpleBoardProvider;
 import com.fadelands.sbair.Main;
 import com.google.common.collect.Lists;
@@ -11,6 +12,12 @@ import java.util.List;
 import static com.fadelands.sbair.Main.asbAPI;
 
 public class SBAirBoardProvider extends SimpleBoardProvider {
+
+    private PluginMessage pluginMessage;
+
+    public SBAirBoardProvider(PluginMessage pluginMessage) {
+        this.pluginMessage = pluginMessage;
+    }
 
     @Override
     public String getTitle(Player player) {

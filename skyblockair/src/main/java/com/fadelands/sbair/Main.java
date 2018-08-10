@@ -1,6 +1,10 @@
 package com.fadelands.sbair;
 
+import com.fadelands.array.Array;
+import com.fadelands.core.CorePlugin;
+import com.fadelands.core.scoreboard.SimpleboardManager;
 import com.fadelands.sbair.actionbar.AutoAnnouncer;
+import com.fadelands.sbair.scoreboard.SBAirBoardProvider;
 import com.fadelands.sbair.skyblockmanager.IslandManagerCommand;
 import com.fadelands.sbair.skyblockmanager.IslandMenu;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
@@ -30,7 +34,6 @@ public class Main extends JavaPlugin {
             throw new RuntimeException("Couldn't find PlaceholderAPI. Plugin can't work without it.");
         }
         getInstance();
-        saveDefaultConfig();
         getLogger().info("Plugin has successfully been enabled.");
 
         /*
@@ -41,6 +44,11 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new IslandMenu(this), this);
 
         new AutoAnnouncer().runTaskTimer(this, 1 * 60 * 20, 1 * 60 * 20);
+
+        SimpleboardManager simpleboardManager = CorePlugin.getInstance().getSimpleboardManager();
+        simpleboardManager.setBoardProvider(new SBAirBoardProvider(Array.plugin.getPluginMessage()));
+
+
                 /*
         Register Commands
          */

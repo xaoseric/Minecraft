@@ -19,7 +19,6 @@ public class ServerSelectorGui implements Listener {
 
     private PluginMessage pluginMessage = Array.plugin.getPluginMessage();
 
-
     public Main plugin;
 
     public ServerSelectorGui(Main plugin) {

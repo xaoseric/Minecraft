@@ -19,7 +19,8 @@ public class JoinEvent implements Listener {
         Player player = event.getPlayer();
 
         event.setJoinMessage(null);
-        JoinItems.getJoinItems(player);
+        JoinItems joinItems = new JoinItems(plugin);
+        joinItems.getJoinItems(player);
 
         player.sendMessage("§r" + "\n" +
                 "§8§l┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + "\n" +

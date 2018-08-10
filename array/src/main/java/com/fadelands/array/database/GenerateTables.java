@@ -149,6 +149,13 @@ public class GenerateTables {
 
         String settings = "CREATE TABLE IF NOT EXISTS fadelands_players_settings "; //todo: WORK ON THIS LATER!
 
+        String lobbysettings = "CREATE TABLE IF NOT EXISTS fadelands_players_lobbysettings " +
+                "(player_uuid VARCHAR(64) PRIMARY KEY, " +
+                "double_jump boolean, " +
+                "player_visibility boolean, " +
+                "speed_effect boolean, " +
+                "jump_effect boolean)";
+
         String settingsStaff = "CREATE TABLE IF NOT EXISTS fadelands_staff_settings "; //todo: WORK ON THIS LATER!
 
         // LOGGING
@@ -181,6 +188,9 @@ public class GenerateTables {
         SQLUtils.createTable(commandlogs);
         SQLUtils.createTable(pmlogs);
         SQLUtils.createTable(color);
+
+        // settings
+        SQLUtils.createTable(lobbysettings);
 
         //Staff
 

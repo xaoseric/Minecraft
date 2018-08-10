@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class SkyblockGui implements Listener {
 
-    private PluginMessage pluginMessage = Array.plugin.getPluginMessage();
+    private static PluginMessage pluginMessage = Array.plugin.getPluginMessage();
 
 
     public Main plugin;
@@ -29,7 +29,9 @@ public class SkyblockGui implements Listener {
 
     private final static String invName = "§lSelect a Realm";
 
-    private static ItemStack airRealm = new ItemBuilder(Material.MILK_BUCKET).setName("§f§lAir Realm").setLore(Arrays.asList("§r",
+    private static ItemStack airRealm = new ItemBuilder(Material.MILK_BUCKET).setName("§f§lAir Realm").setLore(Arrays.asList(
+            "§7Players (" + pluginMessage.getPlayers("SB-AIR") + "/100)",
+            "§r",
             "§7Create your own Sky Empire, invite your friends",
             "§7to your sky island and try to reach the top!",
             "§7Can you make it to the top and become the",
@@ -45,7 +47,9 @@ public class SkyblockGui implements Listener {
             "§r",
             "§b§l» §fClick to connect...")).toItemStack();
 
-    private static ItemStack waterRealm = new ItemBuilder(Material.WATER_BUCKET).setName("§b§lWater Realm").setLore(Arrays.asList("§r",
+    private static ItemStack waterRealm = new ItemBuilder(Material.WATER_BUCKET).setName("§b§lWater Realm").setLore(Arrays.asList(
+            "§7Players (" + pluginMessage.getPlayers("SB-AIR") + "/100)",
+            "§r",
             "§c§lCOMING SOON!",
             "§r",
             "§7Make your own Water Empire! But watch out,",
@@ -91,7 +95,7 @@ public class SkyblockGui implements Listener {
 
             if (event.getCurrentItem().isSimilar(airRealm)) {
                 pluginMessage.sendToServer(player, "SB-AIR");
-                player.sendMessage(Utils.Prefix + "§3Sending you to the §bAir Realm§3..");
+                player.sendMessage(Utils.Prefix + "§3Sending you to the realm §f§lAir§3.");
                 player.closeInventory();
             }
             if (event.getCurrentItem().isSimilar(waterRealm)) {
@@ -101,7 +105,6 @@ public class SkyblockGui implements Listener {
             if (event.getCurrentItem().isSimilar(back)) {
                 ServerSelectorGui.openServerSelector(player);
             }
-
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.fadelands.bungeecore.commands;
 
-import com.fadelands.bungeecore.Utils;
+import com.fadelands.bungeecore.utils.Utils;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;

@@ -53,13 +53,13 @@ public class CorePlugin extends JavaPlugin {
         instance = this;
         this.chatProvider = new SimpleChatProvider();
 
-        Bukkit.getConsoleSender().sendMessage("[FadeLandsCore] Make sure this server is running core plugin Array. This server does not work without it.");
+        Bukkit.getConsoleSender().sendMessage("[Core] Make sure this server is running core plugin Array. This server does not work without it.");
 
         //checking if the server has the plugin
-        Bukkit.getConsoleSender().sendMessage("[FadeLandsCore] Attemping to find core plugin Array.");
+        Bukkit.getConsoleSender().sendMessage("[Core] Attemping to find core plugin Array.");
         Plugin array = Bukkit.getServer().getPluginManager().getPlugin("Array");
         if (array == null) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[FadeLandsCore] Couldn't find plugin Array. This server can't run without it. Stopping the server.");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[Core] Couldn't find plugin Array. This server can't run without it. Stopping the server.");
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "stop");
         }
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + Utils.Core + "Array found and loaded, yay!");
@@ -98,8 +98,7 @@ public class CorePlugin extends JavaPlugin {
         pm.registerEvents(new TablistText(this), this);
 
         // PlayerData Classes
-        pm.registerEvents(new CountMessages(this), this);
-        pm.registerEvents(new CountCommands(this), this);
+       /* pm.registerEvents(new CountMessages(this), this);
         pm.registerEvents(new CountLogins(this), this);
         pm.registerEvents(new CountBlocksPlaced(this), this);
         pm.registerEvents(new CountBlocksRemoved(this), this);
@@ -107,10 +106,10 @@ public class CorePlugin extends JavaPlugin {
         pm.registerEvents(new SaveOnQuit(this), this);
         pm.registerEvents(new LoadPlayerData(), this);
         //pm.registerEvents(new CountDeaths(this), this);
+                new AutoSaveDb().runTaskTimer(this, 2 * 60 * 20, 2 * 60 * 20);
+        */
 
         pm.registerEvents(new ChatListener(), this);
-
-        new AutoSaveDb().runTaskTimer(this, 2 * 60 * 20, 2 * 60 * 20);
 
         simpleboardManager = new SimpleboardManager(this, new SimpleBoardProvider());
         pm.registerEvents(simpleboardManager, this);

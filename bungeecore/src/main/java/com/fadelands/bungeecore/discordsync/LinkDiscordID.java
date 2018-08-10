@@ -1,6 +1,8 @@
 package com.fadelands.bungeecore.discordsync;
 
 import com.fadelands.bungeecore.*;
+import com.fadelands.bungeecore.utils.DM;
+import com.fadelands.bungeecore.utils.Utils;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;

@@ -18,6 +18,7 @@ public class JoinItems implements Listener {
 
     public static String selectorName = "§b§lPlay §7(Right-Click)";
     public static String profileName = "§6§lProfile §7(Right-Click)";
+    public static String settingsName = "§c§lLobby Settings §7(Right-Click)";
 
     public Main plugin;
 
@@ -25,10 +26,11 @@ public class JoinItems implements Listener {
         this.plugin = plugin;
     }
 
-    public static void getJoinItems(Player player) {
+    public void getJoinItems(Player player) {
 
         ItemStack selector = new ItemBuilder(Material.COMPASS).setName(selectorName).setAmount(1).toItemStack();
         ItemStack profile = new ItemBuilder(Material.SKULL_ITEM).setData(3).setSkullOwner(player.getName()).setName(profileName).setAmount(1).toItemStack();
+        ItemStack settings = new ItemBuilder(Material.REDSTONE_COMPARATOR).setName(settingsName).setAmount(1).toItemStack();
 
         PlayerInventory inv = player.getInventory();
         inv.clear();
@@ -37,17 +39,18 @@ public class JoinItems implements Listener {
         inv.setLeggings(null);
         inv.setBoots(null);
 
-        inv.setItem(3, selector);
-        inv.setItem(5, profile);
-
+        inv.setItem(2, selector);
+        inv.setItem(4, profile);
+        inv.setItem(6, settings);
     }
 
     @EventHandler
     @Deprecated
     public void onDrop(PlayerDropItemEvent event) {
         if (event.getItemDrop().getItemStack().hasItemMeta()) {
-            if (event.getItemDrop().getItemStack().getItemMeta().getDisplayName() == selectorName ||
-                    event.getItemDrop().getItemStack().getItemMeta().getDisplayName() == (profileName)){
+            if (event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(selectorName) ||
+                    event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(profileName) ||
+                        event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(settingsName)){
                 event.setCancelled(true);
             }
         }
@@ -64,8 +67,11 @@ public class JoinItems implements Listener {
                 if (player.getItemInHand().getItemMeta().getDisplayName().equals(selectorName)) {
                     ServerSelectorGui.openServerSelector(player);
                 }
-                if (player.getItemInHand().getItemMeta().getDisplayName().equals(profileName)) {
-                    player.performCommand("profile");
+            if (player.getItemInHand().getItemMeta().getDisplayName().equals(profileName)) {
+                player.performCommand("profile");
+            }
+            if (player.getItemInHand().getItemMeta().getDisplayName().equals(settingsName)) {
+                player.performCommand("lobbysettings");
 
                 }
             }

@@ -1,6 +1,6 @@
 package com.fadelands.bungeecore.commands.reports;
 
-import com.fadelands.bungeecore.Utils;
+import com.fadelands.bungeecore.utils.Utils;
 import com.fadelands.bungeecore.Main;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;

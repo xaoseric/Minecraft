@@ -1,5 +1,6 @@
 package com.fadelands.bungeecore;
 
+import com.fadelands.bungeecore.announcer.Announcer;
 import com.fadelands.bungeecore.commands.AlertCommand;
 import com.fadelands.bungeecore.commands.reports.ReportInfoCommand;
 import com.fadelands.bungeecore.commands.reports.ReportsCommand;
@@ -7,6 +8,7 @@ import com.fadelands.bungeecore.commands.servers.*;
 import com.fadelands.bungeecore.players.ChatLogging;
 import com.fadelands.bungeecore.players.PlayerManager;
 import com.fadelands.bungeecore.privatemessaging.PrivateMessageCommand;
+import com.fadelands.bungeecore.utils.Utils;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.fadelands.bungeecore.commands.FindCommand;
@@ -45,6 +47,7 @@ public class Main extends Plugin {
     public static File configfile;
 
     private Plugin plugin;
+    private Announcer announcer;
 
     public void onEnable() {
         try {
@@ -95,8 +98,22 @@ public class Main extends Plugin {
         }
 
         BuildBot.build();
+        registerCommands();
+        registerEvents();
+        this.announcer = new Announcer(this);
+        announcer.startAnnouncements();
+
+
         getProxy().getConsole().sendMessage(new ComponentBuilder(Utils.BungeeCore + "Plugin has been enabled.").color(ChatColor.GREEN).create());
 
+    }
+    private void registerEvents() {
+        getProxy().getPluginManager().registerListener(this, new PlayerManager(this));
+
+        getProxy().getPluginManager().registerListener(this, new BungeeCommandsLogging(this));
+        getProxy().getPluginManager().registerListener(this, new ChatLogging(this));
+    }
+    private void registerCommands() {
         getProxy().getPluginManager().registerCommand(this, new FindCommand());
         getProxy().getPluginManager().registerCommand(this, new AlertCommand());
         getProxy().getPluginManager().registerCommand(this, new SCCommand());
@@ -115,13 +132,8 @@ public class Main extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new LinkDiscordID());
         getProxy().getPluginManager().registerCommand(this, new RandomKeyCommand());
 
-        getProxy().getPluginManager().registerListener(this, new PlayerManager(this));
-
-        getProxy().getPluginManager().registerListener(this, new BungeeCommandsLogging(this));
-        getProxy().getPluginManager().registerListener(this, new ChatLogging(this));
         getProxy().getPluginManager().registerCommand(this, new PrivateMessageCommand());
         getProxy().getPluginManager().registerCommand(this, new ReplyCommand());
-
     }
         public void onDisable () {
             getProxy().getConsole().sendMessage(new ComponentBuilder(Utils.BungeeCore + "Plugin has been disabled.").color(ChatColor.RED).create());
@@ -139,9 +151,6 @@ public class Main extends Plugin {
             } catch (SQLTimeoutException e2){
                 e2.printStackTrace();
                 ProxyServer.getInstance().getLogger().severe("Couldn't grab a database connection. Stopping the server.");
-                ProxyServer.getInstance().getLogger().severe("Couldn't grab a database connection. Stopping the server.");
-                ProxyServer.getInstance().getLogger().severe("Couldn't grab a database connection. Stopping the server.");
-
             }
         }
         return hikariDataSource.getConnection();

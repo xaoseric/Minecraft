@@ -4,7 +4,8 @@ import com.fadelands.array.Array;
 import com.fadelands.array.utils.Utils;
 import com.fadelands.core.CorePlugin;
 import com.fadelands.core.scoreboard.SimpleboardManager;
-import com.fadelands.lobby.commands.BuildMode;
+import com.fadelands.lobby.commands.BuildModeCommandExecutor;
+import com.fadelands.lobby.commands.LobbySettingsCommandExecutor;
 import com.fadelands.lobby.events.*;
 import com.fadelands.lobby.guis.ServerSelectorGui;
 import com.fadelands.lobby.guis.SkyblockGui;
@@ -39,7 +40,6 @@ public class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         setInstance(this);
-        saveDefaultConfig();
 
         Plugin array = Bukkit.getPluginManager().getPlugin("Array");
         if(array == null){
@@ -76,7 +76,8 @@ public class Main extends JavaPlugin implements Listener {
         /*
         Register Commands
          */
-        getCommand("buildmode").setExecutor(new BuildMode(this));
+        getCommand("buildmode").setExecutor(new BuildModeCommandExecutor(this));
+        getCommand("lobbysettings").setExecutor(new LobbySettingsCommandExecutor(this));
 
         if (!setupEconomy() ) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + Utils.Core + "Disabled due to no Vault dependency found! - " + getDescription().getName());

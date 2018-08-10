@@ -1,7 +1,7 @@
 package com.fadelands.bungeecore.commands;
 
-import com.fadelands.bungeecore.Perms;
-import com.fadelands.bungeecore.Utils;
+import com.fadelands.bungeecore.utils.Perms;
+import com.fadelands.bungeecore.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;

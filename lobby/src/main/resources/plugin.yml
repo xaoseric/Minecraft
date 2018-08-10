@@ -1,11 +1,14 @@
-name: FadeLandsLobby
+name: Lobby
 version: 1.0
 author: arrayofc
 main: com.fadelands.lobby.Main
-depend: [Array, FadeLandsCore]
+depend: [Array, Core]
 
 commands:
   createnpc:
   buildmode:
     description: Toggle between build mode.
     aliases: [bm]
+  lobbysettings:
+    description: Change your lobby settings.
+    aliases: [ls, lsettings]

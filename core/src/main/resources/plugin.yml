@@ -1,4 +1,4 @@
-name: FadeLandsCore
+name: Core
 main: com.fadelands.core.CorePlugin
 version: 1.0
 author: arrayofc

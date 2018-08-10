@@ -19,8 +19,6 @@ public class Utils {
     public static String ArrowRight = "»";
     public static String ArrowLeft = "«";
 
-    public static String SERVER = "[SERVER] ";
-    public static String BungeeCore = "[FadeLandsCore] ";
-    public static String Core = "[FadeLandsCore] ";
+    public static String Core = "[Core] ";
 
 }

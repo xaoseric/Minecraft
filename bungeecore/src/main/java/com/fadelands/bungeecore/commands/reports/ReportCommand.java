@@ -1,8 +1,8 @@
 package com.fadelands.bungeecore.commands.reports;
 
 import com.fadelands.bungeecore.Main;
-import com.fadelands.bungeecore.Perms;
-import com.fadelands.bungeecore.Utils;
+import com.fadelands.bungeecore.utils.Perms;
+import com.fadelands.bungeecore.utils.Utils;
 import com.fadelands.bungeecore.discordevents.DiscordUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -17,9 +17,7 @@ import org.joda.time.DateTimeZone;
 
 import java.awt.*;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class ReportCommand extends Command {
@@ -88,11 +86,6 @@ public class ReportCommand extends Command {
                             "handled_text" +
                             ") " +
                             "VALUE (?,?,?,?,?,?,?,?,?,?,?,?)")) {
-
-                        Date date = new Date();
-                        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-
-                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
                         insert.setString(1, sender.getUniqueId().toString());
                         insert.setString(2, sender.getName());

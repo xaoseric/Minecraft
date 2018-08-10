@@ -1,6 +1,6 @@
 package com.fadelands.bungeecore.commands;
 
-import com.fadelands.bungeecore.Utils;
+import com.fadelands.bungeecore.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -27,7 +27,7 @@ public class AlertCommand extends Command {
         }
         String reasonRaw = Arrays.stream(args).skip(0).collect(Collectors.joining(" "));
         String reason = ChatColor.translateAlternateColorCodes('&', reasonRaw);
-        ProxyServer.getInstance().broadcast(new ComponentBuilder("§8│ §3§lAnnouncement§7 »§r " + reason).create());
+        ProxyServer.getInstance().broadcast(new ComponentBuilder(Utils.Announcement + reason).create());
 
     }
 }
