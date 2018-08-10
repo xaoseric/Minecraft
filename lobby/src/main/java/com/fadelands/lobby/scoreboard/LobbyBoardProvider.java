@@ -51,10 +51,10 @@ public class LobbyBoardProvider extends SimpleBoardProvider {
         toReturn.add("&r ");
         toReturn.add("&f&l\u00bb Servers"); // <3
         toReturn.add("&8&l┏━");
-        toReturn.add("&8&l┣ &7Water&f: &3" + SB_WATER_PLAYERCOUNT);
-        toReturn.add("&8&l┣ &7Air&f: &3" + SB_AIR_PLAYERCOUNT);
-        toReturn.add("&8&l┣ &7Earth&f: &3" + SV_EARTH_PLAYERCOUNT);
-        toReturn.add("&8&l┣ &7Lobby&f: &3" + LOBBY_PLAYERCOUNT);
+        toReturn.add("&8&l┣ &7Water&f: &3" + String.valueOf(SB_WATER_PLAYERCOUNT));
+        toReturn.add("&8&l┣ &7Air&f: &3" + String.valueOf(SB_AIR_PLAYERCOUNT));
+        toReturn.add("&8&l┣ &7Earth&f: &3" + String.valueOf(SV_EARTH_PLAYERCOUNT));
+        toReturn.add("&8&l┣ &7Lobby&f: &3" + String.valueOf(LOBBY_PLAYERCOUNT));
         toReturn.add("&8&l┗━");
         toReturn.add("&f&owww.fadelands.com");
 

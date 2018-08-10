@@ -3,8 +3,8 @@ package com.fadelands.sbair;
 import com.fadelands.array.Array;
 import com.fadelands.core.CorePlugin;
 import com.fadelands.core.scoreboard.SimpleboardManager;
-import com.fadelands.sbair.actionbar.AutoAnnouncer;
 import com.fadelands.sbair.scoreboard.SBAirBoardProvider;
+import com.fadelands.sbair.serverchat.SBAirChatProvider;
 import com.fadelands.sbair.skyblockmanager.IslandManagerCommand;
 import com.fadelands.sbair.skyblockmanager.IslandMenu;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
@@ -28,11 +28,6 @@ public class Main extends JavaPlugin {
     public static ASkyBlockAPI asbAPI;
 
     public void onEnable() {
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-
-        } else {
-            throw new RuntimeException("Couldn't find PlaceholderAPI. Plugin can't work without it.");
-        }
         getInstance();
         getLogger().info("Plugin has successfully been enabled.");
 
@@ -43,20 +38,15 @@ public class Main extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new IslandMenu(this), this);
 
-        new AutoAnnouncer().runTaskTimer(this, 1 * 60 * 20, 1 * 60 * 20);
-
         SimpleboardManager simpleboardManager = CorePlugin.getInstance().getSimpleboardManager();
         simpleboardManager.setBoardProvider(new SBAirBoardProvider(Array.plugin.getPluginMessage()));
 
+        CorePlugin.getInstance().setChatProvider(new SBAirChatProvider());
 
-                /*
-        Register Commands
-         */
+        // Regc ommands
         getCommand("islandmenu").setExecutor(new IslandManagerCommand(this));
 
-                /*
-        Vault
-         */
+        // Vault
         if (!setupEconomy()) {
             log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             Bukkit.getServer().getPluginManager().disablePlugin(this);
@@ -67,6 +57,7 @@ public class Main extends JavaPlugin {
         Bukkit.getLogger().info("Vault API loaded successfully.");
     }
 
+    @SuppressWarnings("Duplicates")
     private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
@@ -114,7 +105,7 @@ public class Main extends JavaPlugin {
         Plugin asykblock = Bukkit.getPluginManager().getPlugin("askyblock");
         if (asykblock != null) {
         }
-        System.out.println("Hooked into aSkyBlock!");
+        Bukkit.getLogger().info("Hooked into aSkyBlock!");
         return asbAPI;
 
     }

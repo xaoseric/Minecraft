@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
 import static com.fadelands.sbair.Main.asbAPI;
@@ -134,11 +135,11 @@ public class IslandMenu implements Listener {
     }
 
     private static ItemStack islandLevel() {
-        return new ItemBuilder(Material.EXP_BOTTLE).setName("§aIsland Level").setLore(Arrays.asList("§7Click to calculate your island level.")).toItemStack();
+        return new ItemBuilder(Material.EXP_BOTTLE).setName("§aIsland Level").setLore("§7Click to calculate your island level.").toItemStack();
     }
 
     private static ItemStack islandSettings() {
-        return new ItemBuilder(Material.COMMAND).setName("§aIsland Settings").setLore(Arrays.asList("§7Click to change your island settings.")).toItemStack();
+        return new ItemBuilder(Material.COMMAND).setName("§aIsland Settings").setLore("§7Click to change your island settings.").toItemStack();
     }
 
     private static ItemStack inviteMember() {

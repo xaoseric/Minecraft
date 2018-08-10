@@ -21,4 +21,13 @@ public class Utils {
 
     public static String Core = "[Core] ";
 
+    public static String USER_BLOCK = "§3Click to view profile." +
+            " \n" +
+            "§r" +
+            "§7Rank§f: {0} " + "\n" +
+            "§7Level§f: {1} " +
+            "";
+    public static String NETWORK_LEVEL_MSG = "§7This user has a network \n" +
+            "§7level of §6{0}§7.";
+
 }

@@ -30,10 +30,8 @@ public class SBAirBoardProvider extends SimpleBoardProvider {
 
         int total_members = asbAPI.getTeamMembers(player.getUniqueId()).size();
 
-        for (Player online : Bukkit.getOnlinePlayers()) {
 
-
-            asbAPI.getTeamMembers(player.getUniqueId()).add(online.getUniqueId());
+            asbAPI.getTeamMembers(player.getUniqueId()).add(player.getUniqueId());
 
             toReturn.add("&r ");
             toReturn.add("&f&l\u00bb &f&l" + player.getName());
@@ -44,11 +42,9 @@ public class SBAirBoardProvider extends SimpleBoardProvider {
             toReturn.add("&7Level&f: &3" + asbAPI.getLongIslandLevel(player.getUniqueId()));
             toReturn.add("&7Team&f: &3" + asbAPI.getTeamMembers(player.getUniqueId()).size());
             toReturn.add("&f&owww.fadelands.com");
-
-        }
         return toReturn;
-
     }
+
     @Override
     public String getNameTag(Player player, Player other) {
         return super.getNameTag(player, other); // Exists in core already, use this if you dont want to override <-

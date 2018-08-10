@@ -11,8 +11,6 @@ import com.fadelands.core.commands.amodcmds.TeleportCommandExecutor;
 import com.fadelands.core.commands.help.ApplyGui;
 import com.fadelands.core.commands.help.HelpCommandExecutor;
 import com.fadelands.core.commands.help.HelpInventory;
-import com.fadelands.core.commands.playerlist.ListCommandExecutor;
-import com.fadelands.core.commands.playerlist.ListCommandHandler;
 import com.fadelands.core.npcs.CreateNPC;
 import com.fadelands.core.playerdata.*;
 import com.fadelands.core.profile.ProfileCommandExecutor;
@@ -47,7 +45,6 @@ public class CorePlugin extends JavaPlugin {
     private static Chat chat = null;
     private SimpleboardManager simpleboardManager;
     private ChatProvider chatProvider;
-
 
     public void onEnable() {
         instance = this;
