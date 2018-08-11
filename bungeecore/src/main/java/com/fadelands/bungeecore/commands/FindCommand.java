@@ -10,7 +10,7 @@ import net.md_5.bungee.api.plugin.Command;
 public class FindCommand extends Command {
 
     public FindCommand() {
-        super("find", "core.find", "findplayer", "where");
+        super("find", "fadelands.find", "findplayer", "where");
     }
 
     @Override

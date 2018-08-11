@@ -20,7 +20,7 @@ import java.util.Date;
 
 public class HandleReportCommand extends Command {
     public HandleReportCommand() {
-        super("handlereport", "core.handlereport", "hreport");
+        super("handlereport", "fadelands.handlereport", "hreport");
     }
 
     DM dm = new DM();

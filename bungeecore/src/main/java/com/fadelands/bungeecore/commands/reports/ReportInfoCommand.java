@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 public class ReportInfoCommand extends Command {
     public ReportInfoCommand() {
-        super("reportinfo", "core.reportinfo", "reviewreport");
+        super("reportinfo", "fadelands.reportinfo", "reviewreport");
     }
 
     @Override

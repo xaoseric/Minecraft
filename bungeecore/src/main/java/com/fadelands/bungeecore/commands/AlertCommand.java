@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class AlertCommand extends Command {
 
     public AlertCommand(){
-        super("alert", "core.alert", "networkbroadcast", "nbc");
+        super("alert", "fadelands.alert", "networkbroadcast", "nbc");
     }
     @Override
     public void execute(CommandSender commandSender, String[] args) {

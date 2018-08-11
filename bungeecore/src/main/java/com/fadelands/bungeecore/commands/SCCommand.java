@@ -15,14 +15,10 @@ import java.util.stream.Collectors;
 public class SCCommand extends Command {
 
     public SCCommand(){
-        super("modchat", "core.modchat", "mc");
+        super("modchat", "fadelands.modchat", "mc");
     }
     @Override
     public void execute(CommandSender commandSender, String[] args) {
-        if (!(commandSender.hasPermission("fadelands.modchat"))){
-            commandSender.sendMessage(new ComponentBuilder(Utils.No_Perm).color(ChatColor.RED).create());
-            return;
-        }
         ProxiedPlayer player = (ProxiedPlayer) commandSender;
         if(args.length == 0){
             commandSender.sendMessage(new ComponentBuilder(Utils.Prefix + "§cYou have to enter a message.").color(ChatColor.RED).create());

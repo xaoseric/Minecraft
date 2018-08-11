@@ -17,7 +17,7 @@ import java.util.List;
 public class ReportsCommand extends Command {
 
     public ReportsCommand() {
-        super("reports", "core.reports", "listreports", "activereports");
+        super("reports", "fadelands.reports", "listreports", "activereports");
     }
 
 
