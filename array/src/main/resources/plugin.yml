@@ -13,3 +13,6 @@ commands:
   whois:
     aliases: [userinfo]
     description: Receive information about a player.
+  punish:
+    aliases: [p]
+    description: Punish a user.

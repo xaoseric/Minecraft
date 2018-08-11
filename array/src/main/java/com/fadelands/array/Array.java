@@ -2,6 +2,9 @@ package com.fadelands.array;
 
 import com.fadelands.array.commands.admin.DatabaseStatusCommandExecutor;
 import com.fadelands.array.commands.admin.WhoIsCommandExecutor;
+import com.fadelands.array.commands.moderator.punishment.PunishCommandExecutor;
+import com.fadelands.array.commands.moderator.punishment.Punishment;
+import com.fadelands.array.commands.moderator.punishment.PunishmentMenu;
 import com.fadelands.array.plmessaging.PluginMessage;
 import com.fadelands.array.database.GenerateTables;
 import com.zaxxer.hikari.HikariConfig;
@@ -29,6 +32,7 @@ public class Array extends JavaPlugin {
     public static Array plugin;
 
     private PluginMessage pluginMessage;
+    private PunishmentMenu punishmentMenu;
 
     public void onEnable() {
         plugin = this;
@@ -64,15 +68,18 @@ public class Array extends JavaPlugin {
         Bukkit.getLogger().info("[Array] Plugin has been enabled.");
     }
 
-    public void registerCommands() {
+    private void registerCommands() {
         getCommand("uptime").setExecutor(new UptimeCommandExecutor(this));
         getCommand("databasestatus").setExecutor(new DatabaseStatusCommandExecutor(this));
         getCommand("whois").setExecutor(new WhoIsCommandExecutor(this));
+        getCommand("punish").setExecutor(new PunishCommandExecutor(this));
 
     }
 
-    public void registerEvents(){
+    private void registerEvents(){
         PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new PunishmentMenu(this), this);
+        this.punishmentMenu = new PunishmentMenu(this);
     }
 
     public void onDisable() {
@@ -270,5 +277,9 @@ public class Array extends JavaPlugin {
 
     public PluginMessage getPluginMessage() {
         return pluginMessage;
+    }
+
+    public PunishmentMenu getPunishmentMenu() {
+        return punishmentMenu;
     }
 }
