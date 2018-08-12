@@ -1,7 +1,7 @@
 package com.fadelands.array.manager;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.commands.moderator.punishment.PunishmentMenu;
+import com.fadelands.array.commands.moderator.punishments.punish.PunishmentMenu;
 
 public class GUIManager {
 

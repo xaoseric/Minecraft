@@ -1,6 +1,7 @@
-package com.fadelands.array.commands.moderator.punishment;
+package com.fadelands.array.commands.moderator.punishments.punish;
 
 import com.fadelands.array.Array;
+import com.fadelands.array.commands.moderator.punishments.Punishment;
 import com.fadelands.array.utils.ItemBuilder;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -17,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
-import static com.fadelands.array.commands.moderator.punishment.PunishCommandExecutor.currentPunish;
+import static com.fadelands.array.commands.moderator.punishments.punish.PunishCommandExecutor.currentPunish;
 
 @SuppressWarnings("ALL")
 public class PunishmentMenu implements Listener {
@@ -232,7 +233,7 @@ public class PunishmentMenu implements Listener {
     }
 
     private ItemStack getAlternativeAccounts = new ItemBuilder(Material.REDSTONE_COMPARATOR).setName("§c§l" + "Alt Accounts").setLore("§7Click to view alt accounts.").toItemStack();
-    private ItemStack getHistory = new ItemBuilder(Material.MAP).setName("§e§l" + "Punishm. History").setLore("§7Click to view targets punishment history.").toItemStack();
+    private ItemStack getHistory = new ItemBuilder(Material.MAP).setName("§e§l" + "Punishm. History").setLore("§7Click to view targets punishments history.").toItemStack();
     private ItemStack getChatOffense = new ItemBuilder(Material.BOOK_AND_QUILL).setName("§a§lChat Offenses").setLore(Arrays.asList("§7Spam, Harrassment, Toxic Behavior", "§7Verbal Abuse, etc.")).toItemStack();
     private ItemStack getGameplayOffense = new ItemBuilder(Material.ARROW).setName("§a§lGameplay Offenses").setLore("§7Game Exploits, Bug Abusing, etc.").toItemStack();
     private ItemStack getClientOffense = new ItemBuilder(Material.IRON_SWORD).setName("§a§lClient Offenses").setLore(Arrays.asList("§7Usage of illegal modifications", "§7hacked clients, etc.")).toItemStack();
@@ -255,7 +256,7 @@ public class PunishmentMenu implements Listener {
     private ItemStack gameplayOffenseSevTwo = new ItemBuilder(Material.STAINED_CLAY).setData(4).setName("§6§lSeverity 2").setLore(Arrays.asList("§fBan Duration: §b7 Days", "§r ",
             "§7E.g: Abusing Bugs/Glitches, etc.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
 
-    private ItemStack gameplayOffenseSevThree = new ItemBuilder(Material.STAINED_CLAY).setData(14).setName("§c§lSeverity 3").setLore("§7No punishment uses this severity yet.").toItemStack();
+    private ItemStack gameplayOffenseSevThree = new ItemBuilder(Material.STAINED_CLAY).setData(14).setName("§c§lSeverity 3").setLore("§7No punishments uses this severity yet.").toItemStack();
 
     private ItemStack clientOffenseSevTwo = new ItemBuilder(Material.STAINED_CLAY).setData(4).setName("§6§lSeverity 2").setLore(Arrays.asList("§fBan Duration: §b30 Days", "§r ",
             "§7E.g: Using Illegal Modifications, etc.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
@@ -287,7 +288,7 @@ public class PunishmentMenu implements Listener {
 
         if (event.getInventory().getName().equals(invName)) {
             if (!currentPunish.containsKey(event.getWhoClicked().getUniqueId())) {
-                event.getWhoClicked().sendMessage("Could not find any data regarding your punishment...");
+                event.getWhoClicked().sendMessage("Could not find any data regarding the punishments...");
                 event.getWhoClicked().closeInventory();
                 return;
             }

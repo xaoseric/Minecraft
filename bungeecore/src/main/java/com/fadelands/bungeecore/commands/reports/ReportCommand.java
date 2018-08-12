@@ -53,7 +53,7 @@ public class ReportCommand extends Command {
         }
 
         sender.sendMessage(new ComponentBuilder(Utils.Prefix_Green + "§aThank you, your report has been sent. A staff member will deal with it as soon as possible.").color(ChatColor.GREEN).create());
-        sender.sendMessage(new ComponentBuilder("§4§l(!) §cKeep in mind, abusing this command will result in a punishment.").color(ChatColor.RED).create());
+        sender.sendMessage(new ComponentBuilder("§4§l(!) §cKeep in mind, abusing this command will result in a punishments.").color(ChatColor.RED).create());
         cooldown.add(sender);
         ProxyServer.getInstance().getScheduler().schedule(plugin, () -> cooldown.remove(sender), 60, TimeUnit.SECONDS);
 

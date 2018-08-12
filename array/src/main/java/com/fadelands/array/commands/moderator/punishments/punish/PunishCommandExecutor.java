@@ -1,7 +1,8 @@
-package com.fadelands.array.commands.moderator.punishment;
+package com.fadelands.array.commands.moderator.punishments.punish;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.manager.GUIManager;
+import com.fadelands.array.commands.moderator.punishments.CustomReason;
+import com.fadelands.array.commands.moderator.punishments.Punishment;
 import com.fadelands.array.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -79,6 +80,9 @@ public class PunishCommandExecutor implements CommandExecutor {
                             break;
                         case "admin":
                             array.getPunishmentMenu().openAsAdmin(player, targetraw, reason);
+                            break;
+                        case "developer":
+                            player.sendMessage("Developer is a non-moderator rank. You can still apply for moderator as a developer.");
                             break;
                         case "senior":
                             array.getPunishmentMenu().openAsSenior(player, targetraw, reason);

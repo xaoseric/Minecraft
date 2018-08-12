@@ -1,4 +1,4 @@
-package com.fadelands.array.commands.moderator.punishment;
+package com.fadelands.array.commands.moderator.punishments;
 
 import org.bukkit.OfflinePlayer;
 
@@ -17,7 +17,7 @@ public class Punishment {
         }
     };
 
-    Punishment(OfflinePlayer targetName, UUID punisher, PunishmentType type) {
+    public Punishment(OfflinePlayer targetName, UUID punisher, PunishmentType type) {
         this.target = targetName;
         this.punisher = punisher;
         this.type = type;

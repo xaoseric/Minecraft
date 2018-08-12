@@ -2,9 +2,8 @@ package com.fadelands.array;
 
 import com.fadelands.array.commands.admin.DatabaseStatusCommandExecutor;
 import com.fadelands.array.commands.admin.WhoIsCommandExecutor;
-import com.fadelands.array.commands.moderator.punishment.PunishCommandExecutor;
-import com.fadelands.array.commands.moderator.punishment.Punishment;
-import com.fadelands.array.commands.moderator.punishment.PunishmentMenu;
+import com.fadelands.array.commands.moderator.punishments.punish.PunishCommandExecutor;
+import com.fadelands.array.commands.moderator.punishments.punish.PunishmentMenu;
 import com.fadelands.array.plmessaging.PluginMessage;
 import com.fadelands.array.database.GenerateTables;
 import com.zaxxer.hikari.HikariConfig;
