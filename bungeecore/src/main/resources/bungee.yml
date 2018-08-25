@@ -2,4 +2,3 @@ name: FadeLandsCore_Bungee
 version: 1.0
 main: com.fadelands.bungeecore.Main
 author: arrayofc
-depend: [Discord-Bot-API]

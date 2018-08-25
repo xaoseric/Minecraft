@@ -1,8 +1,6 @@
-package com.fadelands.array.commands.moderator.punishments.punish;
+package com.fadelands.array.commands.moderator.punishments.commands;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.commands.moderator.punishments.CustomReason;
-import com.fadelands.array.commands.moderator.punishments.Punishment;
 import com.fadelands.array.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -23,7 +21,8 @@ import java.util.stream.Collectors;
 
 public class PunishCommandExecutor implements CommandExecutor {
 
-    public final static Map<UUID, Punishment> currentPunish = new HashMap<>();
+    public final static Map<UUID, String> currentPunishReason = new HashMap<>();
+    public final static Map<UUID, String> currentPunishTarget = new HashMap<>();
     private Array array;
 
     public PunishCommandExecutor(Array array){
@@ -48,9 +47,9 @@ public class PunishCommandExecutor implements CommandExecutor {
             return true;
         }
 
-        String targetraw = args[0];
+        final String targetName = args[0];
         //noinspection deprecation
-        OfflinePlayer target = Bukkit.getOfflinePlayer(targetraw);
+        OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
 
         if(target == null){
             sender.sendMessage(Utils.Prefix_Red + "§cThat's not a valid player.");
@@ -58,13 +57,7 @@ public class PunishCommandExecutor implements CommandExecutor {
         }
 
         String reason = Arrays.stream(args).skip(1).collect(Collectors.joining(" "));
-        Punishment punishment = new Punishment(target, player.getUniqueId(), Punishment.PunishmentType.KICK);
-        punishment.setReason(new CustomReason() {
-            @Override
-            public String getMessage() {
-                return reason;
-            }
-        });
+
             Connection connection = null;
             PreparedStatement ps = null;
             ResultSet rs = null;
@@ -76,27 +69,28 @@ public class PunishCommandExecutor implements CommandExecutor {
                 if(rs.next()){
                     switch (rs.getString("primary_group").toLowerCase()){
                         case "owner":
-                            array.getPunishmentMenu().openAsAdmin(player, targetraw, reason);
+                            array.getPunishmentMenu().openAsAdmin(player, targetName, reason);
                             break;
                         case "admin":
-                            array.getPunishmentMenu().openAsAdmin(player, targetraw, reason);
+                            array.getPunishmentMenu().openAsAdmin(player, targetName, reason);
                             break;
                         case "developer":
                             player.sendMessage("Developer is a non-moderator rank. You can still apply for moderator as a developer.");
                             break;
                         case "senior":
-                            array.getPunishmentMenu().openAsSenior(player, targetraw, reason);
+                            array.getPunishmentMenu().openAsSenior(player, targetName, reason);
                             break;
                         case "mod":
-                            array.getPunishmentMenu().openAsMod(player, targetraw, reason);
+                            array.getPunishmentMenu().openAsMod(player, targetName, reason);
                             break;
                         case "trainee":
-                            array.getPunishmentMenu().openAsTrainee(player, targetraw, reason);
+                            array.getPunishmentMenu().openAsTrainee(player, targetName, reason);
                             break;
                         default:
                             break;
                     }
-                    currentPunish.put(player.getUniqueId(), punishment);
+                    currentPunishTarget.put(player.getUniqueId(), targetName);
+                    currentPunishReason.put(player.getUniqueId(), reason);
                 }
             }catch (SQLException e){
                 e.printStackTrace();

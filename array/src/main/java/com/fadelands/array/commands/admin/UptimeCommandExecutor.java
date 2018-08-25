@@ -1,6 +1,7 @@
 package com.fadelands.array.commands.admin;
 
 import com.fadelands.array.Array;
+import com.fadelands.array.utils.TimeUtils;
 import com.fadelands.array.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,7 +21,8 @@ public class UptimeCommandExecutor implements CommandExecutor {
             return true;
 
         }
-        sender.sendMessage("§aServer uptime: Started " + plugin.getServerUptime());
+        long uptime = plugin.getServerUptime();
+        sender.sendMessage("§bTime since server booted or reloaded was " + TimeUtils.toRelative(uptime) + " ago.");
         return false;
     }
 }

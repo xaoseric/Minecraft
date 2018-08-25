@@ -69,16 +69,13 @@ public class WhoIsCommandExecutor implements CommandExecutor {
                             Timestamp lastLoginRaw = new Timestamp(rs.getTimestamp("last_login").getTime());
                             lastLogin = new Date(lastLoginRaw.getTime());
                         }
-
-
-                        sender.sendMessage("§2Whois§7: " + user);
-                        sender.sendMessage("§aFirst join§7: " + f.format(firstJoin));
-                        sender.sendMessage("§aLast seen§7: " + (lastLogin == null ? "User only logged in once." : f.format(lastLogin)));
-                        sender.sendMessage("§aLast Server§7: " + rs.getString("last_server"));
-                        sender.sendMessage("§aIP§7: " + rs.getString("last_ip"));
-                        sender.sendMessage("§aRank§7: " + rankRs.getString("primary_group").toUpperCase());
-                        sender.sendMessage("§aReported§7: " + rs.getInt("times_reported") + " times");
-
+                        sender.sendMessage("§8§l§m|--§8§l» §2§lWho Is: §f" + user + " §8§l«§m--|");
+                        sender.sendMessage("§8§l» §a§lFirst join§f: " + f.format(firstJoin));
+                        sender.sendMessage("§8§l» §a§lLast seen§f: " + (lastLogin == null ? "User only logged in once." : f.format(lastLogin)));
+                        sender.sendMessage("§8§l» §a§lLast Server§f: " + rs.getString("last_server"));
+                        sender.sendMessage("§8§l» §a§lIP§f: " + rs.getString("last_ip"));
+                        sender.sendMessage("§8§l» §a§lRank§f: " + rankRs.getString("primary_group").toUpperCase());
+                        sender.sendMessage("§8§l» §a§lReported§f: " + rs.getInt("times_reported") + " times");
                 }
             }
 

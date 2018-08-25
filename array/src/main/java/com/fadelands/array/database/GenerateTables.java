@@ -156,25 +156,35 @@ public class GenerateTables {
                 "speed_effect boolean, " +
                 "jump_effect boolean)";
 
-        String settingsStaff = "CREATE TABLE IF NOT EXISTS fadelands_staff_settings "; //todo: WORK ON THIS LATER!
+        String settingsStaff = "CREATE TABLE IF NOT EXISTS fadelands_staff_settings " +
+                "(player_uuid VARCHAR(64), " +
+                "flight_toggled boolean, " +
+                "vanish_toggled boolean, " +
+                "staff_chat_toggled boolean, " +
+                "admin_notifications_toggled boolean)";
 
-        // LOGGING
+        //Punishments
+        String banrecords = "CREATE TABLE IF NOT EXISTS fadelands_ban_records " +
+                "(banned_uuid VARCHAR(64) PRIMARY KEY NOT NULL, " +
+                "banner_uuid VARCHAR(64) NOT NULL, " +
+                "banned_date timestamp NOT NULL, " +
+                "unban_date timestamp NOT NULL, " +
+                "server VARCHAR(30) NOT NULL, " +
+                "reason text NOT NULL)";
 
-        String serverlogs = "CREATE TABLE IF NOT EXISTS fadelands_server_logs " +
-                "(time datetime, " +
-                "server VARCHAR(30), " +
-                "type VARCHAR(50), " +
-                "action VARCHAR(30), " +
-                "logs TEXT)";
-
-        String playerlogs = "CREATE TABLE IF NOT EXISTS fadelands_players_logs " +
-                "(time datetime, " +
-                "server VARCHAR(30), " +
-                "type VARCHAR(50), " +
-                "action VARCHAR(30), " +
-                "logs TEXT)";
-
-        //Players
+        String punishments = "CREATE TABLE IF NOT EXISTS fadelands_punishments " +
+                "(punish_id integer AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
+                "appeal_key varchar(30) NOT NULL, " +
+                "punisher_uuid varchar(64) NOT NULL, " +
+                "punish_type integer NOT NULL, " +
+                "reason text NOT NULL, " +
+                "punished_uuid varchar(64) NOT NULL, " +
+                "date bigint NOT NULL, " +
+                "until bigint NOT NULL, " +
+                "active boolean default TRUE, " +
+                "removed boolean default FALSE, " +
+                "remove_reason text NULL, " +
+                "remove_admin varchar(40))";
 
         SQLUtils.createTable(players);
         SQLUtils.createTable(statsglobal);
@@ -196,15 +206,14 @@ public class GenerateTables {
 
         SQLUtils.createTable(reports);
         SQLUtils.createTable(staff);
+        SQLUtils.createTable(settingsStaff);
 
         //Discord
 
         SQLUtils.createTable(discordLink);
 
-        // Logs
-
-        SQLUtils.createTable(serverlogs);
-        SQLUtils.createTable(playerlogs);
+        // Punishments
+        SQLUtils.createTable(punishments);
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "[Array] Created/generated database tables.");
         }

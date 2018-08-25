@@ -2,8 +2,12 @@ package com.fadelands.array;
 
 import com.fadelands.array.commands.admin.DatabaseStatusCommandExecutor;
 import com.fadelands.array.commands.admin.WhoIsCommandExecutor;
-import com.fadelands.array.commands.moderator.punishments.punish.PunishCommandExecutor;
-import com.fadelands.array.commands.moderator.punishments.punish.PunishmentMenu;
+import com.fadelands.array.commands.moderator.punishments.PunishmentManager;
+import com.fadelands.array.commands.moderator.punishments.commands.BanCommandExecutor;
+import com.fadelands.array.commands.moderator.punishments.commands.HistoryCommandExecutor;
+import com.fadelands.array.commands.moderator.punishments.commands.MuteCommandExecutor;
+import com.fadelands.array.commands.moderator.punishments.commands.PunishCommandExecutor;
+import com.fadelands.array.commands.moderator.punishments.PunishmentMenu;
 import com.fadelands.array.plmessaging.PluginMessage;
 import com.fadelands.array.database.GenerateTables;
 import com.zaxxer.hikari.HikariConfig;
@@ -28,10 +32,12 @@ public class Array extends JavaPlugin {
     private static FileConfiguration fileConfiguration;
     private static HikariConfig hikariConfig;
     private static HikariDataSource hikariDataSource;
+
     public static Array plugin;
 
     private PluginMessage pluginMessage;
     private PunishmentMenu punishmentMenu;
+    private PunishmentManager punishmentManager;
 
     public void onEnable() {
         plugin = this;
@@ -62,8 +68,8 @@ public class Array extends JavaPlugin {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", pluginMessage = new PluginMessage(this));
 
-        registerCommands();
         registerEvents();
+        registerCommands();
         Bukkit.getLogger().info("[Array] Plugin has been enabled.");
     }
 
@@ -72,13 +78,18 @@ public class Array extends JavaPlugin {
         getCommand("databasestatus").setExecutor(new DatabaseStatusCommandExecutor(this));
         getCommand("whois").setExecutor(new WhoIsCommandExecutor(this));
         getCommand("punish").setExecutor(new PunishCommandExecutor(this));
+        getCommand("ban").setExecutor(new BanCommandExecutor(this, getPunishmentManager()));
+        getCommand("mute").setExecutor(new MuteCommandExecutor(this, getPunishmentManager()));
+        getCommand("history").setExecutor(new HistoryCommandExecutor(this, getPunishmentManager()));
 
     }
 
     private void registerEvents(){
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new PunishmentMenu(this), this);
+        pm.registerEvents(new PunishmentManager(this), this);
         this.punishmentMenu = new PunishmentMenu(this);
+        this.punishmentManager = new PunishmentManager(this);
     }
 
     public void onDisable() {
@@ -281,4 +292,9 @@ public class Array extends JavaPlugin {
     public PunishmentMenu getPunishmentMenu() {
         return punishmentMenu;
     }
+
+    public PunishmentManager getPunishmentManager() {
+        return punishmentManager;
+    }
+
 }

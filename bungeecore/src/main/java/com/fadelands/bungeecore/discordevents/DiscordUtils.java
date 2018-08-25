@@ -14,6 +14,9 @@ public class DiscordUtils extends ListenerAdapter {
     public static TextChannel getIngameReports() {
         return BuildBot.jda.getGuildById("402096765018570752").getTextChannelById("455860720425369600");
     }
+    public static TextChannel getPunishmentsChannel() {
+        return BuildBot.jda.getGuildById("402096765018570752").getTextChannelById("479701389438877710");
+    }
     public static TextChannel getServerLogs() {
         return BuildBot.jda.getGuildById("402096765018570752").getTextChannelById("453571821737082889");
     }

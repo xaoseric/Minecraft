@@ -245,7 +245,6 @@ public class PlayerManager implements Listener {
     @EventHandler
     public void onDisconnect(PlayerDisconnectEvent event){
         ProxiedPlayer player = event.getPlayer();
-        MySQL.updateTable(player, "fadelands_players", "last_server", player.getServer().getInfo().getName());
 
         }
     }

@@ -1,7 +1,6 @@
-package com.fadelands.array.commands.moderator.punishments.punish;
+package com.fadelands.array.commands.moderator.punishments;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.commands.moderator.punishments.Punishment;
 import com.fadelands.array.utils.ItemBuilder;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -18,7 +17,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
-import static com.fadelands.array.commands.moderator.punishments.punish.PunishCommandExecutor.currentPunish;
+import static com.fadelands.array.commands.moderator.punishments.commands.PunishCommandExecutor.currentPunishReason;
+import static com.fadelands.array.commands.moderator.punishments.commands.PunishCommandExecutor.currentPunishTarget;
 
 @SuppressWarnings("ALL")
 public class PunishmentMenu implements Listener {
@@ -233,7 +233,7 @@ public class PunishmentMenu implements Listener {
     }
 
     private ItemStack getAlternativeAccounts = new ItemBuilder(Material.REDSTONE_COMPARATOR).setName("§c§l" + "Alt Accounts").setLore("§7Click to view alt accounts.").toItemStack();
-    private ItemStack getHistory = new ItemBuilder(Material.MAP).setName("§e§l" + "Punishm. History").setLore("§7Click to view targets punishments history.").toItemStack();
+    private ItemStack getHistory = new ItemBuilder(Material.MAP).setName("§e§l" + "Punishm. History").setLore("§7Click to view targets punishments commands.").toItemStack();
     private ItemStack getChatOffense = new ItemBuilder(Material.BOOK_AND_QUILL).setName("§a§lChat Offenses").setLore(Arrays.asList("§7Spam, Harrassment, Toxic Behavior", "§7Verbal Abuse, etc.")).toItemStack();
     private ItemStack getGameplayOffense = new ItemBuilder(Material.ARROW).setName("§a§lGameplay Offenses").setLore("§7Game Exploits, Bug Abusing, etc.").toItemStack();
     private ItemStack getClientOffense = new ItemBuilder(Material.IRON_SWORD).setName("§a§lClient Offenses").setLore(Arrays.asList("§7Usage of illegal modifications", "§7hacked clients, etc.")).toItemStack();
@@ -283,11 +283,13 @@ public class PunishmentMenu implements Listener {
         if (event.getClickedInventory() == null) return;
         if (event.getCurrentItem() == null) return;
 
-        Punishment punishment = currentPunish.get(event.getWhoClicked().getUniqueId());
+        String reason = currentPunishReason.get(event.getWhoClicked().getUniqueId());
+        String target = currentPunishTarget.get(event.getWhoClicked().getUniqueId());
+
         Player player = (Player) event.getWhoClicked();
 
         if (event.getInventory().getName().equals(invName)) {
-            if (!currentPunish.containsKey(event.getWhoClicked().getUniqueId())) {
+            if (!currentPunishReason.containsKey(event.getWhoClicked().getUniqueId()) || (!currentPunishTarget.containsKey(event.getWhoClicked().getUniqueId()))) {
                 event.getWhoClicked().sendMessage("Could not find any data regarding the punishments...");
                 event.getWhoClicked().closeInventory();
                 return;
@@ -296,7 +298,7 @@ public class PunishmentMenu implements Listener {
 
             if(event.getCurrentItem().isSimilar(getHistory)){
                 player.closeInventory();
-                String command = "/history " + punishment.getTargetName();
+                String command = "/history " + target;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -304,7 +306,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(getAlternativeAccounts)){
                 player.closeInventory();
-                String command = "/dupeip " + punishment.getTargetName();
+                String command = "/dupeip " + target;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -312,7 +314,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(chatOffenseSevOne)){
                 player.closeInventory();
-                String command = "/mute -s " + punishment.getTargetName() + " 1d " + punishment.getReason().getMessage();;
+                String command = "/mute -s " + target + " 1d " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -320,7 +322,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(chatOffenseSevTwo)){
                 player.closeInventory();
-                String command = "/mute -s " + punishment.getTargetName() + " 7d " + punishment.getReason().getMessage();;
+                String command = "/mute -s " + target + " 7d " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -328,7 +330,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(chatOffenseSevThree)){
                 player.closeInventory();
-                String command = "/mute -s " + punishment.getTargetName() + " 14d " + punishment.getReason().getMessage();;
+                String command = "/mute -s " + target + " 14d " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -336,7 +338,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(chatOffenseSevFour)){
                 player.closeInventory();
-                String command = "/mute -s " + punishment.getTargetName() + " 30d " + punishment.getReason().getMessage();;
+                String command = "/mute -s " + target + " 30d " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -344,7 +346,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(gameplayOffenseSevOne)){
                 player.closeInventory();
-                String command = "/ban -s " + punishment.getTargetName() + " 1d " + punishment.getReason().getMessage();;
+                String command = "/ban -s " + target + " 1d " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -352,7 +354,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(gameplayOffenseSevTwo)){
                 player.closeInventory();
-                String command = "/ban -s " + punishment.getTargetName() + " 7d " + punishment.getReason().getMessage();;
+                String command = "/ban -s " + target + " 7d " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -360,7 +362,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(clientOffenseSevTwo)){
                 player.closeInventory();
-                String command = "/ban -s " + punishment.getTargetName() + " 30d " + punishment.getReason().getMessage();;
+                String command = "/ban -s " + target + " 30d " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -368,7 +370,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(clientOffenseSevThree)){
                 player.closeInventory();
-                String command = "/ban -s " + punishment.getTargetName() + " " + punishment.getReason().getMessage();
+                String command = "/ban -s " + target + " " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -376,7 +378,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(permBan)){
                 player.closeInventory();
-                String command = "/ban -s " + punishment.getTargetName() + " " + punishment.getReason().getMessage();;
+                String command = "/ban -s " + target + " " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -384,7 +386,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(permMute)){
                 player.closeInventory();
-                String command = "/mute -s " + punishment.getTargetName() + " " + punishment.getReason().getMessage();;
+                String command = "/mute -s " + target + " " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -392,7 +394,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(permIPBan)){
                 player.closeInventory();
-                String command = "/ipban -s " + punishment.getTargetName() + " " + punishment.getReason().getMessage();;
+                String command = "/ipban -s " + target + " " + reason;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -400,7 +402,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(unban)){
                 player.closeInventory();
-                String command = "/unban -s " + punishment.getTargetName();
+                String command = "/unban -s " + target;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -408,7 +410,7 @@ public class PunishmentMenu implements Listener {
             }
             if(event.getCurrentItem().isSimilar(unmute)){
                 player.closeInventory();
-                String command = "/unmute -s " + punishment.getTargetName();
+                String command = "/unmute -s " + target;
                 ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
                 c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
                 c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
@@ -419,7 +421,9 @@ public class PunishmentMenu implements Listener {
 
     @EventHandler
     public void onClose(InventoryCloseEvent event){
-            if (currentPunish.containsKey(event.getPlayer().getUniqueId()))
-                currentPunish.remove(event.getPlayer().getUniqueId());
+            if (currentPunishTarget.containsKey(event.getPlayer().getUniqueId()))
+                currentPunishTarget.remove(event.getPlayer().getUniqueId());
+                if (currentPunishReason.containsKey(event.getPlayer().getUniqueId()))
+                    currentPunishReason.remove(event.getPlayer().getUniqueId());
         }
     }

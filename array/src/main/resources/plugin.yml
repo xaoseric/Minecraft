@@ -16,3 +16,13 @@ commands:
   punish:
     aliases: [p]
     description: Punish a user.
+  ban:
+    description: Ban a user.
+  mute:
+    description: Mute a user.
+  unban:
+    description: UnBan a user.
+  unmute:
+    description: UnMute a user.
+  history:
+    description: Check a players punishment history.
