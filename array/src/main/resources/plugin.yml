@@ -5,10 +5,8 @@ author: arrayofc
 
 commands:
   uptime:
-    aliases: [ut, upt]
     description: Receive sub-server up time.
-  databasestatus:
-    aliases: [dbstatus, dbs]
+  dbstatus:
     description: Receive information about the Array database.
   whois:
     aliases: [userinfo]

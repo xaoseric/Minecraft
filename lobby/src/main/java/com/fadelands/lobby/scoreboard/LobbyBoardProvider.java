@@ -1,12 +1,11 @@
 package com.fadelands.lobby.scoreboard;
 
-import com.fadelands.array.plmessaging.PluginMessage;
-import com.fadelands.core.scoreboard.SimpleBoardProvider;
+import com.fadelands.array.utils.PluginMessage;
+import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
 import com.fadelands.lobby.Main;
 import com.google.common.collect.Lists;
 import org.bukkit.entity.Player;
 
-import javax.annotation.processing.SupportedAnnotationTypes;
 import java.util.List;
 
 @SuppressWarnings("ALL")

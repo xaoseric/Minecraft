@@ -72,8 +72,8 @@ public class WhoIsCommandExecutor implements CommandExecutor {
                         sender.sendMessage("§8§l§m|--§8§l» §2§lWho Is: §f" + user + " §8§l«§m--|");
                         sender.sendMessage("§8§l» §a§lFirst join§f: " + f.format(firstJoin));
                         sender.sendMessage("§8§l» §a§lLast seen§f: " + (lastLogin == null ? "User only logged in once." : f.format(lastLogin)));
-                        sender.sendMessage("§8§l» §a§lLast Server§f: " + rs.getString("last_server"));
                         sender.sendMessage("§8§l» §a§lIP§f: " + rs.getString("last_ip"));
+                        sender.sendMessage("§8§l» §a§lCountry§f: " + rs.getString("last_country"));
                         sender.sendMessage("§8§l» §a§lRank§f: " + rankRs.getString("primary_group").toUpperCase());
                         sender.sendMessage("§8§l» §a§lReported§f: " + rs.getInt("times_reported") + " times");
                 }

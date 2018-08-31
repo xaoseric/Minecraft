@@ -3,7 +3,7 @@ package com.fadelands.lobby;
 import com.fadelands.array.Array;
 import com.fadelands.array.utils.Utils;
 import com.fadelands.core.CorePlugin;
-import com.fadelands.core.scoreboard.SimpleboardManager;
+import com.fadelands.core.provider.scoreboard.SimpleboardManager;
 import com.fadelands.lobby.commands.BuildModeCommandExecutor;
 import com.fadelands.lobby.commands.LobbySettingsCommandExecutor;
 import com.fadelands.lobby.events.*;
@@ -28,8 +28,6 @@ import java.util.logging.Logger;
 
 public class Main extends JavaPlugin implements Listener {
 
-    public static final Logger log = Logger.getLogger("Minecraft");
-
     private static Main instance;
 
     public List<Player> buildMode = new ArrayList<Player>();
@@ -45,9 +43,10 @@ public class Main extends JavaPlugin implements Listener {
         if(array == null){
             getLogger().warning("Couldn't find Array. Stopping server.");
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "stop");
-        }
+        }else {
 
-        getLogger().info("Plugin has successfully been enabled.");
+            getLogger().info("Plugin has successfully been enabled.");
+        }
 
         /*
         Register Events
@@ -55,20 +54,10 @@ public class Main extends JavaPlugin implements Listener {
 
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(this, this);
-        pm.registerEvents(new JoinEvent(this), this);
-        pm.registerEvents(new QuitEvent(this), this);
         pm.registerEvents(new JoinItems(this), this);
         pm.registerEvents(new ServerSelectorGui(this), this);
         pm.registerEvents(new SkyblockGui(this), this);
-        pm.registerEvents(new NoSaturation(this), this);
-        pm.registerEvents(new NoRain(this), this);
-        pm.registerEvents(new NoDamage(this), this);
-        pm.registerEvents(new NoItemDrops(this), this);
-        pm.registerEvents(new DisableVoid(this), this);
-        pm.registerEvents(new NoBlockBreak(this), this);
-        pm.registerEvents(new NoBlockPlace(this), this);
-        pm.registerEvents(new NoInvMove(this), this);
-        pm.registerEvents(new NoPickup(this), this);
+        pm.registerEvents(new LobbyEvents(this), this);
 
         SimpleboardManager simpleboardManager = CorePlugin.getInstance().getSimpleboardManager();
         simpleboardManager.setBoardProvider(new LobbyBoardProvider(Array.plugin.getPluginMessage()));
@@ -84,10 +73,10 @@ public class Main extends JavaPlugin implements Listener {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
         setupPermissions();
         setupChat();
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + Utils.Core + "Vault API hooked into the plugin.");
-
     }
     @SuppressWarnings("Duplicates")
     private boolean setupEconomy() {

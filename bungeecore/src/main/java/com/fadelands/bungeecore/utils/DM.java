@@ -1,6 +1,6 @@
 package com.fadelands.bungeecore.utils;
 
-import com.fadelands.bungeecore.BuildBot;
+import com.fadelands.bungeecore.discord.BuildBot;
 import net.dv8tion.jda.core.entities.Guild;
 
 import java.text.SimpleDateFormat;

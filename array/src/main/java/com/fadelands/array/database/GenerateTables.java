@@ -20,58 +20,13 @@ public class GenerateTables {
                 "last_login timestamp, " +
                 "first_ip VARCHAR(30)," +
                 "last_ip VARCHAR(50)," +
-                "last_server VARCHAR(50)," +
+                "first_country VARCHAR(20)," +
+                "last_country VARCHAR(20)," +
                 "times_reported INT)";
 
         String statsglobal = "CREATE TABLE IF NOT EXISTS fadelands_stats_global " +
                 "(player_uuid VARCHAR(64) PRIMARY KEY, " +
-                "player_username VARCHAR(30)," +
                 "tokens INT," +
-                "messages_sent INT, " +
-                "commands_used INT, " +
-                "login_count INT, " +
-                "blocks_placed_global INT, " +
-                "blocks_removed_global INT, " +
-                "playtime varchar(50), " +
-                "average_playtime varchar(50), " +
-                "deaths_global INT, " +
-                "kills_global INT)";
-
-        String SBrealmAir = "CREATE TABLE IF NOT EXISTS fadelands_stats_sbair " +
-                "(player_uuid VARCHAR(64) PRIMARY KEY, " +
-                "player_username VARCHAR(30)," +
-                "messages_sent INT, " +
-                "commands_used INT, " +
-                "island_creation_date timestamp, " +
-                "island_level INT, " +
-                "island_members INT, " +
-                "login_count INT, " +
-                "blocks_placed_global INT, " +
-                "blocks_removed_global INT, " +
-                "playtime varchar(50), " +
-                "average_playtime varchar(50), " +
-                "deaths_global INT, " +
-                "kills_global INT)";
-
-        String SBrealmWater = "CREATE TABLE IF NOT EXISTS fadelands_stats_sbwater " +
-                "(player_uuid VARCHAR(64) PRIMARY KEY, " +
-                "player_username VARCHAR(30)," +
-                "messages_sent INT, " +
-                "commands_used INT, " +
-                "island_creation_date timestamp, " +
-                "island_level INT, " +
-                "island_members INT, " +
-                "login_count INT, " +
-                "blocks_placed_global INT, " +
-                "blocks_removed_global INT, " +
-                "playtime varchar(50), " +
-                "average_playtime varchar(50), " +
-                "deaths_global INT, " +
-                "kills_global INT)";
-
-        String SVrealmEarth = "CREATE TABLE IF NOT EXISTS fadelands_stats_svearth " +
-                "(player_uuid VARCHAR(64) PRIMARY KEY, " +
-                "player_username VARCHAR(30)," +
                 "messages_sent INT, " +
                 "commands_used INT, " +
                 "login_count INT, " +
@@ -147,21 +102,28 @@ public class GenerateTables {
                 "reg_to_discord_disc VARCHAR(100), " +
                 "security_key VARCHAR(16))";
 
-        String settings = "CREATE TABLE IF NOT EXISTS fadelands_players_settings "; //todo: WORK ON THIS LATER!
+        String settings = "CREATE TABLE IF NOT EXISTS fadelands_players_settings " +
+                "(player_uuid VARCHAR(64), " +
+                "friend_requests boolean default true, " +
+                "join_leave_messages boolean default true, " +
+                "public_chat boolean default true, " +
+                "private_messages boolean default true, " +
+                "notifications boolean default true, " +
+                "inform_if_muted boolean default true, " +
+                "game_tips boolean default true" +
+                ")";
 
         String lobbysettings = "CREATE TABLE IF NOT EXISTS fadelands_players_lobbysettings " +
-                "(player_uuid VARCHAR(64) PRIMARY KEY, " +
-                "double_jump boolean, " +
-                "player_visibility boolean, " +
-                "speed_effect boolean, " +
-                "jump_effect boolean)";
+                "(player_uuid VARCHAR(64), " +
+                "double_jump boolean default false, " +
+                "player_visibility boolean default true)";
 
         String settingsStaff = "CREATE TABLE IF NOT EXISTS fadelands_staff_settings " +
                 "(player_uuid VARCHAR(64), " +
-                "flight_toggled boolean, " +
-                "vanish_toggled boolean, " +
-                "staff_chat_toggled boolean, " +
-                "admin_notifications_toggled boolean)";
+                "flight_toggled boolean default false, " +
+                "vanish_toggled boolean default false, " +
+                "staff_chat boolean default true, " +
+                "admin_notifications boolean default true)";
 
         //Punishments
         String banrecords = "CREATE TABLE IF NOT EXISTS fadelands_ban_records " +
@@ -188,10 +150,6 @@ public class GenerateTables {
 
         SQLUtils.createTable(players);
         SQLUtils.createTable(statsglobal);
-        SQLUtils.createTable(SBrealmAir);
-        SQLUtils.createTable(SBrealmWater);
-        SQLUtils.createTable(SVrealmEarth);
-
         //Chat
 
         SQLUtils.createTable(chatlogs);
@@ -201,6 +159,7 @@ public class GenerateTables {
 
         // settings
         SQLUtils.createTable(lobbysettings);
+        SQLUtils.createTable(settings);
 
         //Staff
 

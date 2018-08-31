@@ -1,7 +1,6 @@
 package com.fadelands.array.database;
 
 import com.fadelands.array.Array;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -14,70 +13,6 @@ public class SQLUtils {
 
     public SQLUtils() {
 
-    }
-
-    public static void updateTable(ProxiedPlayer player, String table, String columnName, String value) {
-        try (Connection connection = Array.getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + player.getUniqueId().toString() + "'";
-            try (PreparedStatement p = connection.prepareStatement(query)) {
-
-                    p.setString(1, value);
-                    p.executeUpdate();
-                }
-                finally {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void updateTable(ProxiedPlayer player, String table, String columnName, Integer value) {
-        try (Connection connection = Array.getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + player.getUniqueId().toString() + "'";
-            try (PreparedStatement p = connection.prepareStatement(query)) {
-
-                p.setInt(1, value);
-                p.executeUpdate();
-            }
-            finally {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void updateTable(ProxiedPlayer player, String table, String columnName, Boolean value) {
-        try (Connection connection = Array.getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + player.getUniqueId().toString() + "'";
-            try (PreparedStatement p = connection.prepareStatement(query)) {
-
-                p.setBoolean(1, value);
-                p.executeUpdate();
-            }
-            finally {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void updateTable(ProxiedPlayer player, String table, String columnName, Timestamp value) {
-        try (Connection connection = Array.getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + player.getUniqueId().toString() + "'";
-            try (PreparedStatement p = connection.prepareStatement(query)) {
-
-                p.setTimestamp(1, value);
-                p.executeUpdate();
-            }
-            finally {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void updateTable(Player player, String table, String columnName, String value) {
@@ -160,7 +95,7 @@ public class SQLUtils {
         return false;
     }
 
-    public static void deleteFromTable(ProxiedPlayer player, String table) {
+    public static void deleteFromTable(Player player, String table) {
         try (Connection connection = Array.getConnection()) {
             String query = ("DELETE FROM " + table + " WHERE player_uuid='" + player.getUniqueId().toString() + "'");
             try (PreparedStatement p = connection.prepareStatement(query)) {
@@ -170,7 +105,7 @@ public class SQLUtils {
             finally {
                 connection.close();
             }
-            } catch (SQLException e) {
+        } catch (SQLException e) {
                 e.printStackTrace();
                     }
                 }

@@ -22,10 +22,10 @@ public class DatabaseStatusCommandExecutor implements CommandExecutor {
                 return true;
             }
             new DatabasePerformance();
-            sender.sendMessage("§2§lDatabase (" + DatabasePerformance.getObjectName() + ")");
-            sender.sendMessage("§a§lConnections [IDLING, MAX] §f(" + DatabasePerformance.getIdleConnections() + "/" + DatabasePerformance.getTotalConnections() + ")");
-            sender.sendMessage("§a§lConnections [ACTIVE, MAX] §f(" + DatabasePerformance.getActiveConnections() + "/" + DatabasePerformance.getTotalConnections() + ")");
-            sender.sendMessage("§a§lThreads Awaiting Connection: §f" + DatabasePerformance.getWaitingThreads());
+            sender.sendMessage("§3Database (" + DatabasePerformance.getObjectName() + ")");
+            sender.sendMessage("§bConnections [IDLING, MAX] §f(" + DatabasePerformance.getIdleConnections() + "/" + DatabasePerformance.getTotalConnections() + ")");
+            sender.sendMessage("§bConnections [ACTIVE, MAX] §f(" + DatabasePerformance.getActiveConnections() + "/" + DatabasePerformance.getTotalConnections() + ")");
+            sender.sendMessage("§bThreads Awaiting Connection: §f" + DatabasePerformance.getWaitingThreads());
 
         return false;
     }

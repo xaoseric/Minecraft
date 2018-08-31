@@ -2,13 +2,13 @@ package com.fadelands.array;
 
 import com.fadelands.array.commands.admin.DatabaseStatusCommandExecutor;
 import com.fadelands.array.commands.admin.WhoIsCommandExecutor;
-import com.fadelands.array.commands.moderator.punishments.PunishmentManager;
-import com.fadelands.array.commands.moderator.punishments.commands.BanCommandExecutor;
-import com.fadelands.array.commands.moderator.punishments.commands.HistoryCommandExecutor;
-import com.fadelands.array.commands.moderator.punishments.commands.MuteCommandExecutor;
-import com.fadelands.array.commands.moderator.punishments.commands.PunishCommandExecutor;
-import com.fadelands.array.commands.moderator.punishments.PunishmentMenu;
-import com.fadelands.array.plmessaging.PluginMessage;
+import com.fadelands.array.punishments.PunishmentManager;
+import com.fadelands.array.punishments.commands.BanCommandExecutor;
+import com.fadelands.array.punishments.commands.HistoryCommandExecutor;
+import com.fadelands.array.punishments.commands.MuteCommandExecutor;
+import com.fadelands.array.punishments.commands.PunishCommandExecutor;
+import com.fadelands.array.punishments.PunishmentMenu;
+import com.fadelands.array.utils.PluginMessage;
 import com.fadelands.array.database.GenerateTables;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -75,7 +75,7 @@ public class Array extends JavaPlugin {
 
     private void registerCommands() {
         getCommand("uptime").setExecutor(new UptimeCommandExecutor(this));
-        getCommand("databasestatus").setExecutor(new DatabaseStatusCommandExecutor(this));
+        getCommand("dbstatus").setExecutor(new DatabaseStatusCommandExecutor(this));
         getCommand("whois").setExecutor(new WhoIsCommandExecutor(this));
         getCommand("punish").setExecutor(new PunishCommandExecutor(this));
         getCommand("ban").setExecutor(new BanCommandExecutor(this, getPunishmentManager()));
@@ -226,7 +226,6 @@ public class Array extends JavaPlugin {
         }
 
     }
-
 
     public static String getUsernameFromUUID(String uuid) {
         Connection connection = null;

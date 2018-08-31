@@ -1,10 +1,9 @@
 package com.fadelands.sbair.scoreboard;
 
-import com.fadelands.array.plmessaging.PluginMessage;
-import com.fadelands.core.scoreboard.SimpleBoardProvider;
+import com.fadelands.array.utils.PluginMessage;
+import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
 import com.fadelands.sbair.Main;
 import com.google.common.collect.Lists;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;

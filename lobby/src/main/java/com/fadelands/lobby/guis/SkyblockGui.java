@@ -1,9 +1,9 @@
 package com.fadelands.lobby.guis;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.plmessaging.PluginMessage;
+import com.fadelands.array.utils.PluginMessage;
+import com.fadelands.array.utils.Utils;
 import com.fadelands.lobby.Main;
-import com.fadelands.lobby.Utils;
 import com.fadelands.lobby.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

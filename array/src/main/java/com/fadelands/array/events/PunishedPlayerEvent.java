@@ -1,6 +1,6 @@
 package com.fadelands.array.events;
 
-import com.fadelands.array.commands.moderator.punishments.PunishmentType;
+import com.fadelands.array.punishments.PunishmentType;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

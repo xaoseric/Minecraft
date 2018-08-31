@@ -21,6 +21,4 @@ public class ChooseStatsMenu {
         return new ItemBuilder(Material.BEACON).setName("§b§lGlobal Statistics").setLore("§7Click to view your global statistics.").toItemStack();
 
     }
-
-
 }

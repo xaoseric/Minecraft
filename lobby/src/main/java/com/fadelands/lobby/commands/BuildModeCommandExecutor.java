@@ -1,7 +1,7 @@
 package com.fadelands.lobby.commands;
 
+import com.fadelands.array.utils.Utils;
 import com.fadelands.lobby.Main;
-import com.fadelands.lobby.Utils;
 import com.fadelands.lobby.events.JoinItems;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;

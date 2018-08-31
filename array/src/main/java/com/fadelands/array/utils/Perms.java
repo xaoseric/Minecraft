@@ -2,7 +2,7 @@ package com.fadelands.array.utils;
 
 public class Perms {
 
-    public static String adminAlerts = "core.alerts.admin";
-    public static String staffAlerts = "core.alerts.staff";
+    public static String adminAlerts = "fadelands.alerts.admin";
+    public static String staffAlerts = "fadelands.alerts.staff";
 
 }

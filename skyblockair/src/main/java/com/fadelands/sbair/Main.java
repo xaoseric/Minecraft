@@ -2,7 +2,7 @@ package com.fadelands.sbair;
 
 import com.fadelands.array.Array;
 import com.fadelands.core.CorePlugin;
-import com.fadelands.core.scoreboard.SimpleboardManager;
+import com.fadelands.core.provider.scoreboard.SimpleboardManager;
 import com.fadelands.sbair.scoreboard.SBAirBoardProvider;
 import com.fadelands.sbair.serverchat.SBAirChatProvider;
 import com.fadelands.sbair.skyblockmanager.IslandManagerCommand;

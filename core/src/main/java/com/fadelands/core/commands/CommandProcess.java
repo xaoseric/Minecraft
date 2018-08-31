@@ -33,6 +33,7 @@ public class CommandProcess implements Listener {
                 || msg.toLowerCase().startsWith("/minecraft:") || msg.toLowerCase().startsWith("/minecraft")
                 || msg.toLowerCase().startsWith("/bukkit:") || msg.toLowerCase().startsWith("/bukkit")
                 || msg.toLowerCase().startsWith("/version") || msg.toLowerCase().startsWith("/ver")
+                || msg.toLowerCase().startsWith("/pl") || msg.toLowerCase().startsWith("/plugins")
                 || msg.toLowerCase().startsWith("/bukkit:ver") || msg.toLowerCase().startsWith("/?"))) {
             event.getPlayer().sendMessage("Unknown command. Type \"/help\" for help.");
             event.setCancelled(true);

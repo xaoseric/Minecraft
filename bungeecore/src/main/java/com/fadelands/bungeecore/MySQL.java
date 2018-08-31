@@ -96,4 +96,32 @@ public class MySQL {
             e.printStackTrace();
         }
     }
+    public static void insertTo(String table, String column, String value) {
+        try (Connection connection = Main.getConnection()) {
+            String query = ("INSERT INTO " + table + " (" + column + ") VALUE (?)");
+            try (PreparedStatement p = connection.prepareStatement(query)) {
+                p.setString(1, value);
+                p.executeUpdate();
+
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void insertTo(String table, String column, Integer value) {
+        try (Connection connection = Main.getConnection()) {
+            String query = ("INSERT INTO " + table + " (" + column + ") VALUE (?)");
+            try (PreparedStatement p = connection.prepareStatement(query)) {
+                p.setInt(1, value);
+                p.executeUpdate();
+
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

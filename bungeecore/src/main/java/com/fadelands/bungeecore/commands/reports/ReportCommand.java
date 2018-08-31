@@ -1,9 +1,9 @@
 package com.fadelands.bungeecore.commands.reports;
 
 import com.fadelands.bungeecore.Main;
+import com.fadelands.bungeecore.discord.DiscordUtils;
 import com.fadelands.bungeecore.utils.Perms;
 import com.fadelands.bungeecore.utils.Utils;
-import com.fadelands.bungeecore.discordevents.DiscordUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.md_5.bungee.api.ChatColor;

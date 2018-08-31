@@ -6,9 +6,9 @@ depend: [Array]
 
 commands:
   profile:
+    description: View your user profile
   saveplayerdata:
-    aliases: [udb, refreshplayerdata, refreshpd, savepd]
-    description: Admin command to update player data.
+    description: Admin command
   achievement:
     aliases: [achievements, ach]
     description: Check your achievements.
@@ -17,19 +17,20 @@ commands:
   country:
     description: Lookup a players country.
   help:
-    aliases: [pl,plugins,?,ver,version]
     description: Used if you need help.
   color:
-    aliases: [namecolor, colorname, colour]
+    aliases: [namecolor]
     description: Select a name color.
   list:
-    aliases: [membersonline, playersonline, online, playerlist, plist, who, ewho, elist, eonline, eplayerlist, eplist]
+    aliases: [playersonline, playerlist]
     description: Show who is online.
   teleport:
-    aliases: [tp, etp, eteleport, tpo, etpo]
+    aliases: [tp, tpo]
+    description: Tp to a user
   gamemode:
-    aliases: [gm, egm, egamemode]
+    aliases: [gm]
+    description: Admin command
   sudo:
-    aliases: [esudo]
+    description: Admin command
   fly:
-    aliases: [flight, efly, eflight]
+    aliases: [flight]

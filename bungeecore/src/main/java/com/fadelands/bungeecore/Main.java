@@ -5,9 +5,10 @@ import com.fadelands.bungeecore.commands.AlertCommand;
 import com.fadelands.bungeecore.commands.reports.ReportInfoCommand;
 import com.fadelands.bungeecore.commands.reports.ReportsCommand;
 import com.fadelands.bungeecore.commands.servers.*;
+import com.fadelands.bungeecore.discord.BuildBot;
 import com.fadelands.bungeecore.players.ChatLogging;
 import com.fadelands.bungeecore.players.PlayerManager;
-import com.fadelands.bungeecore.privatemessaging.PrivateMessageCommand;
+import com.fadelands.bungeecore.pm.PrivateMessageCommand;
 import com.fadelands.bungeecore.utils.Utils;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -15,10 +16,9 @@ import com.fadelands.bungeecore.commands.FindCommand;
 import com.fadelands.bungeecore.commands.SCCommand;
 import com.fadelands.bungeecore.commands.reports.HandleReportCommand;
 import com.fadelands.bungeecore.commands.reports.ReportCommand;
-import com.fadelands.bungeecore.discordsync.LinkDiscordID;
-import com.fadelands.bungeecore.discordsync.RandomKeyCommand;
+import com.fadelands.bungeecore.discord.discordsync.LinkDiscordID;
 import com.fadelands.bungeecore.players.BungeeCommandsLogging;
-import com.fadelands.bungeecore.privatemessaging.ReplyCommand;
+import com.fadelands.bungeecore.pm.ReplyCommand;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -130,7 +130,6 @@ public class Main extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new CurrentServerCommand());
 
         getProxy().getPluginManager().registerCommand(this, new LinkDiscordID());
-        getProxy().getPluginManager().registerCommand(this, new RandomKeyCommand());
 
         getProxy().getPluginManager().registerCommand(this, new PrivateMessageCommand());
         getProxy().getPluginManager().registerCommand(this, new ReplyCommand());

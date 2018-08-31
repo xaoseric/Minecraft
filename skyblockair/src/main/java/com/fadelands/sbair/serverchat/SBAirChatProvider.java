@@ -2,7 +2,7 @@ package com.fadelands.sbair.serverchat;
 
 import com.fadelands.array.utils.Utils;
 import com.fadelands.core.CorePlugin;
-import com.fadelands.core.chat.provider.ChatProvider;
+import com.fadelands.core.provider.chat.provider.ChatProvider;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
