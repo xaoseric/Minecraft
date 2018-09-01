@@ -60,8 +60,8 @@ public class PrivateMessageCommand extends Command {
             sb.append(args[i] + " ");
         String message = sb.toString();
 
-        target.sendMessage(new ComponentBuilder("§8[§3" + player.getName() + " §9-> §3me§8] §7" + message).color(ChatColor.DARK_AQUA).create());
-        player.sendMessage(new ComponentBuilder("§8[§3me §9-> §3" + target.getName() + "§8] §7" + message).color(ChatColor.DARK_AQUA).create());
+        target.sendMessage(new ComponentBuilder("§8[§2" + player.getName() + " §6-> §2me§8] §7" + message).color(ChatColor.DARK_AQUA).create());
+        player.sendMessage(new ComponentBuilder("§8[§2me §6-> §2" + target.getName() + "§8] §7" + message).color(ChatColor.DARK_AQUA).create());
 
         PMManager.setLast(player, target);
         PMManager.setLast(target, player);

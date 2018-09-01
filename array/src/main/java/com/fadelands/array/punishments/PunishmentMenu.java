@@ -229,52 +229,52 @@ public class PunishmentMenu implements Listener {
         player.openInventory(inv);
     }
     private ItemStack getTargetHead(String target, String reason) {
-        return new ItemBuilder(Material.SKULL_ITEM).setData(3).setSkullOwner(target).setName("§a§l" + target).setLore("§7Reason§f: " + reason).toItemStack();
+        return new ItemBuilder(Material.SKULL_ITEM).setData(3).setSkullOwner(target).setName("§6" + target).setLore("§2Reason:§f " + reason).toItemStack();
     }
 
-    private ItemStack getAlternativeAccounts = new ItemBuilder(Material.REDSTONE_COMPARATOR).setName("§c§l" + "Alt Accounts").setLore("§7Click to view alt accounts.").toItemStack();
-    private ItemStack getHistory = new ItemBuilder(Material.MAP).setName("§e§l" + "Punishm. History").setLore("§7Click to view targets punishments commands.").toItemStack();
-    private ItemStack getChatOffense = new ItemBuilder(Material.BOOK_AND_QUILL).setName("§a§lChat Offenses").setLore(Arrays.asList("§7Spam, Harrassment, Toxic Behavior", "§7Verbal Abuse, etc.")).toItemStack();
-    private ItemStack getGameplayOffense = new ItemBuilder(Material.ARROW).setName("§a§lGameplay Offenses").setLore("§7Game Exploits, Bug Abusing, etc.").toItemStack();
-    private ItemStack getClientOffense = new ItemBuilder(Material.IRON_SWORD).setName("§a§lClient Offenses").setLore(Arrays.asList("§7Usage of illegal modifications", "§7hacked clients, etc.")).toItemStack();
+    private ItemStack getAlternativeAccounts = new ItemBuilder(Material.REDSTONE_COMPARATOR).setName("§6" + "Alt Accounts").setLore("§7Click to view alt accounts.").toItemStack();
+    private ItemStack getHistory = new ItemBuilder(Material.MAP).setName("§6" + "Punishm. History").setLore("§7Click to view targets punishments commands.").toItemStack();
+    private ItemStack getChatOffense = new ItemBuilder(Material.BOOK_AND_QUILL).setName("§f§lChat Offenses").setLore(Arrays.asList("§7Spam, Harrassment, Toxic Behavior", "§7Verbal Abuse, etc.")).toItemStack();
+    private ItemStack getGameplayOffense = new ItemBuilder(Material.ARROW).setName("§f§lGameplay Offenses").setLore("§7Game Exploits, Bug Abusing, etc.").toItemStack();
+    private ItemStack getClientOffense = new ItemBuilder(Material.IRON_SWORD).setName("§f§lClient Offenses").setLore(Arrays.asList("§7Usage of illegal modifications", "§7hacked clients, etc.")).toItemStack();
 
-    private ItemStack chatOffenseSevOne = new ItemBuilder(Material.STAINED_CLAY).setData(5).setName("§a§lSeverity 1").setLore(Arrays.asList("§fMute Duration: §b1 Day", "§r ",
-            "§7E.g: Spamming, Light Advertisement, etc.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack chatOffenseSevOne = new ItemBuilder(Material.STAINED_CLAY).setData(5).setName("§aSeverity 1").setLore(Arrays.asList("§fMute Duration: §21 Day", "§r ",
+            "§7E.g: Spamming, Light Advertisement, etc.","§r ","§a§l>§2§l>§a§l> §2Click to perform.")).toItemStack();
 
-    private ItemStack chatOffenseSevTwo = new ItemBuilder(Material.STAINED_CLAY).setData(4).setName("§6§lSeverity 2").setLore(Arrays.asList("§fMute Duration: §b7 Days", "§r ",
-            "§7E.g: Harassment, Abusive Behavior, Innap. Links, etc.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack chatOffenseSevTwo = new ItemBuilder(Material.STAINED_CLAY).setData(4).setName("§6Severity 2").setLore(Arrays.asList("§fMute Duration: §27 Days", "§r ",
+            "§7E.g: Harassment, Abusive Behavior, Innap. Links, etc.","§r ","§e§l>§6§l>§e§l> §6Click to perform.")).toItemStack();
 
-    private ItemStack chatOffenseSevThree = new ItemBuilder(Material.STAINED_CLAY).setData(14).setName("§c§lSeverity 3").setLore(Arrays.asList("§fMute Duration: §b14 Days", "§r ",
-            "§7E.g: Racism, Discrimination, Sharing personal info, etc.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack chatOffenseSevThree = new ItemBuilder(Material.STAINED_CLAY).setData(14).setName("§cSeverity 3").setLore(Arrays.asList("§fMute Duration: §214 Days", "§r ",
+            "§7E.g: Racism, Discrimination, Sharing personal info, etc.","§r ","§4§l>§c§l>§4§l> §cClick to perform.")).toItemStack();
 
-    private ItemStack chatOffenseSevFour = new ItemBuilder(Material.STAINED_CLAY).setData(14).setName("§4§lSeverity 4").setLore(Arrays.asList("§fMute Duration: §b30 Days", "§r ",
-            "§7E.g: Advertisement, Unapproved Transactions, Malicious Threats, etc.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack chatOffenseSevFour = new ItemBuilder(Material.STAINED_CLAY).setData(14).setName("§4Severity 4").setLore(Arrays.asList("§fMute Duration: §230 Days", "§r ",
+            "§7E.g: Advertisement, Unapproved Transactions, Malicious Threats, etc.","§r ","§4§l>§c§l>§4§l> §cClick to perform.")).toItemStack();
 
-    private ItemStack gameplayOffenseSevOne = new ItemBuilder(Material.STAINED_CLAY).setData(5).setName("§a§lSeverity 1").setLore(Arrays.asList("§fBan Duration: §b1 Day", "§r ",
-            "§7E.g: Map/Bug Exploiting, etc.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack gameplayOffenseSevOne = new ItemBuilder(Material.STAINED_CLAY).setData(5).setName("§aSeverity 1").setLore(Arrays.asList("§fBan Duration: §21 Day", "§r ",
+            "§7E.g: Map/Bug Exploiting, etc.","§r ","§a§l>§2§l>§a§l> §2Click to perform.")).toItemStack();
 
-    private ItemStack gameplayOffenseSevTwo = new ItemBuilder(Material.STAINED_CLAY).setData(4).setName("§6§lSeverity 2").setLore(Arrays.asList("§fBan Duration: §b7 Days", "§r ",
-            "§7E.g: Abusing Bugs/Glitches, etc.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack gameplayOffenseSevTwo = new ItemBuilder(Material.STAINED_CLAY).setData(4).setName("§6Severity 2").setLore(Arrays.asList("§fBan Duration: §27 Days", "§r ",
+            "§7E.g: Abusing Bugs/Glitches, etc.","§r ","§e§l>§6§l>§e§l> §6Click to perform.")).toItemStack();
 
-    private ItemStack gameplayOffenseSevThree = new ItemBuilder(Material.STAINED_CLAY).setData(14).setName("§c§lSeverity 3").setLore("§7No punishments uses this severity yet.").toItemStack();
+    private ItemStack gameplayOffenseSevThree = new ItemBuilder(Material.STAINED_CLAY).setData(14).setName("§cSeverity 3").setLore("§7No punishments uses this severity yet.").toItemStack();
 
-    private ItemStack clientOffenseSevTwo = new ItemBuilder(Material.STAINED_CLAY).setData(4).setName("§6§lSeverity 2").setLore(Arrays.asList("§fBan Duration: §b30 Days", "§r ",
-            "§7E.g: Using Illegal Modifications, etc.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack clientOffenseSevTwo = new ItemBuilder(Material.STAINED_CLAY).setData(4).setName("§6Severity 2").setLore(Arrays.asList("§fBan Duration: §230 Days", "§r ",
+            "§7E.g: Using Illegal Modifications, etc.","§r ","§e§l>§6§l>§e§l> §6Click to perform.")).toItemStack();
 
-    private ItemStack clientOffenseSevThree = new ItemBuilder(Material.STAINED_CLAY).setData(14).setName("§c§lSeverity 3").setLore(Arrays.asList("§fBan Duration: §bPERMANENT", "§r ",
-            "§7E.g: Speed, Kill-Aura, Flight, B-hop, etc.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack clientOffenseSevThree = new ItemBuilder(Material.STAINED_CLAY).setData(14).setName("§cSeverity 3").setLore(Arrays.asList("§fBan Duration: §2PERMANENT", "§r ",
+            "§7E.g: Speed, Kill-Aura, Flight, B-hop, etc.","§r ","§4§l>§c§l>§4§l> §cClick to perform.")).toItemStack();
 
-    private ItemStack permBan = new ItemBuilder(Material.REDSTONE_BLOCK).setName("§c§lPermanent Ban").setLore(Arrays.asList("§fBan Duration: §bPERMANENT", "§r ",
-            "§2Requires detailed reason.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack permBan = new ItemBuilder(Material.REDSTONE_BLOCK).setName("§4Permanent Ban").setLore(Arrays.asList("§fBan Duration: §2PERMANENT", "§r ",
+            "§2Requires detailed reason.","§r ","§4§l>§c§l>§4§l> §cClick to perform.")).toItemStack();
 
-    private ItemStack permMute = new ItemBuilder(Material.BOOK_AND_QUILL).setName("§c§lPermanent Mute").setLore(Arrays.asList("§fMute Duration: §bPERMANENT", "§r ",
-            "§2Requires detailed reason.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack permMute = new ItemBuilder(Material.BOOK_AND_QUILL).setName("§4Permanent Mute").setLore(Arrays.asList("§fMute Duration: §2PERMANENT", "§r ",
+            "§2Requires detailed reason.","§r ","§4§l>§c§l>§4§l> §cClick to perform.")).toItemStack();
 
-    private ItemStack permIPBan = new ItemBuilder(Material.BARRIER).setName("§c§lPermanent IP Ban").setLore(Arrays.asList("§fBan Duration: §bPERMANENT", "§r ",
-            "§2Requires detailed reason.","§r ","§a>§2>§a> Click to punish.")).toItemStack();
+    private ItemStack permIPBan = new ItemBuilder(Material.BARRIER).setName("§4Permanent IP Ban").setLore(Arrays.asList("§fBan Duration: §2PERMANENT", "§r ",
+            "§2Requires detailed reason.","§r ","§4§l>§c§l>§4§l> §cClick to perform.")).toItemStack();
 
-    private ItemStack unban = new ItemBuilder(Material.ANVIL).setName("§a§lUnban").setLore("§7Click to unban user.").toItemStack();
-    private ItemStack unmute = new ItemBuilder(Material.PAPER).setName("§a§lUnmute").setLore("§7Click to unmute user.").toItemStack();
+    private ItemStack unban = new ItemBuilder(Material.ANVIL).setName("§2Unban").setLore("§7Click to unban user.").toItemStack();
+    private ItemStack unmute = new ItemBuilder(Material.PAPER).setName("§2Unmute").setLore("§7Click to unmute user.").toItemStack();
 
     private ItemStack barrier = new ItemBuilder(Material.STAINED_GLASS_PANE).setData(7).setName(" ").toItemStack();
 
@@ -299,122 +299,90 @@ public class PunishmentMenu implements Listener {
             if(event.getCurrentItem().isSimilar(getHistory)){
                 player.closeInventory();
                 String command = "/history " + target;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(getAlternativeAccounts)){
                 player.closeInventory();
-                String command = "/dupeip " + target;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/alts " + target;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(chatOffenseSevOne)){
                 player.closeInventory();
-                String command = "/mute -s " + target + " 1d " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/mute " + target + " 1d " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(chatOffenseSevTwo)){
                 player.closeInventory();
-                String command = "/mute -s " + target + " 7d " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/mute " + target + " 7d " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(chatOffenseSevThree)){
                 player.closeInventory();
-                String command = "/mute -s " + target + " 14d " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/mute " + target + " 14d " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(chatOffenseSevFour)){
                 player.closeInventory();
-                String command = "/mute -s " + target + " 30d " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/mute " + target + " 30d " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(gameplayOffenseSevOne)){
                 player.closeInventory();
-                String command = "/ban -s " + target + " 1d " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/ban " + target + " 1d " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(gameplayOffenseSevTwo)){
                 player.closeInventory();
-                String command = "/ban -s " + target + " 7d " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/ban " + target + " 7d " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(clientOffenseSevTwo)){
                 player.closeInventory();
-                String command = "/ban -s " + target + " 30d " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/ban " + target + " 30d " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(clientOffenseSevThree)){
                 player.closeInventory();
-                String command = "/ban -s " + target + " " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/ban " + target + " " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(permBan)){
                 player.closeInventory();
-                String command = "/ban -s " + target + " " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/ban " + target + " " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(permMute)){
                 player.closeInventory();
-                String command = "/mute -s " + target + " " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/mute " + target + " " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(permIPBan)){
                 player.closeInventory();
-                String command = "/ipban -s " + target + " " + reason;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/ipban " + target + " " + reason;
+                player.chat(command);
+
             }
             if(event.getCurrentItem().isSimilar(unban)){
                 player.closeInventory();
-                String command = "/unban -s " + target;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/unban " + target;
+                player.chat(command);
             }
             if(event.getCurrentItem().isSimilar(unmute)){
                 player.closeInventory();
-                String command = "/unmute -s " + target;
-                ComponentBuilder c = new ComponentBuilder("§a§l>§2§l>§a§l> Press to confirm and execute the command.");
-                c.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-                c.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(command).create()));
-                player.spigot().sendMessage(c.create());
+                String command = "/unmute " + target;
+                player.chat(command);
             }
          }
         }

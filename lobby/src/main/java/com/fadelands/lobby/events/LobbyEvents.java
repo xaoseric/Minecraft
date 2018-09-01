@@ -2,6 +2,8 @@ package com.fadelands.lobby.events;
 
 import com.fadelands.lobby.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -13,8 +15,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -22,9 +24,22 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 public class LobbyEvents implements Listener {
 
     private Main main;
+    public static Location spawnLoc;
+
 
     public LobbyEvents(Main main){
         this.main = main;
+
+        double yawd = main.getConfig().getDouble("yaw");
+        double pitchd = main.getConfig().getDouble("pitch");
+        float yaw = (float)yawd;
+        float pitch = (float)pitchd;
+
+        spawnLoc = new Location(Bukkit.getWorld("world")
+                , main.getConfig().getDouble("x")
+                , main.getConfig().getDouble("y")
+                , main.getConfig().getDouble("z")
+                , yaw, pitch);
     }
 
     @EventHandler
@@ -87,8 +102,7 @@ public class LobbyEvents implements Listener {
     public void disableVoid(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
-                World world = Bukkit.getServer().getWorld("world");
-                event.getEntity().teleport(world.getSpawnLocation());
+                event.getEntity().teleport(spawnLoc);
                 event.getEntity().sendMessage("§eWoah there, watch out for the void!");
             }
         }
@@ -97,6 +111,7 @@ public class LobbyEvents implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        player.teleport(spawnLoc);
 
         event.setJoinMessage(null);
         JoinItems joinItems = new JoinItems(main);
@@ -104,14 +119,28 @@ public class LobbyEvents implements Listener {
 
         player.sendMessage("§r" + "\n" +
                 "§8§l┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + "\n" +
-                "            §fWelcome to §lFade§b§lLands " + "\n" +
+                "            §fWelcome to §lFade§6§lLands " + "\n" +
                 "§r " + "\n" +
                 " §7      Use your compass to travel to different" + "\n" +
                 "               §7" + "gamemodes and servers." + "\n" +
                 "§r " + "\n" +
                 "            §7You can find our rules, server" + "\n" +
-                "         §7info and store at §bwww.fadelands.com§7." + "\n" +
+                "         §7info and store at §2www.fadelands.com§7." + "\n" +
                 "§8§l┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + "\n" +
                 "§r ");
+    }
+
+    @EventHandler
+    public void playerMoveEvent(PlayerMoveEvent event){
+        Location location = event.getTo();
+        if(location.getBlockX() < 240 || location.getBlockX() > 640 || location.getBlockZ() < -690 || location.getBlockZ() > -290) {
+            Player player = event.getPlayer();
+            player.sendMessage("§eYou have reached the end of the lobby!");
+            player.teleport(event.getFrom().getBlock().getLocation());
+            player.playEffect(player.getLocation(), Effect.LARGE_SMOKE, 2);
+            player.playEffect(player.getLocation(), Effect.EXTINGUISH, 3);
+            player.playEffect(player.getLocation(), Effect.FLAME, 2);
+
+        }
     }
 }

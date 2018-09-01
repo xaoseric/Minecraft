@@ -12,13 +12,7 @@ import java.util.List;
 public class LobbyBoardProvider extends SimpleBoardProvider {
 
     private PluginMessage pluginMessage;
-    private int LOBBY_PLAYERCOUNT;
-    private int SB_AIR_PLAYERCOUNT;
-    private int SB_WATER_PLAYERCOUNT;
-    private int SV_EARTH_PLAYERCOUNT;
-
-    private int SB_REALMS_PLAYERCOUNT;
-    private int SV_REALMS_PLAYERCOUNT;
+    private int SERVER_COUNT;
 
     public LobbyBoardProvider(PluginMessage pluginMessage) {
         this.pluginMessage = pluginMessage;
@@ -27,7 +21,7 @@ public class LobbyBoardProvider extends SimpleBoardProvider {
 
     @Override
     public String getTitle(Player player) {
-        return "&f&lFade&b&lLands";
+        return "&f&lFade&6&lLands";
     }
 
     @Override
@@ -38,24 +32,23 @@ public class LobbyBoardProvider extends SimpleBoardProvider {
             return null;
         }
 
-        this.LOBBY_PLAYERCOUNT = pluginMessage.getPlayers("LOBBY");
-        this.SB_AIR_PLAYERCOUNT = pluginMessage.getPlayers("SB-AIR");
-        this.SB_WATER_PLAYERCOUNT = pluginMessage.getPlayers("SB-WATER");
-        this.SV_EARTH_PLAYERCOUNT = pluginMessage.getPlayers("SV-EARTH");
+        this.SERVER_COUNT = pluginMessage.getPlayers("ALL");
 
         toReturn.add("&r ");
-        toReturn.add("&f&l\u00bb &f&l" + player.getName());
-        toReturn.add("&7Rank&f: " + Main.getPermissions().getPrimaryGroup(player));
-        toReturn.add("&7Tokens&f: &30");
+        toReturn.add("&7&l\u00bb &f&l" + player.getName());
+        toReturn.add(" &7Tokens &21");
+        toReturn.add(" &7Points &21");
         toReturn.add("&r ");
-        toReturn.add("&f&l\u00bb Servers"); // <3
-        toReturn.add("&8&l┏━");
-        toReturn.add("&8&l┣ &7Water&f: &3" + String.valueOf(SB_WATER_PLAYERCOUNT));
-        toReturn.add("&8&l┣ &7Air&f: &3" + String.valueOf(SB_AIR_PLAYERCOUNT));
-        toReturn.add("&8&l┣ &7Earth&f: &3" + String.valueOf(SV_EARTH_PLAYERCOUNT));
-        toReturn.add("&8&l┣ &7Lobby&f: &3" + String.valueOf(LOBBY_PLAYERCOUNT));
-        toReturn.add("&8&l┗━");
-        toReturn.add("&f&owww.fadelands.com");
+        toReturn.add("&7&l\u00bb &f&lRank");
+        toReturn.add(" " + Main.getPermissions().getPrimaryGroup(player));
+        toReturn.add("&r ");
+        toReturn.add("&7&l\u00bb &f&lLobby");
+        toReturn.add(" &6" + pluginMessage.getServerName(player));
+        toReturn.add("&r ");
+        toReturn.add("&7&l\u00bb &f&lPlayers");
+        toReturn.add(" §6" + SERVER_COUNT);
+        toReturn.add("&r ");
+        toReturn.add("&2www.fadelands.com");
 
         return toReturn;
     }

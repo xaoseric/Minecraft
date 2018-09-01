@@ -3,10 +3,7 @@ package com.fadelands.array;
 import com.fadelands.array.commands.admin.DatabaseStatusCommandExecutor;
 import com.fadelands.array.commands.admin.WhoIsCommandExecutor;
 import com.fadelands.array.punishments.PunishmentManager;
-import com.fadelands.array.punishments.commands.BanCommandExecutor;
-import com.fadelands.array.punishments.commands.HistoryCommandExecutor;
-import com.fadelands.array.punishments.commands.MuteCommandExecutor;
-import com.fadelands.array.punishments.commands.PunishCommandExecutor;
+import com.fadelands.array.punishments.commands.*;
 import com.fadelands.array.punishments.PunishmentMenu;
 import com.fadelands.array.utils.PluginMessage;
 import com.fadelands.array.database.GenerateTables;
@@ -70,6 +67,7 @@ public class Array extends JavaPlugin {
 
         registerEvents();
         registerCommands();
+
         Bukkit.getLogger().info("[Array] Plugin has been enabled.");
     }
 
@@ -81,6 +79,7 @@ public class Array extends JavaPlugin {
         getCommand("ban").setExecutor(new BanCommandExecutor(this, getPunishmentManager()));
         getCommand("mute").setExecutor(new MuteCommandExecutor(this, getPunishmentManager()));
         getCommand("history").setExecutor(new HistoryCommandExecutor(this, getPunishmentManager()));
+        getCommand("alts").setExecutor(new AltsCommandExecutor(this));
 
     }
 

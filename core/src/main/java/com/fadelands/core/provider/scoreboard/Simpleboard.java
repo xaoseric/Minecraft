@@ -108,37 +108,26 @@ public class Simpleboard {
     }
 
     public void update(List<String> list) {
-        if (hidden) {
-            return;
-        }
+        if (hidden || list == null || player == null || list.size() == 0) return;
 
-        if (list == null) {
-            return;
-        }
-
-        if (player == null) {
-            return;
-        }
-
-        while (list.size() > 15) {
-            list.remove(list.size() - 1);
-        }
-
-        int slot = list.size();
-
-        if (slot < 15) {
-            for (int i = oldLines.size(); i > list.size(); i--) {
+        if (list.size() != oldLines.size()) {
+            for (int i = 0; i < oldLines.size() + 1; i++) {
                 removeLine(i);
             }
         }
 
+        while (list.size() > 15)
+            list.remove(list.size() - 1);
+
+        int score = list.size();
+
         for (String value : list) {
-            updateLine(slot, value);
-            slot--;
+            updateLine(score--, value);
         }
 
         oldLines = list;
     }
+
 
     private String[] getPrefixAndSuffix(String value) {
         String prefix = getPrefix(value);

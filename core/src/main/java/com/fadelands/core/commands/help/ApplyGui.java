@@ -24,7 +24,7 @@ public class ApplyGui implements Listener {
 
     private static ItemStack staff = new ItemBuilder(Material.BOOK).setName("§6§lModerator").setLore("§7Become a staff member and contribute", "§7your time to moderate the server.").setAmount(1).toItemStack();
     private static ItemStack builder = new ItemBuilder(Material.DIAMOND_PICKAXE).setName("§a§lBuilder").setLore("§7Join the build team and contribute to","§7make amazing builds!").setAmount(1).toItemStack();
-    private static ItemStack content_creator = new ItemBuilder(Material.NAME_TAG).setName("§e§dContent Creator").setLore("§7Want to gain some advantages for streaming or" ,"§7recording on our server? Click here","§7to read the requirements!").toItemStack();
+    private static ItemStack content_creator = new ItemBuilder(Material.NAME_TAG).setName("§d§lContent Creator").setLore("§7Want to gain some advantages for streaming or" ,"§7recording on our server? Click here","§7to read the requirements!").toItemStack();
     private static ItemStack jobs = new ItemBuilder(Material.REDSTONE_COMPARATOR).setName("§c§lJobs").setLore("§7Want to work for FadeLands as Developer?" ,"§7Click here to find out more!").setAmount(1).toItemStack();
     private static ItemStack back = new ItemBuilder(Material.BARRIER).setName("§cGo Back").setLore("§7Click to go back to the help page.").setAmount(1).toItemStack();
 
@@ -85,7 +85,7 @@ public class ApplyGui implements Listener {
                 player.closeInventory();
             }
             if (event.getCurrentItem().isSimilar(back)) {
-                ProfileListener.openProfileInv(player);
+                player.performCommand("help");
             }
 
         }

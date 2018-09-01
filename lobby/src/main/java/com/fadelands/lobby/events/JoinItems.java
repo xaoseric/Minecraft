@@ -55,6 +55,7 @@ public class JoinItems implements Listener {
             }
         }
     }
+
     @Deprecated
     @EventHandler(priority=EventPriority.HIGH)
     public void onRightClickItems(PlayerInteractEvent event) {
@@ -75,7 +76,6 @@ public class JoinItems implements Listener {
 
                 }
             }
-
         }
     }
 

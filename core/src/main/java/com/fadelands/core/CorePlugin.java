@@ -4,12 +4,15 @@ import com.fadelands.array.utils.Utils;
 import com.fadelands.core.achievement.AchievementCommand;
 import com.fadelands.core.commands.CommandProcess;
 import com.fadelands.core.commands.CountryCommandExecutor;
-import com.fadelands.core.commands.admincmds.GameModeCommandExecutor;
-import com.fadelands.core.commands.admincmds.SudoCommandExecutor;
-import com.fadelands.core.commands.amodcmds.FlyCommandExecutor;
-import com.fadelands.core.commands.amodcmds.TeleportCommandExecutor;
+import com.fadelands.core.commands.help.command.GuidesCommandExecutor;
+import com.fadelands.core.commands.help.guides.DiscordLinkGuide;
+import com.fadelands.core.commands.help.guides.GuideMenu;
+import com.fadelands.core.commands.staff.admincmds.GameModeCommandExecutor;
+import com.fadelands.core.commands.staff.admincmds.SudoCommandExecutor;
+import com.fadelands.core.commands.staff.modcmds.FlyCommandExecutor;
+import com.fadelands.core.commands.staff.modcmds.TeleportCommandExecutor;
 import com.fadelands.core.commands.help.ApplyGui;
-import com.fadelands.core.commands.help.HelpCommandExecutor;
+import com.fadelands.core.commands.help.command.HelpCommandExecutor;
 import com.fadelands.core.commands.help.HelpInventory;
 import com.fadelands.core.npcs.CreateNPC;
 import com.fadelands.core.playerdata.*;
@@ -22,6 +25,8 @@ import com.fadelands.core.provider.chat.ChatListener;
 import com.fadelands.core.provider.chat.SimpleChatProvider;
 import com.fadelands.core.provider.chat.provider.ChatProvider;
 import com.fadelands.core.provider.tablist.TablistText;
+import com.fadelands.core.settings.SettingsCommandExecutor;
+import com.fadelands.core.settings.inventory.SettingsInventory;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -85,9 +90,14 @@ public class CorePlugin extends JavaPlugin {
         // Profile & Players
         pm.registerEvents(new ProfileListener(), this);
         pm.registerEvents(new StatsListener(), this);
+        pm.registerEvents(new SettingsInventory(this), this);
 
-        pm.registerEvents(new HelpInventory(), this);
+        //GUIDES & HELP
+
+        pm.registerEvents(new HelpInventory(this), this);
         pm.registerEvents(new ApplyGui(this), this);
+        pm.registerEvents(new GuideMenu(this), this);
+        pm.registerEvents(new DiscordLinkGuide(this), this);
 
         //   pm.registerEvents(new NPCs(), this);
 
@@ -136,6 +146,8 @@ public class CorePlugin extends JavaPlugin {
         getCommand("country").setExecutor(new CountryCommandExecutor(this));
 
         getCommand("help").setExecutor(new HelpCommandExecutor(this));
+        getCommand("guides").setExecutor(new GuidesCommandExecutor(this));
+        getCommand("settings").setExecutor(new SettingsCommandExecutor(this));
 
     }
 

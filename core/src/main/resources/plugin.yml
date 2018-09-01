@@ -18,6 +18,8 @@ commands:
     description: Lookup a players country.
   help:
     description: Used if you need help.
+  guides:
+    description: Browse our guides.
   color:
     aliases: [namecolor]
     description: Select a name color.
@@ -34,3 +36,5 @@ commands:
     description: Admin command
   fly:
     aliases: [flight]
+  settings:
+    description: Change your settings.

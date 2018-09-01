@@ -34,59 +34,59 @@ public class SimpleBoardProvider implements BoardProvider {
                     } else {
                         switch (rs.getString("primary_group").toLowerCase()) {
                             case ("owner"): {
-                                return "&4&lOWNER &f{player}" ;
+                                return "&c&lADMIN &7{player}" ;
                             }
 
                             case ("admin"): {
-                                return "&c&lADMIN &f{player}";
+                                return "&c&lADMIN &7{player}";
                             }
 
                             case ("developer"): {
-                                return "&c&lDEV &f{player}";
+                                return "&c&lDEV &7{player}";
                             }
 
                             case ("senior"): {
-                                return "&6&lSENIOR &f{player}";
+                                return "&6&lSENIOR &7{player}";
                             }
 
                             case ("mod"): {
-                                return "&6&lMOD &f{player}";
+                                return "&6&lMOD &7{player}";
                             }
 
                             case ("trainee"): {
-                                return "&e&lTRAINEE &f{player}";
+                                return "&e&lTRAINEE &7{player}";
                             }
 
                             case ("builder"): {
-                                return "&9&lBUILDER &f{player}";
+                                return "&9&lBUILDER &7{player}";
                             }
 
                             case ("partner"): {
-                                return "&b&lPARTNER &f{player}";
+                                return "&b&lPARTNER &7{player}";
                             }
 
                             case ("media"): {
-                                return "&d&lMEDIA &f{player}";
+                                return "&d&lMEDIA &7{layer}";
                             }
 
                             case ("contributor"): {
-                                return "&3&lRETIRED &f{player}";
+                                return "&3&lRETIRED &7{player}";
                             }
 
                             case ("platinum"): {
-                                return "&5&lPLATINUM &f{player}";
+                                return "&5&lPLATINUM &7{player}";
                             }
 
                             case ("premium"): {
-                                return "&3&lPREMIUM &f{player}";
+                                return "&3&lPREMIUM &7{player}";
                             }
 
                             case ("donator"): {
-                                return "&a&lDONATOR &f{player}";
+                                return "&a&lDONATOR &7{player}";
                             }
 
                             case ("default"): {
-                                return "&f{player}";
+                                return "&7{player}";
                             }
                             // den kommer bli cuttad ifall du går över 32 characters samma gäller vid scoreboard linjerna
                             // om den inte hittar någon rank så går den till denna
@@ -96,7 +96,7 @@ public class SimpleBoardProvider implements BoardProvider {
                             // I
                             // V
                             default: {
-                                return "&f{player}";
+                                return "&7{player}";
                             }
 
                         }

@@ -21,15 +21,15 @@ public class SimpleChatProvider implements ChatProvider {
 
         ComponentBuilder rankComponent = new ComponentBuilder(chat.getPlayerPrefix(player).replaceAll("&", "\u00a7"));
         rankComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.USER_BLOCK
-                .replace("{0}", permission.getPrimaryGroup(player).toUpperCase()
+                .replace("{0}", permission.getPrimaryGroup(player)
                 .replaceAll("&", "§"))
                 .replace("{1}", "1"))
                 .create()));
         rankComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/profile " + player.getName()));
 
-        ComponentBuilder userComponent = new ComponentBuilder(player.getName());
+        ComponentBuilder userComponent = new ComponentBuilder("§7" + player.getName());
         userComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.USER_BLOCK
-                .replace("{0}", permission.getPrimaryGroup(player).toUpperCase()
+                .replace("{0}", permission.getPrimaryGroup(player)
                         .replaceAll("&", "§"))
                 .replace("{1}", "1"))
                 .create()));

@@ -108,9 +108,12 @@ public class GenerateTables {
                 "join_leave_messages boolean default true, " +
                 "public_chat boolean default true, " +
                 "private_messages boolean default true, " +
-                "notifications boolean default true, " +
                 "inform_if_muted boolean default true, " +
-                "game_tips boolean default true" +
+                "game_tips boolean default true, " +
+                "show_scoreboard boolean default true, " +
+                "show_friend_join_alerts boolean default true, " +
+                "show_friend_alerts boolean default true, " +
+                "party_requests boolean default true" +
                 ")";
 
         String lobbysettings = "CREATE TABLE IF NOT EXISTS fadelands_players_lobbysettings " +

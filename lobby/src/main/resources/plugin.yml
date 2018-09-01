@@ -12,3 +12,5 @@ commands:
   lobbysettings:
     description: Change your lobby settings.
     aliases: [ls, lsettings]
+  setlobby:
+    description: Set lobby spawn location

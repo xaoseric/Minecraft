@@ -24,3 +24,5 @@ commands:
     description: UnMute a user.
   history:
     description: Check a players punishment history.
+  alts:
+    description: Check a users alt accounts.

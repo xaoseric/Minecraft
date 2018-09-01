@@ -22,10 +22,10 @@ public class Announcer {
     }
 
     public void startAnnouncements() {
-        announcements.add(Utils.Announcement + "§fWe are searching for new staff members to join our team! Apply at §bhttps://fadelands.com/moderator/§f.");
-        announcements.add(Utils.Announcement + "§fWe currently have §b§l40% OFF §fon our products. Check them out at §bhttps://store.fadelands.com/§f.");
-        announcements.add(Utils.Announcement + "§fJoin our public Discord! We host giveaways, post announcements and a lot more, §bdiscord.fadelands.com§f.");
-        announcements.add(Utils.Announcement + "§fSign up on our forums to be an even bigger part of our community, §bhttps://fadelands.com/§f.");
+        announcements.add(Utils.Announcement + "§fWe are searching for new staff members to join our team! Apply at §2https://fadelands.com/moderator/§f.");
+        announcements.add(Utils.Announcement + "§fWe currently have §2§l40% OFF §fon our products. Check them out at §2https://store.fadelands.com/§f.");
+        announcements.add(Utils.Announcement + "§fJoin our public Discord! We host giveaways, post announcements and a lot more, §2discord.fadelands.com§f.");
+        announcements.add(Utils.Announcement + "§fSign up on our forums to be an even bigger part of our community, §2https://fadelands.com/§f.");
 
         ProxyServer.getInstance().getScheduler().schedule(main, new Runnable() {
             @Override

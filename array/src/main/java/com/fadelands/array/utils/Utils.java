@@ -9,7 +9,7 @@ public class Utils {
     public static Color color_gray = new Color(2, 0, 1);
 
     public static String AdminPrefix = "§8[§c✪§8] ";
-    public static String Prefix = "§8│ §bFadeLands§7 »§r ";
+    public static String Prefix = "§8│ §6FadeLands§7 »§r ";
     public static String Prefix_Red = "§8│ §4FadeLands§7 »§r ";
     public static String Prefix_Green = "§8│ §2FadeLands§7 »§r ";
     public static String No_Perm = "§cThis command requires a higher permission group.";
@@ -21,7 +21,7 @@ public class Utils {
 
     public static String Core = "[Core] ";
 
-    public static String USER_BLOCK = "§3Click to view profile." +
+    public static String USER_BLOCK = "§2Click to view profile." +
             " \n" +
             "§r" +
             "§7Rank§f: {0} " + "\n" +
