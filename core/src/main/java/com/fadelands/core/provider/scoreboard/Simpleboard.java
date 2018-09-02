@@ -1,5 +1,6 @@
 package com.fadelands.core.provider.scoreboard;
 
+import com.fadelands.core.settings.Settings;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -70,6 +71,7 @@ public class Simpleboard {
     }
 
     public void show() {
+        if(!hidden) return;
         hidden = false;
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
@@ -126,6 +128,11 @@ public class Simpleboard {
         }
 
         oldLines = list;
+    }
+
+    public void forceshow() {
+        hidden = false;
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
 

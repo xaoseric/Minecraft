@@ -1,7 +1,11 @@
 package com.fadelands.array;
 
+import com.fadelands.array.commands.admin.CountryCommandExecutor;
 import com.fadelands.array.commands.admin.DatabaseStatusCommandExecutor;
+import com.fadelands.array.commands.admin.LockdownCommandExecutor;
 import com.fadelands.array.commands.admin.WhoIsCommandExecutor;
+import com.fadelands.array.geolocation.GeoManager;
+import com.fadelands.array.manager.ServerManager;
 import com.fadelands.array.punishments.PunishmentManager;
 import com.fadelands.array.punishments.commands.*;
 import com.fadelands.array.punishments.PunishmentMenu;
@@ -10,6 +14,7 @@ import com.fadelands.array.database.GenerateTables;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.fadelands.array.commands.admin.UptimeCommandExecutor;
+import okhttp3.OkHttpClient;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -29,12 +34,15 @@ public class Array extends JavaPlugin {
     private static FileConfiguration fileConfiguration;
     private static HikariConfig hikariConfig;
     private static HikariDataSource hikariDataSource;
-
-    public static Array plugin;
-
+    private OkHttpClient okHttpClient;
     private PluginMessage pluginMessage;
     private PunishmentMenu punishmentMenu;
     private PunishmentManager punishmentManager;
+    private GeoManager geoManager;
+    private ServerManager serverManager;
+
+    public static Array plugin;
+
 
     public void onEnable() {
         plugin = this;
@@ -80,6 +88,8 @@ public class Array extends JavaPlugin {
         getCommand("mute").setExecutor(new MuteCommandExecutor(this, getPunishmentManager()));
         getCommand("history").setExecutor(new HistoryCommandExecutor(this, getPunishmentManager()));
         getCommand("alts").setExecutor(new AltsCommandExecutor(this));
+        getCommand("country").setExecutor(new CountryCommandExecutor(this));
+        getCommand("lockdown").setExecutor(new LockdownCommandExecutor(this));
 
     }
 
@@ -89,6 +99,12 @@ public class Array extends JavaPlugin {
         pm.registerEvents(new PunishmentManager(this), this);
         this.punishmentMenu = new PunishmentMenu(this);
         this.punishmentManager = new PunishmentManager(this);
+        this.okHttpClient = new OkHttpClient();
+        this.geoManager = new GeoManager(this);
+        this.serverManager = new ServerManager(this);
+        pm.registerEvents(new ServerManager(this), this);
+
+
     }
 
     public void onDisable() {
@@ -295,4 +311,15 @@ public class Array extends JavaPlugin {
         return punishmentManager;
     }
 
+    public OkHttpClient getOkHttpClient() {
+        return okHttpClient;
+    }
+
+    public GeoManager getGeoManager() {
+        return geoManager;
+    }
+
+    public ServerManager getServerManager() {
+        return serverManager;
+    }
 }

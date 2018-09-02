@@ -18,7 +18,6 @@
         <module>skyblockair</module>
         <module>lobby</module>
         <module>bungeecore</module>
-        <module>common</module>
     </modules>
 
 </project>

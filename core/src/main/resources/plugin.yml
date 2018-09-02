@@ -14,8 +14,6 @@ commands:
     description: Check your achievements.
   createnpc:
     description: Create a NPC.
-  country:
-    description: Lookup a players country.
   help:
     description: Used if you need help.
   guides:

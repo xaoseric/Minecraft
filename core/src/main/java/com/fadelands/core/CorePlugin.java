@@ -3,7 +3,6 @@ package com.fadelands.core;
 import com.fadelands.array.utils.Utils;
 import com.fadelands.core.achievement.AchievementCommand;
 import com.fadelands.core.commands.CommandProcess;
-import com.fadelands.core.commands.CountryCommandExecutor;
 import com.fadelands.core.commands.help.command.GuidesCommandExecutor;
 import com.fadelands.core.commands.help.guides.DiscordLinkGuide;
 import com.fadelands.core.commands.help.guides.GuideMenu;
@@ -142,8 +141,6 @@ public class CorePlugin extends JavaPlugin {
         //Other
 
         getCommand("createnpc").setExecutor(new CreateNPC(this));
-
-        getCommand("country").setExecutor(new CountryCommandExecutor(this));
 
         getCommand("help").setExecutor(new HelpCommandExecutor(this));
         getCommand("guides").setExecutor(new GuidesCommandExecutor(this));

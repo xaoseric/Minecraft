@@ -1,5 +1,6 @@
 package com.fadelands.array.utils;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -18,6 +19,7 @@ public class PluginMessage implements PluginMessageListener {
 
     private Map<UUID, String> playerServerMap;
     private Map<String, Integer> playerCountMap;
+    private Map<String, String[]> playerMap;
 
     public JavaPlugin plugin;
 
@@ -25,6 +27,11 @@ public class PluginMessage implements PluginMessageListener {
         this.plugin = plugin;
         playerServerMap = Maps.newHashMap();
         playerCountMap = Maps.newHashMap();
+        playerMap = Maps.newHashMap();
+        ping("ALL");
+        ping("LOBBY");
+        ping("SB-AIR");
+
     }
 
     @Override
@@ -47,6 +54,14 @@ public class PluginMessage implements PluginMessageListener {
                 playerServerMap.put(player.getUniqueId(), server);
             }
         } catch (Exception ignored) {}
+
+        try {
+            if (subChannel.equals("PlayList")) {
+                String server = in.readUTF();
+                String[] playerList = in.readUTF().split(", ");
+                playerMap.put(server, playerList);
+            }
+        } catch (Exception ignored) {}
     }
 
     public Integer getPlayers(String server) {
@@ -67,6 +82,23 @@ public class PluginMessage implements PluginMessageListener {
         return playerServerMap.get(player.getUniqueId()) == null ? "Unknown" : playerServerMap.get(player.getUniqueId());
     }
 
+    public String[] getPlayerNames(String server) {
+        ping(server);
+        try {
+            return ImmutableMap.copyOf(playerMap).get(server);
+        } catch (Exception ignored) {}
+
+        return null;
+    }
+
+    private void ping(String server) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("PlayerList");
+        out.writeUTF(server);
+
+        Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+    }
+
     public void sendToServer(Player player, String server) {
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
 
@@ -74,5 +106,15 @@ public class PluginMessage implements PluginMessageListener {
         output.writeUTF(server);
 
         player.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+    }
+
+    public void kickPlayer(Player sender, String playerName, String kickReason) {
+        ByteArrayDataOutput output = ByteStreams.newDataOutput();
+
+        output.writeUTF("KickPlayer");
+        output.writeUTF(playerName);
+        output.writeUTF(kickReason);
+
+        sender.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
     }
 }

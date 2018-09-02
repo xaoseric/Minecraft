@@ -111,6 +111,7 @@ public class GenerateTables {
                 "inform_if_muted boolean default true, " +
                 "game_tips boolean default true, " +
                 "show_scoreboard boolean default true, " +
+                "show_announcements boolean default true, " +
                 "show_friend_join_alerts boolean default true, " +
                 "show_friend_alerts boolean default true, " +
                 "party_requests boolean default true" +
@@ -126,6 +127,7 @@ public class GenerateTables {
                 "flight_toggled boolean default false, " +
                 "vanish_toggled boolean default false, " +
                 "staff_chat boolean default true, " +
+                "staff_notifications boolean default true, " +
                 "admin_notifications boolean default true)";
 
         //Punishments
@@ -150,6 +152,12 @@ public class GenerateTables {
                 "removed boolean default FALSE, " +
                 "remove_reason text NULL, " +
                 "remove_admin varchar(40))";
+
+        //Server
+        String lockdown = "CREATE TABLE IF NOT EXISTS fadelands_server_lockdown " +
+                "(lockdowner varchar(64), " +
+                "active boolean, " +
+                "reason text)";
 
         SQLUtils.createTable(players);
         SQLUtils.createTable(statsglobal);
@@ -176,6 +184,9 @@ public class GenerateTables {
 
         // Punishments
         SQLUtils.createTable(punishments);
+
+        // Server
+        SQLUtils.createTable(lockdown);
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "[Array] Created/generated database tables.");
         }

@@ -26,3 +26,7 @@ commands:
     description: Check a players punishment history.
   alts:
     description: Check a users alt accounts.
+  country:
+    description: Get a players country.
+  lockdown:
+    description: Lock the network for public players.

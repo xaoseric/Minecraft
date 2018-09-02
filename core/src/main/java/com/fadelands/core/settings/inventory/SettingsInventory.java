@@ -47,14 +47,17 @@ public class SettingsInventory implements Listener {
     }
 
     public void openGameSettings(Player player){
-        Inventory inv = Bukkit.createInventory(null, 9*6, GAME);
+        Inventory inv = Bukkit.createInventory(null, 9*3, GAME);
 
-        updateSocialInventory(inv, player);
+        updateGameInventory(inv, player);
         player.openInventory(inv);
     }
 
     public void openLobbySettings(Player player){
-       player.performCommand("lobbysettings");
+        Inventory inv = Bukkit.createInventory(null, 9*3, LOBBY);
+
+        updateLobbyInventory(inv, player);
+        player.openInventory(inv);
     }
 
     @EventHandler
@@ -140,7 +143,72 @@ public class SettingsInventory implements Listener {
                 }
             }
 
-    public void updateSocialInventory(Inventory inventory, Player player){
+    @EventHandler
+    public void onLobbyInventoryClick(InventoryClickEvent event) {
+        if (event.getClickedInventory() == null
+                || (event.getCurrentItem() == null)
+                || !event.getInventory().getName().equals(LOBBY)) return;
+        Player player = (Player) event.getWhoClicked();
+        String table = "fadelands_players_lobbysettings";
+
+        switch (event.getSlot()) {
+            case 11:
+                boolean doubleJump = settings.lobbyDoubleJump(player);
+                doubleJump = !doubleJump;
+
+                SQLUtils.updateTable(player, table, "double_jump", doubleJump);
+                updateLobbyInventory(event.getInventory(), player);
+                break;
+            case 15:
+                boolean playerVisibility = settings.lobbyPlayerVisibility(player);
+                playerVisibility = !playerVisibility;
+
+                SQLUtils.updateTable(player, table, "player_visibility", playerVisibility);
+                updateLobbyInventory(event.getInventory(), player);
+                break;
+            case 4:
+                openInventory(player);
+                break;
+        }
+    }
+
+    @EventHandler
+    public void onGameInventoryClick(InventoryClickEvent event) {
+        if (event.getClickedInventory() == null
+                || (event.getCurrentItem() == null)
+                || !event.getInventory().getName().equals(GAME)) return;
+        Player player = (Player) event.getWhoClicked();
+        String table = "fadelands_players_settings";
+
+        switch (event.getSlot()) {
+            case 10:
+                boolean gameTips = settings.allowingGameTips(player);
+                gameTips = !gameTips;
+
+                SQLUtils.updateTable(player, table, "game_tips", gameTips);
+                updateGameInventory(event.getInventory(), player);
+                break;
+            case 13:
+                boolean showScoreboard = settings.showScoreboard(player);
+                showScoreboard = !showScoreboard;
+
+                SQLUtils.updateTable(player, table, "show_scoreboard", showScoreboard);
+                updateGameInventory(event.getInventory(), player);
+                break;
+            case 16:
+                boolean showAnnouncements = settings.showAnnouncements(player);
+                showAnnouncements = !showAnnouncements;
+
+                SQLUtils.updateTable(player, table, "show_announcements", showAnnouncements);
+                updateGameInventory(event.getInventory(), player);
+                break;
+            case 4:
+                openInventory(player);
+                break;
+        }
+    }
+
+    private void updateSocialInventory(Inventory inventory, Player player){
         inventory.setItem(10, new ItemBuilder(Material.RED_ROSE).setName("§6Friend Requests")
                 .setLore(Arrays.asList("§r",
                         "§7Current State: " + (!settings.allowingFriendRequests(player) ? "§cDisabled" : "§aEnabled"),
@@ -173,4 +241,35 @@ public class SettingsInventory implements Listener {
                 .setLore("§7Click to go back.").toItemStack());
 
         }
+
+        private void updateGameInventory(Inventory inventory, Player player) {
+            inventory.setItem(10, new ItemBuilder(Material.DIAMOND_BOOTS).setName("§6Show Game Tips")
+                    .setLore(Arrays.asList("§r",
+                            "§7Current State: " + (!settings.allowingGameTips(player) ? "§cDisabled" : "§aEnabled"),
+                            "§r", "§eClick to turn game tips " + (settings.allowingGameTips(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+            inventory.setItem(13, new ItemBuilder(Material.WATCH).setName("§6Show Scoreboard")
+                    .setLore(Arrays.asList("§r",
+                            "§7Current State: " + (!settings.showScoreboard(player) ? "§cDisabled" : "§aEnabled"),
+                            "§r", "§eClick to turn side scoreboards " + (settings.showScoreboard(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+            inventory.setItem(16, new ItemBuilder(Material.WATCH).setName("§6Show Announcements")
+                    .setLore(Arrays.asList("§r",
+                            "§7Current State: " + (!settings.showAnnouncements(player) ? "§cDisabled" : "§aEnabled"),
+                            "§r", "§eClick to turn automatic chat announcements " + (settings.showAnnouncements(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+            inventory.setItem(4, new ItemBuilder(Material.ARROW).setName("§cGo Back")
+                    .setLore("§7Click to go back.").toItemStack());
+        }
+
+        private void updateLobbyInventory(Inventory inventory, Player player) {
+            inventory.setItem(11, new ItemBuilder(Material.DIAMOND_BOOTS).setName("§6Double Jump")
+                    .setLore(Arrays.asList("§r",
+                            "§7Current State: " + (!settings.lobbyDoubleJump(player) ? "§cDisabled" : "§aEnabled"),
+                            "§r", "§eClick to turn double jump " + (settings.lobbyDoubleJump(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+            inventory.setItem(15, new ItemBuilder(Material.WATCH).setName("§6Player Visibility")
+                    .setLore(Arrays.asList("§r",
+                            "§7Current State: " + (!settings.lobbyPlayerVisibility(player) ? "§cDisabled" : "§aEnabled"),
+                            "§r", "§eClick to turn player visibility " + (settings.lobbyPlayerVisibility(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+            inventory.setItem(4, new ItemBuilder(Material.ARROW).setName("§cGo Back")
+                    .setLore("§7Click to go back.").toItemStack());
+        }
+
 }

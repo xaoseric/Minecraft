@@ -220,5 +220,68 @@ public class Settings {
         }
         return true;
     }
+
+    public boolean showAnnouncements(Player player){
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            connection = Array.getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, player.getUniqueId().toString());
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getBoolean("show_announcements");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            Array.closeComponents(rs, ps, connection);
+        }
+        return true;
+    }
+
+    public boolean lobbyDoubleJump(Player player){
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            String query = "SELECT * FROM fadelands_players_lobbysettings WHERE player_uuid = ?";
+            connection = Array.getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, player.getUniqueId().toString());
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getBoolean("double_jump");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            Array.closeComponents(rs, ps, connection);
+        }
+        return true;
+    }
+
+    public boolean lobbyPlayerVisibility(Player player){
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            String query = "SELECT * FROM fadelands_players_lobbysettings WHERE player_uuid = ?";
+            connection = Array.getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, player.getUniqueId().toString());
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getBoolean("player_visibility");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            Array.closeComponents(rs, ps, connection);
+        }
+        return true;
+    }
 }
 

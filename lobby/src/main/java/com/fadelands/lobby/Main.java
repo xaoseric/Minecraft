@@ -58,6 +58,7 @@ public class Main extends JavaPlugin implements Listener {
         pm.registerEvents(new ServerSelectorGui(this), this);
         pm.registerEvents(new SkyblockGui(this), this);
         pm.registerEvents(new LobbyEvents(this), this);
+        pm.registerEvents(new DoubleJump(this), this);
 
         SimpleboardManager simpleboardManager = CorePlugin.getInstance().getSimpleboardManager();
         simpleboardManager.setBoardProvider(new LobbyBoardProvider(Array.plugin.getPluginMessage()));

@@ -1,7 +1,10 @@
 package com.fadelands.core.provider.chat;
 
+import com.fadelands.array.Array;
+import com.fadelands.array.utils.Utils;
 import com.fadelands.core.CorePlugin;
 import com.fadelands.core.provider.chat.provider.ChatProvider;
+import com.fadelands.core.settings.Settings;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -21,8 +24,14 @@ public class ChatListener implements Listener {
     public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         ChatProvider chatProvider = CorePlugin.getInstance().getChatProvider();
-        if(event.isCancelled()) return;
+        if (event.isCancelled()) return;
         event.setCancelled(true);
+        Settings settings = new Settings();
+
+        if(!settings.publicChat(player)){
+            player.sendMessage(Utils.Prefix + "§cYou have toggled public chat off! To chat with others, change your settings with /settings.");
+            return;
+        }
 
         ComponentBuilder[] format = chatProvider.getFormat(player);
         List<BaseComponent> components = new ArrayList<>();
@@ -34,7 +43,9 @@ public class ChatListener implements Listener {
         components.add(new TextComponent(event.getMessage()));
 
         for (Player online : Bukkit.getOnlinePlayers()) {
-            online.spigot().sendMessage(components.toArray(new BaseComponent[components.size()]));
+            if (settings.publicChat(online)) {
+                online.spigot().sendMessage(components.toArray(new BaseComponent[components.size()]));
+            }
         }
     }
 }
