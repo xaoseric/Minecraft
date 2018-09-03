@@ -50,7 +50,7 @@ public class CrateInventory {
 
     /**
      * Returns the inventory click manager. There should be no reason why you
-     * need it unless you want to unregister the class (meaning players can pick
+     * need it unless you want to unregister the class (meaning player can pick
      * up items)
      *
      * @return

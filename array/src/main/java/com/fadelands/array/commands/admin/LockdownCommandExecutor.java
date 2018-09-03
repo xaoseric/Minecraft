@@ -29,6 +29,9 @@ public class LockdownCommandExecutor implements CommandExecutor {
 
         if (args.length == 0) {
             player.sendMessage(Utils.Prefix + "§cInvalid usage. /lockdown <reason> or /lockdown off.");
+            if(array.getServerManager().lockdownActive()){
+                player.sendMessage("§6Lockdown Enabled: §c" + array.getServerManager().getLockdownReason());
+            }
             return true;
         }
 

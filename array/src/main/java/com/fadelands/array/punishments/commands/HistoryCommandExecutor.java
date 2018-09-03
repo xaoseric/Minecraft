@@ -3,7 +3,7 @@ package com.fadelands.array.punishments.commands;
 import com.fadelands.array.Array;
 import com.fadelands.array.punishments.*;
 import com.fadelands.array.punishments.tokens.PunishClientToken;
-import com.fadelands.array.players.User;
+import com.fadelands.array.player.User;
 import com.fadelands.array.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

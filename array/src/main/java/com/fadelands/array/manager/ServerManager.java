@@ -1,7 +1,7 @@
 package com.fadelands.array.manager;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.players.User;
+import com.fadelands.array.player.User;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,8 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.stream.Stream;
 
 public class ServerManager implements Listener {
 
@@ -100,7 +98,6 @@ public class ServerManager implements Listener {
         }
         array.getPluginMessage().getPlayerNames("ALL");
     }
-
 
     public void disableLockdown() {
         Connection connection = null;

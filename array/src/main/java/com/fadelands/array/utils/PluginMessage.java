@@ -99,22 +99,23 @@ public class PluginMessage implements PluginMessageListener {
         Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
     }
 
-    public void sendToServer(Player player, String server) {
+    public void sendToServer(Player messageSender, String server) {
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
 
         output.writeUTF("Connect");
         output.writeUTF(server);
 
-        player.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+        messageSender.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
     }
 
-    public void kickPlayer(Player sender, String playerName, String kickReason) {
+    public void kickPlayer(Player messageSender, String playerName, String kickReason) {
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
 
         output.writeUTF("KickPlayer");
         output.writeUTF(playerName);
         output.writeUTF(kickReason);
 
-        sender.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+        messageSender.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+
     }
 }

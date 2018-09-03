@@ -4,13 +4,13 @@ import com.fadelands.array.commands.admin.CountryCommandExecutor;
 import com.fadelands.array.commands.admin.DatabaseStatusCommandExecutor;
 import com.fadelands.array.commands.admin.LockdownCommandExecutor;
 import com.fadelands.array.commands.admin.WhoIsCommandExecutor;
-import com.fadelands.array.geolocation.GeoManager;
+import com.fadelands.array.manager.GeoManager;
 import com.fadelands.array.manager.ServerManager;
 import com.fadelands.array.punishments.PunishmentManager;
 import com.fadelands.array.punishments.commands.*;
 import com.fadelands.array.punishments.PunishmentMenu;
 import com.fadelands.array.utils.PluginMessage;
-import com.fadelands.array.database.GenerateTables;
+import com.fadelands.array.database.Tables;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.fadelands.array.commands.admin.UptimeCommandExecutor;
@@ -65,7 +65,7 @@ public class Array extends JavaPlugin {
 
         try {
             this.hikariDataSource = new HikariDataSource(this.hikariConfig);
-            GenerateTables.createTables();
+            Tables.createTables();
 
         } catch (Exception e) {
             e.printStackTrace();

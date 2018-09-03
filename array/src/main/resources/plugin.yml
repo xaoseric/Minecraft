@@ -23,10 +23,10 @@ commands:
   unmute:
     description: UnMute a user.
   history:
-    description: Check a players punishment history.
+    description: Check a player punishment history.
   alts:
     description: Check a users alt accounts.
   country:
-    description: Get a players country.
+    description: Get a player country.
   lockdown:
-    description: Lock the network for public players.
+    description: Lock the network for public player.

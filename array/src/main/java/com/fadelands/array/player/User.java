@@ -1,4 +1,4 @@
-package com.fadelands.array.players;
+package com.fadelands.array.player;
 
 import com.fadelands.array.Array;
 
@@ -201,12 +201,52 @@ public class User {
             connection = Array.getConnection();
             ps = connection.prepareStatement("SELECT * FROM luckperms_players WHERE username = ?");
             ps.setString(1, name);
-            System.out.println("NAME " + name);
             rs = ps.executeQuery();
             if(rs.next()) {
                 String rank = rs.getString("primary_group");
-                System.out.println(rank);
                 return rank.equals("owner") || (rank.equals("admin") || (rank.equals("developer")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Array.closeComponents(rs, ps, connection);
+        }
+        return false;
+    }
+
+    public boolean isMod(String name) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = Array.getConnection();
+            ps = connection.prepareStatement("SELECT * FROM luckperms_players WHERE username = ?");
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                String rank = rs.getString("primary_group");
+                return rank.equals("mod") || (rank.equals("senior"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Array.closeComponents(rs, ps, connection);
+        }
+        return false;
+    }
+
+    public boolean isStaff(String name) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = Array.getConnection();
+            ps = connection.prepareStatement("SELECT * FROM luckperms_players WHERE username = ?");
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                String rank = rs.getString("primary_group");
+                return rank.equals("owner") || (rank.equals("admin") || (rank.equals("developer") || (rank.equals("senior") || (rank.equals("mod")))));
             }
         } catch (SQLException e) {
             e.printStackTrace();

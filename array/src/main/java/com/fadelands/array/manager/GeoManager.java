@@ -1,4 +1,4 @@
-package com.fadelands.array.geolocation;
+package com.fadelands.array.manager;
 
 import com.fadelands.array.Array;
 import com.fadelands.array.request.Request;

@@ -82,7 +82,7 @@ public class StatsListener implements Listener {
     }
 
     private static ItemStack getKills(Player player) {
-        return new ItemBuilder(Material.DIAMOND_SWORD).setName("§3Murderers").setLore("§7You have slain §b" + PlayerData.get(player.getUniqueId()).getStats().getKills() + "§7 players.").toItemStack();
+        return new ItemBuilder(Material.DIAMOND_SWORD).setName("§3Murderers").setLore("§7You have slain §b" + PlayerData.get(player.getUniqueId()).getStats().getKills() + "§7 player.").toItemStack();
     }
 
     private static ItemStack getFirstJoined(Player player) {

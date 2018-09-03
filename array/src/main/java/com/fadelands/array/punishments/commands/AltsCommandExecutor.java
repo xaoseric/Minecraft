@@ -1,7 +1,7 @@
 package com.fadelands.array.punishments.commands;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.players.User;
+import com.fadelands.array.player.User;
 import com.fadelands.array.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 

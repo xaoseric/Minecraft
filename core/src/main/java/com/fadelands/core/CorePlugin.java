@@ -18,9 +18,10 @@ import com.fadelands.core.playerdata.*;
 import com.fadelands.core.profile.ProfileCommandExecutor;
 import com.fadelands.core.profile.ProfileListener;
 import com.fadelands.core.profile.statistics.StatsListener;
+import com.fadelands.core.provider.chat.command.ChatSlowCommandExecutor;
+import com.fadelands.core.provider.chat.command.SilenceChatCommandExecutor;
 import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
 import com.fadelands.core.provider.scoreboard.SimpleboardManager;
-import com.fadelands.core.provider.chat.ChatListener;
 import com.fadelands.core.provider.chat.SimpleChatProvider;
 import com.fadelands.core.provider.chat.provider.ChatProvider;
 import com.fadelands.core.provider.tablist.TablistText;
@@ -47,6 +48,7 @@ public class CorePlugin extends JavaPlugin {
     private static Economy econ = null;
     private static Permission perms = null;
     private static Chat chat = null;
+    private com.fadelands.core.provider.chat.Chat serverChat;
     private SimpleboardManager simpleboardManager;
     private ChatProvider chatProvider;
 
@@ -115,7 +117,9 @@ public class CorePlugin extends JavaPlugin {
                 new AutoSaveDb().runTaskTimer(this, 2 * 60 * 20, 2 * 60 * 20);
         */
 
-        pm.registerEvents(new ChatListener(), this);
+        pm.registerEvents(new com.fadelands.core.provider.chat.Chat(this), this);
+
+        this.serverChat = new com.fadelands.core.provider.chat.Chat(this);
 
         simpleboardManager = new SimpleboardManager(this, new SimpleBoardProvider());
         pm.registerEvents(simpleboardManager, this);
@@ -127,21 +131,19 @@ public class CorePlugin extends JavaPlugin {
 
     private void registerCommands() {
         getCommand("profile").setExecutor(new ProfileCommandExecutor(this));
-        getCommand("saveplayerdata").setExecutor(new SavePlayerData(this));
         getCommand("achievement").setExecutor(new AchievementCommand(this));
 
         // Mod cmds:
         getCommand("teleport").setExecutor(new TeleportCommandExecutor(this));
         getCommand("fly").setExecutor(new FlyCommandExecutor(this));
+        getCommand("chatslow").setExecutor(new ChatSlowCommandExecutor(this));
+        getCommand("silencechat").setExecutor(new SilenceChatCommandExecutor(this));
 
         // Admin cmds:
         getCommand("gamemode").setExecutor(new GameModeCommandExecutor(this));
         getCommand("sudo").setExecutor(new SudoCommandExecutor(this));
 
-        //Other
-
-        getCommand("createnpc").setExecutor(new CreateNPC(this));
-
+        //Help
         getCommand("help").setExecutor(new HelpCommandExecutor(this));
         getCommand("guides").setExecutor(new GuidesCommandExecutor(this));
         getCommand("settings").setExecutor(new SettingsCommandExecutor(this));
@@ -203,5 +205,9 @@ public class CorePlugin extends JavaPlugin {
 
     public void setChatProvider(ChatProvider chatProvider) {
         this.chatProvider = chatProvider;
+    }
+
+    public com.fadelands.core.provider.chat.Chat getServerChat() {
+        return this.serverChat;
     }
 }

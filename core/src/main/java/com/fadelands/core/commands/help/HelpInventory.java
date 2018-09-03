@@ -100,7 +100,7 @@ public class HelpInventory implements Listener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ItemBuilder(Material.BEACON).setName("§6Unique Players").setLore("§7A total of §e" + uniquePlayers + " §7unique players", "§7have joined FadeLands!").toItemStack();
+        return new ItemBuilder(Material.BEACON).setName("§6Unique Players").setLore("§7A total of §e" + uniquePlayers + " §7unique player", "§7have joined FadeLands!").toItemStack();
     }
 
 

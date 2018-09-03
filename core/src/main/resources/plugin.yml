@@ -7,13 +7,9 @@ depend: [Array]
 commands:
   profile:
     description: View your user profile
-  saveplayerdata:
-    description: Admin command
   achievement:
     aliases: [achievements, ach]
     description: Check your achievements.
-  createnpc:
-    description: Create a NPC.
   help:
     description: Used if you need help.
   guides:
@@ -36,3 +32,7 @@ commands:
     aliases: [flight]
   settings:
     description: Change your settings.
+  chatslow:
+    description: Slow down the chat.
+  silencechat:
+    description: Silence the chat.

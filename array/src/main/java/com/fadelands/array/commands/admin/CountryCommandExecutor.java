@@ -1,7 +1,7 @@
 package com.fadelands.array.commands.admin;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.players.User;
+import com.fadelands.array.player.User;
 import com.fadelands.array.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
