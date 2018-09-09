@@ -29,26 +29,26 @@ public class SkyblockGui implements Listener {
 
     private final static String invName = "§lSelect a Realm";
 
-    private static ItemStack airRealm = new ItemBuilder(Material.MILK_BUCKET).setName("§f§lAir Realm").setLore(Arrays.asList(
-            "§7Players (" + pluginMessage.getPlayers("SB-AIR") + "/100)",
+    private static ItemStack airRealm = new ItemBuilder(Material.MILK_BUCKET).setName("§6§lAir Realm").setLore(Arrays.asList(
+            "§2Players (" + pluginMessage.getPlayers("SB-AIR") + "/100)",
             "§r",
             "§7Create your own Sky Empire, invite your friends",
             "§7to your sky island and try to reach the top!",
             "§7Can you make it to the top and become the",
             "§7biggest and richest sky empire?",
             "§r",
-            "§b§lFeatures",
+            "§2§lFeatures",
             "§r",
-            "§3* §fBoosters",
-            "§3* §fCustom Enchants",
-            "§3* §fSupply Crates & Backpacks",
-            "§3* §fDaily Spins",
-            "§3* §fIsland Levels & More",
+            "§a* §fBoosters",
+            "§a* §fCustom Enchants",
+            "§a* §fSupply Crates & Backpacks",
+            "§a* §fDaily Spins",
+            "§a* §fIsland Levels & More",
             "§r",
-            "§b§l» §fClick to connect...")).toItemStack();
+            "§6§l» §fClick to connect...")).toItemStack();
 
-    private static ItemStack waterRealm = new ItemBuilder(Material.WATER_BUCKET).setName("§b§lWater Realm").setLore(Arrays.asList(
-            "§7Players (" + pluginMessage.getPlayers("SB-AIR") + "/100)",
+    private static ItemStack waterRealm = new ItemBuilder(Material.WATER_BUCKET).setName("§6§lWater Realm").setLore(Arrays.asList(
+            "§2Players (" + pluginMessage.getPlayers("SB-AIR") + "/100)",
             "§r",
             "§c§lCOMING SOON!",
             "§r",
@@ -58,16 +58,16 @@ public class SkyblockGui implements Listener {
             "§7It's a pretty big challenge,",
             "§7Can you handle it?",
             "§r",
-            "§b§lFeatures",
+            "§2§lFeatures",
             "§r",
-            "§3* §fBoosters",
-            "§3* §fCustom Enchants",
-            "§3* §fSupply Crates & Backpacks",
-            "§3* §fDaily Spins",
-            "§3* §fAcid Water",
-            "§3* §fIsland Levels & More",
+            "§a* §fBoosters",
+            "§a* §fCustom Enchants",
+            "§a* §fSupply Crates & Backpacks",
+            "§a* §fDaily Spins",
+            "§a* §fAcid Water",
+            "§a* §fIsland Levels & More",
             "§r",
-            "§b§l» §fClick to connect...")).toItemStack();
+            "§6§l» §fClick to connect...")).toItemStack();
 
     private static ItemStack back = new ItemBuilder(Material.BARRIER).setName("§cGo Back").setLore(Arrays.asList("§r",
             "§7Click to return to the server menu!")).toItemStack();
@@ -95,7 +95,6 @@ public class SkyblockGui implements Listener {
 
             if (event.getCurrentItem().isSimilar(airRealm)) {
                 pluginMessage.sendToServer(player, "SB-AIR");
-                player.sendMessage(Utils.Prefix + "§3Sending you to the realm §f§lAir§3.");
                 player.closeInventory();
             }
             if (event.getCurrentItem().isSimilar(waterRealm)) {

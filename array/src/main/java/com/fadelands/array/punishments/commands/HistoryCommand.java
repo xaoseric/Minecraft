@@ -22,14 +22,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class HistoryCommandExecutor implements CommandExecutor {
+public class HistoryCommand implements CommandExecutor {
 
     private Array array;
     private HashMap<String, PunishmentClient> punishClients;
     private PunishmentHandler punishmentHandler;
 
 
-    public HistoryCommandExecutor(Array array, PunishmentManager punishmentManager){
+    public HistoryCommand(Array array, PunishmentManager punishmentManager){
         this.array = array;
         punishClients = new HashMap<>();
         this.punishmentHandler = new PunishmentHandler();
@@ -37,16 +37,18 @@ public class HistoryCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-       if(!(commandSender instanceof Player)){
-           commandSender.sendMessage("§cThis command can only be used ingame.");
-           return true;
-       }
-       Player player = (Player) commandSender;
-       if(!player.hasPermission("fadelands.commands")){
-           player.sendMessage(Utils.No_Perm);
-           return true;
-       }
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        if(!(sender instanceof Player)) {
+            sender.sendMessage("§cThis can only be used ingame.");
+            return true;
+        }
+
+        User user = new User();
+        Player player = (Player) sender;
+        if(!user.isMod(player.getName()) || !user.isAdmin(player.getName())) {
+            sender.sendMessage(Utils.No_Perm);
+            return true;
+        }
 
        if(args.length == 0){
            player.sendMessage(Utils.Prefix_Red + "§cYou are missing a few parameters. /history <target>");

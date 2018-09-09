@@ -36,13 +36,13 @@ public class LobbyBoardProvider extends SimpleBoardProvider {
 
         toReturn.add("&r ");
         toReturn.add("&7&l\u00bb &f&l" + player.getName());
-        toReturn.add(" &7Tokens &21");
-        toReturn.add(" &7Points &21");
+        toReturn.add(" &7Points &20");
+        toReturn.add(" &7Tokens &20");
         toReturn.add("&r ");
         toReturn.add("&7&l\u00bb &f&lRank");
         toReturn.add(" " + Main.getPermissions().getPrimaryGroup(player));
         toReturn.add("&r ");
-        toReturn.add("&7&l\u00bb &f&lLobby");
+        toReturn.add("&7&l\u00bb &f&lServer");
         toReturn.add(" &6" + pluginMessage.getServerName(player));
         toReturn.add("&r ");
         toReturn.add("&7&l\u00bb &f&lPlayers");

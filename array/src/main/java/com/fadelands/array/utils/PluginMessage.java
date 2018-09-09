@@ -54,7 +54,6 @@ public class PluginMessage implements PluginMessageListener {
                 playerServerMap.put(player.getUniqueId(), server);
             }
         } catch (Exception ignored) {}
-
         try {
             if (subChannel.equals("PlayList")) {
                 String server = in.readUTF();
@@ -99,13 +98,24 @@ public class PluginMessage implements PluginMessageListener {
         Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
     }
 
-    public void sendToServer(Player messageSender, String server) {
+    public void sendToServer(Player target, String server) {
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
 
         output.writeUTF("Connect");
         output.writeUTF(server);
 
-        messageSender.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+        target.sendMessage(Utils.Prefix + "§aSending you to " + server + ".");
+        target.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+    }
+
+    public void sendToServer(Player sender, Player target, String server) {
+        ByteArrayDataOutput output = ByteStreams.newDataOutput();
+
+        output.writeUTF("Connect");
+        output.writeUTF(server);
+
+        target.sendMessage(Utils.Prefix + "§aYou were sent to " + server + " by " + sender.getName() + ".");
+        target.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
     }
 
     public void kickPlayer(Player messageSender, String playerName, String kickReason) {

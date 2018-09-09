@@ -14,11 +14,11 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AltsCommandExecutor implements CommandExecutor {
+public class AltsCommand implements CommandExecutor {
 
     private Array array;
 
-    public AltsCommandExecutor(Array array){
+    public AltsCommand(Array array){
         this.array = array;
     }
 

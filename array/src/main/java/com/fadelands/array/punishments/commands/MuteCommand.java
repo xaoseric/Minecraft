@@ -12,25 +12,32 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
-public class BanCommandExecutor implements CommandExecutor {
+public class MuteCommand implements CommandExecutor {
 
     private Array array;
     private PunishmentManager punishmentManager;
 
-    public BanCommandExecutor(Array array, PunishmentManager punishmentManager){
+    public MuteCommand(Array array, PunishmentManager punishmentManager){
         this.array = array;
         this.punishmentManager = punishmentManager;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (!(sender.hasPermission("fadelands.punish.ban"))) {
+        if(!(sender instanceof Player)) {
+            sender.sendMessage("§cNot usable in console");
+            return true;
+        }
+
+        User user = new User();
+        Player player = (Player) sender;
+        if(!user.isStaff(player.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
 
         if (args.length < 1) {
-            sender.sendMessage(Utils.Prefix_Red + "§cInvalid usage. /ban <user> [time] <reason>");
+            sender.sendMessage(Utils.Prefix_Red + "§cInvalid usage. /mute <user> [time] <reason>");
             return true;
         }
         User fadeLandsPlayer = new User();
@@ -48,11 +55,12 @@ public class BanCommandExecutor implements CommandExecutor {
             reason = Joiner.on(" ").skipNulls().join(Arrays.copyOfRange(args, 2, args.length));
         }
         if (!(sender instanceof Player)) {
-            punishmentManager.addPunishment(sender, playerName, playerUuid, reason, "Console", true, punishmentManager.getTimeToPunish(args, sender));
+            punishmentManager.addPunishment(sender, playerName, playerUuid, reason, "Console", false, punishmentManager.getTimeToPunish(args, sender));
         } else {
             Player caller = (Player) sender;
-            punishmentManager.addPunishment(sender, playerName, playerUuid, reason, caller.getUniqueId().toString(), true, punishmentManager.getTimeToPunish(args, sender));
+            punishmentManager.addPunishment(sender, playerName, playerUuid, reason, caller.getUniqueId().toString(), false, punishmentManager.getTimeToPunish(args, sender));
         }
         return false;
     }
 }
+

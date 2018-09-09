@@ -30,3 +30,7 @@ commands:
     description: Get a player country.
   lockdown:
     description: Lock the network for public player.
+  staffsettings:
+    description: Change staff settings
+  staff:
+    description: Admin command

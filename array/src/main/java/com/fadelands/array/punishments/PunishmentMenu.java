@@ -1,10 +1,8 @@
 package com.fadelands.array.punishments;
 
 import com.fadelands.array.Array;
+import com.fadelands.array.punishments.commands.PunishCommand;
 import com.fadelands.array.utils.ItemBuilder;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,9 +14,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
-
-import static com.fadelands.array.punishments.commands.PunishCommandExecutor.currentPunishReason;
-import static com.fadelands.array.punishments.commands.PunishCommandExecutor.currentPunishTarget;
 
 @SuppressWarnings("ALL")
 public class PunishmentMenu implements Listener {
@@ -283,13 +278,13 @@ public class PunishmentMenu implements Listener {
         if (event.getClickedInventory() == null) return;
         if (event.getCurrentItem() == null) return;
 
-        String reason = currentPunishReason.get(event.getWhoClicked().getUniqueId());
-        String target = currentPunishTarget.get(event.getWhoClicked().getUniqueId());
+        String reason = PunishCommand.currentPunishReason.get(event.getWhoClicked().getUniqueId());
+        String target = PunishCommand.currentPunishTarget.get(event.getWhoClicked().getUniqueId());
 
         Player player = (Player) event.getWhoClicked();
 
         if (event.getInventory().getName().equals(invName)) {
-            if (!currentPunishReason.containsKey(event.getWhoClicked().getUniqueId()) || (!currentPunishTarget.containsKey(event.getWhoClicked().getUniqueId()))) {
+            if (!PunishCommand.currentPunishReason.containsKey(event.getWhoClicked().getUniqueId()) || (!PunishCommand.currentPunishTarget.containsKey(event.getWhoClicked().getUniqueId()))) {
                 event.getWhoClicked().sendMessage("Could not find any data regarding the punishments...");
                 event.getWhoClicked().closeInventory();
                 return;
@@ -389,9 +384,9 @@ public class PunishmentMenu implements Listener {
 
     @EventHandler
     public void onClose(InventoryCloseEvent event){
-            if (currentPunishTarget.containsKey(event.getPlayer().getUniqueId()))
-                currentPunishTarget.remove(event.getPlayer().getUniqueId());
-                if (currentPunishReason.containsKey(event.getPlayer().getUniqueId()))
-                    currentPunishReason.remove(event.getPlayer().getUniqueId());
+            if (PunishCommand.currentPunishTarget.containsKey(event.getPlayer().getUniqueId()))
+                PunishCommand.currentPunishTarget.remove(event.getPlayer().getUniqueId());
+                if (PunishCommand.currentPunishReason.containsKey(event.getPlayer().getUniqueId()))
+                    PunishCommand.currentPunishReason.remove(event.getPlayer().getUniqueId());
         }
     }

@@ -1,17 +1,18 @@
 package com.fadelands.array.commands.admin;
 
 import com.fadelands.array.Array;
+import com.fadelands.array.player.User;
 import com.fadelands.array.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class LockdownCommandExecutor implements CommandExecutor {
+public class LockdownCommand implements CommandExecutor {
 
     private Array array;
 
-    public LockdownCommandExecutor(Array array){
+    public LockdownCommand(Array array){
         this.array = array;
     }
 
@@ -22,7 +23,8 @@ public class LockdownCommandExecutor implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        if (!(player.hasPermission("fadelands.lockdown"))) {
+        User user = new User();
+        if((!(user.isAdmin(player.getName())))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }

@@ -1,4 +1,4 @@
-package com.fadelands.array.staff;
+package com.fadelands.array.staff.data;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -45,22 +45,22 @@ public class SimpleboardManager extends BukkitRunnable implements Listener {
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-            Simpleboard simpleboard = boards.get(event.getPlayer().getUniqueId());
+        Simpleboard simpleboard = boards.get(event.getPlayer().getUniqueId());
 
-            if (simpleboard == null) {
-                simpleboard = new Simpleboard(event.getPlayer());
-                boards.put(player.getUniqueId(), simpleboard);
-            }
+        if (simpleboard == null) {
+            simpleboard = new Simpleboard(event.getPlayer());
+            boards.put(player.getUniqueId(), simpleboard);
+        }
 
         if (!settings.showScoreboard(player)) {
             return;
-        } else {
-            simpleboard.updateTitle(boardProvider.getTitle(player));
-            simpleboard.forceshow();
-            // "mvn clean install -pl lobby -am"
-            // -pl specifierar vilken module
-            // -am betyder "also make" vilket menar att den kommer builda dependencies som finns i samma project alltså array
         }
+
+        simpleboard.updateTitle(boardProvider.getTitle(player));
+        simpleboard.forceshow();
+        // "mvn clean install -pl lobby -am"
+        // -pl specifierar vilken module
+        // -am betyder "also make" vilket menar att den kommer builda dependencies som finns i samma project alltså array
     }
 
     @EventHandler

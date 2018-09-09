@@ -1,11 +1,14 @@
 package com.fadelands.array.player;
 
 import com.fadelands.array.Array;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 @SuppressWarnings("Duplicates")
 public class User {
@@ -194,65 +197,37 @@ public class User {
     }
 
     public boolean isRedTag(String name) {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM luckperms_players WHERE username = ?");
-            ps.setString(1, name);
-            rs = ps.executeQuery();
-            if(rs.next()) {
-                String rank = rs.getString("primary_group");
-                return rank.equals("owner") || (rank.equals("admin") || (rank.equals("developer")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Array.closeComponents(rs, ps, connection);
-        }
-        return false;
+        String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
+        return rank.equals("owner") || (rank.equals("admin") || (rank.equals("developer")));
+
+    }
+
+    public boolean isAdmin(String name) {
+        String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
+        return rank.equals("owner") || (rank.equals("admin"));
     }
 
     public boolean isMod(String name) {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM luckperms_players WHERE username = ?");
-            ps.setString(1, name);
-            rs = ps.executeQuery();
-            if(rs.next()) {
-                String rank = rs.getString("primary_group");
-                return rank.equals("mod") || (rank.equals("senior"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Array.closeComponents(rs, ps, connection);
-        }
-        return false;
+        String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
+        return rank.equals("mod") || (rank.equals("senior"));
     }
 
     public boolean isStaff(String name) {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM luckperms_players WHERE username = ?");
-            ps.setString(1, name);
-            rs = ps.executeQuery();
-            if(rs.next()) {
-                String rank = rs.getString("primary_group");
-                return rank.equals("owner") || (rank.equals("admin") || (rank.equals("developer") || (rank.equals("senior") || (rank.equals("mod")))));
+        String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
+        return rank.equals("trainee") || (rank.equals("mod") || (rank.equals("senior") || (rank.equals("developer") || rank.equals("admin") || (rank.equals("owner")))));
+    }
+
+    public Player getOnlineAdmins() {
+        for (Player admins : Bukkit.getOnlinePlayers()) {
+            if (isAdmin(admins.getName())) {
+                return admins;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Array.closeComponents(rs, ps, connection);
         }
-        return false;
+        return null;
+    }
+
+    public String getRank(String playerName) {
+        String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(playerName)).getPrimaryGroup();
+        return rank;
     }
 }

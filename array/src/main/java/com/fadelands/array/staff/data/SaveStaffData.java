@@ -1,5 +1,6 @@
-package com.fadelands.array.staff;
+package com.fadelands.array.staff.data;
 
+import com.fadelands.array.player.User;
 import com.fadelands.array.utils.Utils;
 import com.fadelands.array.Array;
 import org.bukkit.entity.Player;
@@ -22,7 +23,8 @@ public class SaveStaffData implements Listener {
     @EventHandler
     public void disconnect(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (player.hasPermission("fadelands.alerts.staff")) {
+        User user = new User();
+        if (user.isStaff(player.getName())) {
 
             for (StaffMemberData staffdata : StaffMemberData.getAll()) {
                 try (PreparedStatement statement = Array.getConnection().prepareStatement("UPDATE fadelands_players_staff SET " +
@@ -34,7 +36,7 @@ public class SaveStaffData implements Listener {
                      statement.setInt(4, staffdata.getStats().getServerReports());
                      statement.execute();
 
-                     player.sendMessage(Utils.Prefix_Green + "§aStaff data has been saved in the database.");
+                     new User().getOnlineAdmins().sendMessage(Utils.AdminAlert + "§cStaff data has been saved in the database.");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

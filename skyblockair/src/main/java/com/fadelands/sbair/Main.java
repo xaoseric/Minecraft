@@ -3,8 +3,8 @@ package com.fadelands.sbair;
 import com.fadelands.array.Array;
 import com.fadelands.core.CorePlugin;
 import com.fadelands.core.provider.scoreboard.SimpleboardManager;
-import com.fadelands.sbair.scoreboard.SBAirBoardProvider;
-import com.fadelands.sbair.serverchat.SBAirChatProvider;
+import com.fadelands.sbair.scoreboard.SBBoardProvider;
+import com.fadelands.sbair.serverchat.SBChatProvider;
 import com.fadelands.sbair.skyblockmanager.IslandManagerCommand;
 import com.fadelands.sbair.skyblockmanager.IslandMenu;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
@@ -22,14 +22,17 @@ import java.util.logging.Logger;
 public class Main extends JavaPlugin {
 
     public static final Logger log = Logger.getLogger("Minecraft");
-    private static Economy econ = null;
-    private static Permission perms = null;
-    private static Chat chat = null;
-    public static ASkyBlockAPI asbAPI;
+    private Economy econ = null;
+    private Permission perms = null;
+    private Chat chat = null;
+    private ASkyBlockAPI skyBlockApi;
 
     public void onEnable() {
-        getInstance();
-        getLogger().info("Plugin has successfully been enabled.");
+        this.skyBlockApi = ASkyBlockAPI.getInstance();
+        Plugin sb = Bukkit.getPluginManager().getPlugin("askyblock");
+        if (sb != null) {
+            Bukkit.getLogger().info("[SkyBlockAir] Hooked into aSkyBlock!");
+        }
 
         /*
         Register Events
@@ -39,9 +42,9 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new IslandMenu(this), this);
 
         SimpleboardManager simpleboardManager = CorePlugin.getInstance().getSimpleboardManager();
-        simpleboardManager.setBoardProvider(new SBAirBoardProvider(Array.plugin.getPluginMessage()));
+        simpleboardManager.setBoardProvider(new SBBoardProvider(Array.plugin.getPluginMessage(), this));
 
-        CorePlugin.getInstance().setChatProvider(new SBAirChatProvider());
+        CorePlugin.getInstance().setChatProvider(new SBChatProvider(this));
 
         // Regc ommands
         getCommand("islandmenu").setExecutor(new IslandManagerCommand(this));
@@ -54,7 +57,8 @@ public class Main extends JavaPlugin {
         }
         setupPermissions();
         setupChat();
-        Bukkit.getLogger().info("Vault API loaded successfully.");
+        Bukkit.getLogger().info("[SkyBlockAir] Vault API loaded successfully.");
+        getLogger().info("[SkyBlockAir] Plugin has successfully been enabled.");
     }
 
     @SuppressWarnings("Duplicates")
@@ -83,30 +87,25 @@ public class Main extends JavaPlugin {
     }
 
     public void onDisable() {
-        getLogger().info("Plugin has been disabled.");
+        getLogger().info("[SkyBlockAir] Plugin has been disabled.");
 
 
     }
 
-    public static Economy getEconomy() {
+    public Economy getEconomy() {
         return econ;
     }
 
-    public static Permission getPermissions() {
+    public Permission getPermissions() {
         return perms;
     }
 
-    public static Chat getChat() {
+    public Chat getChat() {
         return chat;
     }
 
-    public static ASkyBlockAPI getInstance() {
-        asbAPI = ASkyBlockAPI.getInstance();
-        Plugin asykblock = Bukkit.getPluginManager().getPlugin("askyblock");
-        if (asykblock != null) {
-        }
-        Bukkit.getLogger().info("Hooked into aSkyBlock!");
-        return asbAPI;
+    public ASkyBlockAPI getSkyBlockApi() {
+        return skyBlockApi;
 
     }
 }

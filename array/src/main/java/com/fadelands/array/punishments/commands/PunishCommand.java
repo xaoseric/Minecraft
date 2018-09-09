@@ -1,6 +1,7 @@
 package com.fadelands.array.punishments.commands;
 
 import com.fadelands.array.Array;
+import com.fadelands.array.player.User;
 import com.fadelands.array.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -19,13 +20,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class PunishCommandExecutor implements CommandExecutor {
+public class PunishCommand implements CommandExecutor {
 
     public final static Map<UUID, String> currentPunishReason = new HashMap<>();
     public final static Map<UUID, String> currentPunishTarget = new HashMap<>();
     private Array array;
 
-    public PunishCommandExecutor(Array array){
+    public PunishCommand(Array array){
         this.array = array;
     }
 
@@ -36,12 +37,13 @@ public class PunishCommandExecutor implements CommandExecutor {
             return true;
         }
 
-        if(!(sender.hasPermission("fadelands.punish"))){
+        User user = new User();
+        Player player = (Player) sender;
+        if(!user.isStaff(player.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
 
-        Player player = (Player) sender;
         if(args.length < 2){
             player.sendMessage(Utils.Prefix_Red + "§cInvalid usage. /punish <player> <reason>");
             return true;

@@ -14,6 +14,7 @@ public class Utils {
     public static String Prefix_Red = "§8│ §4FadeLands§7 »§r ";
     public static String Prefix_Green = "§8│ §2FadeLands§7 »§r ";
     public static String Alert = "§8│ §6Alert§7 »§r ";
+    public static String AdminAlert = "§8│ §cAlert§7 »§r ";
 
     public static String No_Perm = "§cThis command requires a higher permission group.";
 

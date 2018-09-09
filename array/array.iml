@@ -34,6 +34,7 @@
     <orderEntry type="library" name="Maven: org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.bukkit:bukkit:1.8.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.7" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: me.lucko.luckperms:luckperms-api:4.2" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.45" level="project" />

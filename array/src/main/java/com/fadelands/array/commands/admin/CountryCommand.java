@@ -7,11 +7,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class CountryCommandExecutor implements CommandExecutor {
+public class CountryCommand implements CommandExecutor {
 
     public Array plugin;
 
-    public CountryCommandExecutor(Array plugin) {
+    public CountryCommand(Array plugin) {
         this.plugin = plugin;
     }
 

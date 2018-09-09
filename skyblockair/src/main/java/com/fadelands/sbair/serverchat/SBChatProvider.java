@@ -2,7 +2,7 @@ package com.fadelands.sbair.serverchat;
 
 import com.fadelands.array.utils.Utils;
 import com.fadelands.core.CorePlugin;
-import com.fadelands.core.provider.chat.provider.ChatProvider;
+import com.fadelands.sbair.Main;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -10,11 +10,13 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
 
-import static com.fadelands.sbair.Main.asbAPI;
-
 @SuppressWarnings("Duplicates")
-public class SBAirChatProvider implements ChatProvider {
-    public SBAirChatProvider() {
+public class SBChatProvider implements com.fadelands.core.provider.chat.provider.ChatProvider {
+
+    private Main main;
+
+    public SBChatProvider(Main main) {
+        this.main = main;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class SBAirChatProvider implements ChatProvider {
                 .replace("{0}", "1")).create()));
 
         // Island level
-        long level = asbAPI.getLongIslandLevel(player.getUniqueId());
+        long level = main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId());
         ComponentBuilder skyblockLevelComponent = new ComponentBuilder("§8[§6" + level + "§8] ");
         skyblockLevelComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7This user has a SkyBlock\n" +
                 "§7level of §6" + level + "§7.").create()));

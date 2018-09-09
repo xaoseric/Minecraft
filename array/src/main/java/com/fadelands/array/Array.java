@@ -1,23 +1,26 @@
 package com.fadelands.array;
 
-import com.fadelands.array.commands.admin.CountryCommandExecutor;
-import com.fadelands.array.commands.admin.DatabaseStatusCommandExecutor;
-import com.fadelands.array.commands.admin.LockdownCommandExecutor;
-import com.fadelands.array.commands.admin.WhoIsCommandExecutor;
+import com.fadelands.array.commands.admin.*;
+import com.fadelands.array.commands.admin.inventory.WhoisInventory;
 import com.fadelands.array.manager.GeoManager;
 import com.fadelands.array.manager.ServerManager;
 import com.fadelands.array.punishments.PunishmentManager;
 import com.fadelands.array.punishments.commands.*;
 import com.fadelands.array.punishments.PunishmentMenu;
+import com.fadelands.array.staff.command.StaffManagementCommand;
+import com.fadelands.array.staff.command.StaffSettingsCommand;
+import com.fadelands.array.staff.inventory.SettingsInventory;
+import com.fadelands.array.staff.inventory.StaffInventory;
 import com.fadelands.array.utils.PluginMessage;
 import com.fadelands.array.database.Tables;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import com.fadelands.array.commands.admin.UptimeCommandExecutor;
+import me.lucko.luckperms.api.LuckPermsApi;
 import okhttp3.OkHttpClient;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.*;
@@ -31,6 +34,7 @@ public class Array extends JavaPlugin {
     private String user;
     private String pass;
     private String db;
+
     private static FileConfiguration fileConfiguration;
     private static HikariConfig hikariConfig;
     private static HikariDataSource hikariDataSource;
@@ -41,6 +45,7 @@ public class Array extends JavaPlugin {
     private GeoManager geoManager;
     private ServerManager serverManager;
 
+    private LuckPermsApi luckPerms;
     public static Array plugin;
 
 
@@ -73,6 +78,14 @@ public class Array extends JavaPlugin {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", pluginMessage = new PluginMessage(this));
 
+        RegisteredServiceProvider<LuckPermsApi> provider = Bukkit.getServicesManager().getRegistration(LuckPermsApi.class);
+        if (provider == null) {
+            Bukkit.getLogger().warning("[Array] Something went wrong when attempting to load LuckPerms API.");
+        } else {
+            luckPerms = provider.getProvider();
+            Bukkit.getLogger().warning("[Array] Loaded LuckPerms API.");
+        }
+
         registerEvents();
         registerCommands();
 
@@ -80,22 +93,29 @@ public class Array extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getCommand("uptime").setExecutor(new UptimeCommandExecutor(this));
-        getCommand("dbstatus").setExecutor(new DatabaseStatusCommandExecutor(this));
-        getCommand("whois").setExecutor(new WhoIsCommandExecutor(this));
-        getCommand("punish").setExecutor(new PunishCommandExecutor(this));
-        getCommand("ban").setExecutor(new BanCommandExecutor(this, getPunishmentManager()));
-        getCommand("mute").setExecutor(new MuteCommandExecutor(this, getPunishmentManager()));
-        getCommand("history").setExecutor(new HistoryCommandExecutor(this, getPunishmentManager()));
-        getCommand("alts").setExecutor(new AltsCommandExecutor(this));
-        getCommand("country").setExecutor(new CountryCommandExecutor(this));
-        getCommand("lockdown").setExecutor(new LockdownCommandExecutor(this));
+        getCommand("uptime").setExecutor(new UptimeCommand(this));
+        getCommand("dbstatus").setExecutor(new DatabaseStatusCommand(this));
+        getCommand("whois").setExecutor(new WhoIsCommand(this));
+        getCommand("punish").setExecutor(new PunishCommand(this));
+        getCommand("ban").setExecutor(new BanCommand(this, getPunishmentManager()));
+        getCommand("mute").setExecutor(new MuteCommand(this, getPunishmentManager()));
+        getCommand("history").setExecutor(new HistoryCommand(this, getPunishmentManager()));
+        getCommand("alts").setExecutor(new AltsCommand(this));
+        getCommand("country").setExecutor(new CountryCommand(this));
+        getCommand("lockdown").setExecutor(new LockdownCommand(this));
+        getCommand("staffsettings").setExecutor(new StaffSettingsCommand(this));
+        getCommand("staff").setExecutor(new StaffManagementCommand(this));
 
     }
 
     private void registerEvents(){
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new PunishmentMenu(this), this);
+        pm.registerEvents(new WhoisInventory(this), this);
+        pm.registerEvents(new SettingsInventory(this), this);
+        pm.registerEvents(new WhoisInventory(this), this);
+        pm.registerEvents(new StaffInventory(this), this);
+
         pm.registerEvents(new PunishmentManager(this), this);
         this.punishmentMenu = new PunishmentMenu(this);
         this.punishmentManager = new PunishmentManager(this);
@@ -103,8 +123,6 @@ public class Array extends JavaPlugin {
         this.geoManager = new GeoManager(this);
         this.serverManager = new ServerManager(this);
         pm.registerEvents(new ServerManager(this), this);
-
-
     }
 
     public void onDisable() {
@@ -116,9 +134,19 @@ public class Array extends JavaPlugin {
         try {
             return hikariDataSource.getConnection();
         } catch (SQLException e) {
-                e.printStackTrace();
-                Bukkit.getLogger().severe("Warning! Couldn't find a database connection for Array. Plugins won't function without a db connection.");
-            }
+            e.printStackTrace();
+            Bukkit.getLogger().severe("Warning! Couldn't find a database connection for Array. Plugins won't function without a db connection.");
+        }
+        return hikariDataSource.getConnection();
+    }
+
+    public Connection getDatabaseConnection() throws SQLException {
+        try {
+            return hikariDataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Bukkit.getLogger().severe("Warning! Couldn't find a database connection for Array. Plugins won't function without a db connection.");
+        }
         return hikariDataSource.getConnection();
     }
 
@@ -321,5 +349,9 @@ public class Array extends JavaPlugin {
 
     public ServerManager getServerManager() {
         return serverManager;
+    }
+
+    public LuckPermsApi getLuckPermsApi() {
+        return luckPerms;
     }
 }

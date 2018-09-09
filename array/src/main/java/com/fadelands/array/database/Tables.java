@@ -84,12 +84,11 @@ public class Tables {
 
         String staff = "CREATE TABLE IF NOT EXISTS fadelands_staff_members " +
                 "(player_uuid VARCHAR(64) PRIMARY KEY, " +
-                "player_username VARCHAR(30), " +
-                "date_hired timestamp, " +
-                "bans BIGINT, " +
-                "kicks BIGINT, " +
-                "mutes BIGINT, " +
-                "reports_handled BIGINT)";
+                "date_hired timestamp null, " +
+                "bans BIGINT null, " +
+                "mutes BIGINT null, " +
+                "reports_handled BIGINT null, " +
+                "resignation_date timestamp null)";
 
         // DATABASE DISCORD TABLES
 

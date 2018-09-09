@@ -1,13 +1,11 @@
 package com.fadelands.sbair.skyblockmanager;
 
+import com.fadelands.array.utils.Utils;
 import com.fadelands.sbair.Main;
-import com.fadelands.sbair.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import static com.fadelands.sbair.Main.asbAPI;
 
 public class IslandManagerCommand implements CommandExecutor {
 
@@ -23,14 +21,15 @@ public class IslandManagerCommand implements CommandExecutor {
             sender.sendMessage("This command can only be used ingame.");
             return true;
         }
-        if(command.getName().equalsIgnoreCase("islandmenu")) {
             Player player = (Player) sender;
-            if(!(asbAPI.inTeam(player.getUniqueId()))){
+            if(!(plugin.getSkyBlockApi().inTeam(player.getUniqueId()))){
                 player.sendMessage(Utils.Prefix_Red + "§cYou must be in a team or own an island yourself to use this command.");
             return true;
+
             }
-                IslandMenu.openIslandMenu(player);
+            IslandMenu menu = new IslandMenu(plugin);
+            menu.openIslandMenu(player);
+
+            return false;
         }
-        return false;
-    }
 }
