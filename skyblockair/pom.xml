@@ -55,7 +55,7 @@
     </properties>
 
     <build>
-        <finalName>fadelands-sbair-${project.version}</finalName>
+        <finalName>skyblockair-${project.version}</finalName>
         <defaultGoal>clean package install</defaultGoal>
         <resources>
             <resource>

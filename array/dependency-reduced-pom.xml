@@ -16,7 +16,7 @@
         </includes>
       </resource>
     </resources>
-    <finalName>fadelandsarray-${project.version}</finalName>
+    <finalName>array-${project.version}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

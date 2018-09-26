@@ -31,7 +31,7 @@ public class BanCommand implements CommandExecutor {
 
         User user = new User();
         Player player = (Player) sender;
-        if(!user.isStaff(player.getName())) {
+        if(!user.isMod(player.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }

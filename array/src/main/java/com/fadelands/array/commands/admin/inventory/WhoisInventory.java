@@ -104,8 +104,8 @@ public class WhoisInventory implements Listener {
                         .toItemStack());
 
                 inventory.setItem(23, new ItemBuilder(Material.PAPER)
-                        .setName("§6§lStaff Member")
-                        .setLore(new User().isStaff(targetName) ? "§2Yes" : "§cNo").toItemStack());
+                        .setName("§6§lLast Server")
+                        .setLore("§2" + new User().getLastServer(targetName)).toItemStack());
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -16,7 +16,7 @@
         </includes>
       </resource>
     </resources>
-    <finalName>fadelandscore-${project.version}</finalName>
+    <finalName>core-${project.version}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

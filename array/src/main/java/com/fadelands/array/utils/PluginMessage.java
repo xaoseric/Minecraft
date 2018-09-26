@@ -28,9 +28,6 @@ public class PluginMessage implements PluginMessageListener {
         playerServerMap = Maps.newHashMap();
         playerCountMap = Maps.newHashMap();
         playerMap = Maps.newHashMap();
-        ping("ALL");
-        ping("LOBBY");
-        ping("SB-AIR");
 
     }
 
@@ -86,7 +83,6 @@ public class PluginMessage implements PluginMessageListener {
         try {
             return ImmutableMap.copyOf(playerMap).get(server);
         } catch (Exception ignored) {}
-
         return null;
     }
 

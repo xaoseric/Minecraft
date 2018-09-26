@@ -6,6 +6,7 @@ import com.fadelands.array.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CountryCommand implements CommandExecutor {
 
@@ -17,7 +18,8 @@ public class CountryCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String cmdlabel, String[] args) {
-        if (!(sender.hasPermission("fadelands.country"))) {
+        Player player = (Player) sender;
+        if (!(new User().isAdmin(player.getName()))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }

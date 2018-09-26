@@ -7,7 +7,6 @@ import com.fadelands.bungeecore.commands.reports.ReportsCommand;
 import com.fadelands.bungeecore.commands.servers.*;
 import com.fadelands.bungeecore.discord.BuildBot;
 import com.fadelands.bungeecore.players.ChatLogging;
-import com.fadelands.bungeecore.players.PlayerManager;
 import com.fadelands.bungeecore.pm.PrivateMessageCommand;
 import com.fadelands.bungeecore.utils.Utils;
 import com.zaxxer.hikari.HikariConfig;
@@ -103,13 +102,10 @@ public class Main extends Plugin {
         this.announcer = new Announcer(this);
         announcer.startAnnouncements();
 
-
         getProxy().getConsole().sendMessage(new ComponentBuilder(Utils.BungeeCore + "Plugin has been enabled.").color(ChatColor.GREEN).create());
 
     }
     private void registerEvents() {
-        getProxy().getPluginManager().registerListener(this, new PlayerManager(this));
-
         getProxy().getPluginManager().registerListener(this, new BungeeCommandsLogging(this));
         getProxy().getPluginManager().registerListener(this, new ChatLogging(this));
     }

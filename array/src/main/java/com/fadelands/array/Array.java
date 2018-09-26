@@ -3,6 +3,7 @@ package com.fadelands.array;
 import com.fadelands.array.commands.admin.*;
 import com.fadelands.array.commands.admin.inventory.WhoisInventory;
 import com.fadelands.array.manager.GeoManager;
+import com.fadelands.array.manager.PlayerManager;
 import com.fadelands.array.manager.ServerManager;
 import com.fadelands.array.punishments.PunishmentManager;
 import com.fadelands.array.punishments.commands.*;
@@ -44,6 +45,7 @@ public class Array extends JavaPlugin {
     private PunishmentManager punishmentManager;
     private GeoManager geoManager;
     private ServerManager serverManager;
+    private PlayerManager playerManager;
 
     private LuckPermsApi luckPerms;
     public static Array plugin;
@@ -116,13 +118,15 @@ public class Array extends JavaPlugin {
         pm.registerEvents(new WhoisInventory(this), this);
         pm.registerEvents(new StaffInventory(this), this);
 
-        pm.registerEvents(new PunishmentManager(this), this);
         this.punishmentMenu = new PunishmentMenu(this);
         this.punishmentManager = new PunishmentManager(this);
+        pm.registerEvents(new PunishmentManager(this), this);
         this.okHttpClient = new OkHttpClient();
         this.geoManager = new GeoManager(this);
         this.serverManager = new ServerManager(this);
         pm.registerEvents(new ServerManager(this), this);
+        this.playerManager = new PlayerManager(this);
+        pm.registerEvents(new PlayerManager(this), this);
     }
 
     public void onDisable() {
@@ -267,7 +271,6 @@ public class Array extends JavaPlugin {
                 e.printStackTrace();
             }
         }
-
     }
 
     public static String getUsernameFromUUID(String uuid) {
@@ -349,6 +352,10 @@ public class Array extends JavaPlugin {
 
     public ServerManager getServerManager() {
         return serverManager;
+    }
+
+    public PlayerManager getPlayerManager() {
+        return playerManager;
     }
 
     public LuckPermsApi getLuckPermsApi() {

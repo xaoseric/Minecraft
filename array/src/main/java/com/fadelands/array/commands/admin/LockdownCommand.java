@@ -24,7 +24,7 @@ public class LockdownCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
         User user = new User();
-        if((!(user.isAdmin(player.getName())))) {
+        if(!(user.isAdmin(player.getName()))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -32,7 +32,10 @@ public class LockdownCommand implements CommandExecutor {
         if (args.length == 0) {
             player.sendMessage(Utils.Prefix + "§cInvalid usage. /lockdown <reason> or /lockdown off.");
             if(array.getServerManager().lockdownActive()){
-                player.sendMessage("§6Lockdown Enabled: §c" + array.getServerManager().getLockdownReason());
+                player.sendMessage("§4Lockdown Enabled: §c" + array.getServerManager().getLockdownReason());
+            }
+            else{
+                player.sendMessage("§aLockdown currently disabled.");
             }
             return true;
         }

@@ -24,8 +24,7 @@ public class SQLUtils {
                 p.setString(1, value);
                 p.executeUpdate();
 
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -40,8 +39,7 @@ public class SQLUtils {
 
                 p.setBoolean(1, value);
                 p.executeUpdate();
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -56,8 +54,7 @@ public class SQLUtils {
 
                 p.setInt(1, value);
                 p.executeUpdate();
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -73,8 +70,7 @@ public class SQLUtils {
                 p.setTimestamp(1, value);
                 p.executeUpdate();
 
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -90,8 +86,7 @@ public class SQLUtils {
                 p.setString(1, value);
                 p.executeUpdate();
 
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -106,8 +101,7 @@ public class SQLUtils {
 
                 p.setBoolean(1, value);
                 p.executeUpdate();
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -122,8 +116,7 @@ public class SQLUtils {
 
                 p.setInt(1, value);
                 p.executeUpdate();
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -139,8 +132,7 @@ public class SQLUtils {
                 p.setTimestamp(1, value);
                 p.executeUpdate();
 
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -152,8 +144,7 @@ public class SQLUtils {
         try (Connection connection = Array.getConnection()) {
             try (PreparedStatement p = connection.prepareStatement(query)) {
                 p.executeUpdate(query);
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -168,12 +159,41 @@ public class SQLUtils {
             try (PreparedStatement p = connection.prepareStatement(query)) {
                 p.executeUpdate();
 
-            }
-            finally {
+            } finally {
                 connection.close();
             }
         } catch (SQLException e) {
-                e.printStackTrace();
-                    }
-                }
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertTo(String table, String column, String value) {
+        try (Connection connection = Array.getConnection()) {
+            String query = ("INSERT INTO " + table + " (" + column + ") VALUE (?)");
+            try (PreparedStatement p = connection.prepareStatement(query)) {
+                p.setString(1, value);
+                p.executeUpdate();
+
+            } finally {
+                connection.close();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertTo(String table, String column, Integer value) {
+        try (Connection connection = Array.getConnection()) {
+            String query = ("INSERT INTO " + table + " (" + column + ") VALUE (?)");
+            try (PreparedStatement p = connection.prepareStatement(query)) {
+                p.setInt(1, value);
+                p.executeUpdate();
+
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

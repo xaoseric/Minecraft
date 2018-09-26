@@ -138,11 +138,7 @@ public class User {
             ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_username = ?");
             ps.setString(1, name);
             rs = ps.executeQuery();
-            if(!rs.next()){
-                return false;
-            }else{
-                return true;
-            }
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -196,10 +192,31 @@ public class User {
         return 0;
     }
 
+    public String getLastServer(String player) {
+        String server;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            connection = Array.getConnection();
+            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_uuid = ?");
+            ps.setString(1, new User().getUuid(player));
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                server = rs.getString("last_server");
+                return server;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Array.closeComponents(rs, ps, connection);
+        }
+        return "Unknown";
+    }
+
     public boolean isRedTag(String name) {
         String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
         return rank.equals("owner") || (rank.equals("admin") || (rank.equals("developer")));
-
     }
 
     public boolean isAdmin(String name) {
@@ -207,9 +224,19 @@ public class User {
         return rank.equals("owner") || (rank.equals("admin"));
     }
 
+    public boolean isSenior(String name) {
+        String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
+        return rank.equals("senior") || (rank.equals("owner") || (rank.equals("admin")));
+    }
+
     public boolean isMod(String name) {
         String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
-        return rank.equals("mod") || (rank.equals("senior"));
+        return rank.equals("mod") || (rank.equals("senior") || (rank.equals("owner") || (rank.equals("admin"))));
+    }
+
+    public boolean isTrainee(String name) {
+        String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
+        return rank.equals("trainee") || (rank.equals("mod") || (rank.equals("senior") || (rank.equals("owner") || (rank.equals("admin")))));
     }
 
     public boolean isStaff(String name) {
@@ -227,7 +254,6 @@ public class User {
     }
 
     public String getRank(String playerName) {
-        String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(playerName)).getPrimaryGroup();
-        return rank;
+        return Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(playerName)).getPrimaryGroup();
     }
 }

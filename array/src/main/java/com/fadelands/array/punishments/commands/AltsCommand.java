@@ -6,6 +6,7 @@ import com.fadelands.array.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +25,12 @@ public class AltsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if(!(sender.hasPermission("fadelands.alts"))){
+        if(!(sender instanceof Player)) {
+            sender.sendMessage("§cOnly ingame.");
+            return true;
+        }
+        Player player = (Player) sender;
+        if(!(new User().isSenior(player.getName()))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }

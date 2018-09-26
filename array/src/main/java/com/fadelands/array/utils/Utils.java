@@ -25,6 +25,7 @@ public class Utils {
     public static String ArrowLeft = "«";
 
     public static String Core = "[Core] ";
+    public static String DailyRewards = "[DailyRewards] ";
 
     public static String USER_BLOCK = "§2Click to view profile." +
             " \n" +

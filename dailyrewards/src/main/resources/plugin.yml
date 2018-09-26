@@ -1,0 +1,12 @@
+name: DailyRewards
+main: com.fadelands.dailyrewards.Main
+version: 1.0
+author: arrayofc
+description: FadeLands Daily Rewards Plugin
+depend: [Array, Core]
+
+commands:
+  rewardman:
+    description: Spawn a rewardman.
+  rewards:
+    description: Show your available rewards

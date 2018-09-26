@@ -22,6 +22,7 @@ public class Tables {
                 "last_ip VARCHAR(50)," +
                 "first_country VARCHAR(20)," +
                 "last_country VARCHAR(20)," +
+                "last_server VARCHAR(20)," +
                 "times_reported INT)";
 
         String statsglobal = "CREATE TABLE IF NOT EXISTS fadelands_stats_global " +
