@@ -25,8 +25,8 @@ public class IslandManagerCommand implements CommandExecutor {
             if(!(plugin.getSkyBlockApi().inTeam(player.getUniqueId()))){
                 player.sendMessage(Utils.Prefix_Red + "§cYou must be in a team or own an island yourself to use this command.");
             return true;
-
             }
+
             IslandMenu menu = new IslandMenu(plugin);
             menu.openIslandMenu(player);
 

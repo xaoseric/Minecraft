@@ -1,5 +1,6 @@
 package com.fadelands.core.commands.staff.modcmds;
 
+import com.fadelands.array.player.User;
 import com.fadelands.core.CorePlugin;
 import com.fadelands.array.utils.Utils;
 import org.bukkit.Bukkit;
@@ -8,6 +9,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import javax.jws.soap.SOAPBinding;
 
 public class TeleportCommandExecutor implements CommandExecutor {
 
@@ -22,7 +25,7 @@ public class TeleportCommandExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
         Player player = (Player)sender;
 
-            if ((player.hasPermission("fadelands.tp")) && (args.length == 2)) {
+            if ((new User().isMod(player.getName())) && (args.length == 2)) {
                 if (Bukkit.getPlayerExact(args[0]) != null && Bukkit.getPlayerExact(args[1]) != null)
                 {
                     Player targetPlayer = player.getServer().getPlayer(args[0]);
@@ -32,18 +35,18 @@ public class TeleportCommandExecutor implements CommandExecutor {
 
                     return true;
                 }
-                player.sendMessage("§cCouldn't find the player(s).");
+                player.sendMessage(Utils.Prefix + "§cCouldn't find the player(s).");
                 return true;
             }
             if (args.length == 2) {
                 player.sendMessage(Utils.No_Perm);
             }
             if ((args.length == 1) || (args.length == 0)) {
-                if (player.hasPermission("fadelands.tp"))
+                if (new User().isMod(player.getName()))
                 {
                     if (args.length == 0)
                     {
-                        player.sendMessage("§cYou have to specify a player.");
+                        player.sendMessage(Utils.Prefix + "§cYou have to specify a player.");
                     }
                     else
                     {
@@ -55,7 +58,7 @@ public class TeleportCommandExecutor implements CommandExecutor {
 
                             return true;
                         }
-                        player.sendMessage("§cCould't find the player.");
+                        player.sendMessage(Utils.Prefix + "§cCould't find the player.");
                         return true;
                     }
                 }

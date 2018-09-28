@@ -1,5 +1,6 @@
 package com.fadelands.lobby.commands;
 
+import com.fadelands.array.player.User;
 import com.fadelands.array.utils.Utils;
 import com.fadelands.lobby.Main;
 import com.fadelands.lobby.events.JoinItems;
@@ -25,7 +26,7 @@ public class BuildModeCommandExecutor implements CommandExecutor {
         Player player = (Player) sender;
 
         if(command.getName().equalsIgnoreCase("buildmode")){
-            if(!player.hasPermission("fadelands.buildmode")){
+            if(!(new User().isBuilder(player.getName()))){
                 player.sendMessage(Utils.No_Perm);
                 return false;
             }

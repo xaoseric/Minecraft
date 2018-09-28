@@ -239,9 +239,19 @@ public class User {
         return rank.equals("trainee") || (rank.equals("mod") || (rank.equals("senior") || (rank.equals("owner") || (rank.equals("admin")))));
     }
 
+    public boolean isBuilder(String name) {
+        String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
+        return rank.equals("builder") || rank.equals("admin") || (rank.equals("owner"));
+    }
+
     public boolean isStaff(String name) {
         String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
         return rank.equals("trainee") || (rank.equals("mod") || (rank.equals("senior") || (rank.equals("developer") || rank.equals("admin") || (rank.equals("owner")))));
+    }
+
+    public boolean isDonatorRank(String name) {
+        String rank = Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
+        return rank.equals("donator") || (rank.equals("premium") || (rank.equals("platinum") || (rank.equals("contributor"))));
     }
 
     public Player getOnlineAdmins() {

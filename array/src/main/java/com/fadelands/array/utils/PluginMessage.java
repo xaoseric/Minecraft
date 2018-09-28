@@ -12,14 +12,17 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import javax.sql.rowset.CachedRowSet;
 import java.io.EOFException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PluginMessage implements PluginMessageListener {
 
     private Map<UUID, String> playerServerMap;
     private Map<String, Integer> playerCountMap;
     private Map<String, String[]> playerMap;
+    private Map<String, String[]> playerListMap;
 
     public JavaPlugin plugin;
 
@@ -28,6 +31,7 @@ public class PluginMessage implements PluginMessageListener {
         playerServerMap = Maps.newHashMap();
         playerCountMap = Maps.newHashMap();
         playerMap = Maps.newHashMap();
+        playerListMap = Maps.newHashMap();
 
     }
 
@@ -51,11 +55,20 @@ public class PluginMessage implements PluginMessageListener {
                 playerServerMap.put(player.getUniqueId(), server);
             }
         } catch (Exception ignored) {}
+
         try {
             if (subChannel.equals("PlayList")) {
                 String server = in.readUTF();
                 String[] playerList = in.readUTF().split(", ");
                 playerMap.put(server, playerList);
+            }
+        } catch (Exception ignored) {}
+
+        try {
+            if (subChannel.equals("PlayerList")) {
+                String server = in.readUTF();
+                String[] players = in.readUTF().split(", ");
+                playerListMap.put(server, players);
             }
         } catch (Exception ignored) {}
     }
@@ -114,14 +127,48 @@ public class PluginMessage implements PluginMessageListener {
         target.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
     }
 
-    public void kickPlayer(Player messageSender, String playerName, String kickReason) {
+    public void kickPlayer(String playerName, String kickReason) {
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
 
         output.writeUTF("KickPlayer");
         output.writeUTF(playerName);
         output.writeUTF(kickReason);
 
-        messageSender.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+        Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+    }
+
+    public void sendMessage(String playerName, String text) {
+        ByteArrayDataOutput output = ByteStreams.newDataOutput();
+
+        output.writeUTF("Message");
+        output.writeUTF(playerName);
+        output.writeUTF(text);
+
+        Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+    }
+
+    public void sendMessageToAll(Player sender, String text) {
+        ByteArrayDataOutput output = ByteStreams.newDataOutput();
+
+        output.writeUTF("Message");
+        output.writeUTF("ALL");
+        output.writeUTF(text);
+
+        sender.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+    }
+
+    public boolean isOnline(String username) {
+        return Arrays.stream(getPlayerList()).collect(Collectors.toList()).contains(username);
+
+    }
+
+    public String[] getPlayerList() {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("PlayerList");
+        out.writeUTF("ALL");
+
+        Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+        return playerListMap.get("ALL");
 
     }
 }

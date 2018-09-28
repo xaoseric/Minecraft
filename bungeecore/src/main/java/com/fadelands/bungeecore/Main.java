@@ -2,6 +2,7 @@ package com.fadelands.bungeecore;
 
 import com.fadelands.bungeecore.announcer.Announcer;
 import com.fadelands.bungeecore.commands.AlertCommand;
+import com.fadelands.bungeecore.commands.ConnectCommand;
 import com.fadelands.bungeecore.commands.reports.ReportInfoCommand;
 import com.fadelands.bungeecore.commands.reports.ReportsCommand;
 import com.fadelands.bungeecore.commands.servers.*;
@@ -124,6 +125,7 @@ public class Main extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new SurvivalCommand());
         getProxy().getPluginManager().registerCommand(this, new BuildCommand());
         getProxy().getPluginManager().registerCommand(this, new CurrentServerCommand());
+        getProxy().getPluginManager().registerCommand(this, new ConnectCommand(this));
 
         getProxy().getPluginManager().registerCommand(this, new LinkDiscordID());
 

@@ -86,8 +86,8 @@ public class PunishmentManager implements Listener {
 
         if (client.isMuted(uuid)) {
             Punishment punishment = client.getPunishment(uuid, PunishmentType.Mute);
-            event.getPlayer().sendMessage("§r\n§cYou are currently muted for §l" + punishment.getReason() + "§c for §l" +TimeUtils.toRelative(punishment.getUntil()) + "§c.\n" +
-                    "§6§nYour Appeal Key: " + punishment.getAppealKey() + "§6. \n§r");
+            event.getPlayer().sendMessage("§r\n§cYou are currently muted for §l" + punishment.getReason() + "§c for §l" + TimeUtils.toRelative(punishment.getUntil()) + "§c.\n" +
+                    "§6§nYour Appeal Key: " + punishment.getAppealKey() + "§6.\n§r");
             event.setCancelled(true);
         }
     }
@@ -98,6 +98,7 @@ public class PunishmentManager implements Listener {
         }
 
         PunishClientToken token = punishmentHandler.loadPunishClient(playerUuid);
+
         if (token != null) {
             loadClient(playerUuid);
             PunishmentClient client = punishClients.get(playerUuid);
@@ -106,6 +107,7 @@ public class PunishmentManager implements Listener {
                 sender.sendMessage(Utils.Prefix_Red + "§cThis player is already banned.");
                 return;
             }
+
             Punishment mutePunishment = client.getPunishment(playerUuid, PunishmentType.Mute);
             if (!ban && mutePunishment != null && mutePunishment.isMuted()) {
                 sender.sendMessage(Utils.Prefix_Red + "§cThis player is already muted.");
@@ -144,19 +146,14 @@ public class PunishmentManager implements Listener {
                 kickMessage += "§cYour punishment expires in " + TimeUtils.toRelative(duration) + ".\n\n" + appeal;
             }
 
-            sender.sendMessage(Utils.Prefix_Green + "§a" + playerName + " has been banned successfully for \"" + reason + "\".");
+            sender.sendMessage(Utils.Prefix_Green + "§a" + playerName + " has been banned successfully for \"" + reason + "\". for a period of " + TimeUtils.toRelative(duration) + ".");
 
-            Player target = Bukkit.getPlayerExact(playerName);
+            if (array.getPluginMessage().isOnline(playerName)) {
+                array.getPluginMessage().kickPlayer(playerName, kickMessage);
 
-            if (target == null) {
-                sender.sendMessage(Utils.Prefix_Red + "Something went wrong when attempting to alert the user.");
-                return;
-            }
-            if (target.isOnline()) { // replace with bungee later.
-                target.kickPlayer(kickMessage);
+                Bukkit.broadcastMessage("§7§l" + Utils.ArrowRight + " §c§lA player in this server has been removed for breaking the rules. §eThank you for reporting.");
             }
             // add load player here if not working
-            Bukkit.broadcastMessage("§7§l" + Utils.ArrowRight + " §c§lA player in this server has been removed for breaking the rules. §eThank you for reporting.");
         }
 
         if (type == PunishmentType.Mute) {
@@ -165,21 +162,17 @@ public class PunishmentManager implements Listener {
             String muteMessage = "§r\n§c§l(!) You have been muted!" + "\n" +
                     "§c" + "You have been muted for " + reason + ". \n";
             if(duration == 0) {
-                muteMessage += "§cThis mute is permanent and will not expire.\n§r" + appeal;
+                muteMessage += "§cThis mute is permanent and will not expire.\n§r" + appeal + "\n§r";
             } else {
-                muteMessage += "§cYour punishment expires in §l" + TimeUtils.toRelative(duration) + "§c.\n§r" + appeal;
+                muteMessage += "§cYour punishment expires in §l" + TimeUtils.toRelative(duration) + "§c.\n§r" + appeal + "\n§r";
             }
 
             sender.sendMessage(Utils.Prefix_Green + "§a" + playerName + " has been muted successfully for \"" + reason + "\".");
 
-            Player target = Bukkit.getPlayerExact(playerName);
-
-            if (target == null) {
-                sender.sendMessage(Utils.Prefix_Red + "Something went wrong when attempting to alert the user.");
-                return;
-            }
-            if (target.isOnline()) { // replace with bungee later.
-                target.sendMessage(muteMessage);
+            if (array.getPluginMessage().isOnline(playerName)) {
+                array.getPluginMessage().sendMessage(playerName, muteMessage);
+            }else{
+                sender.sendMessage(Utils.Prefix + "§cCouldn't alert user due to not being online.");
             }
         }
     }
@@ -238,7 +231,7 @@ public class PunishmentManager implements Listener {
                     time = time * 1000 * 60 * 60 * 24 * 365;
                 } else {
                     sender.sendMessage(Utils.Prefix_Red + "§cNot a valid date format. (#s/m/h/d/w/n)");
-                    return -30;
+                    return -1000000000;
                 }
                 return time;
             } catch (Exception e) {

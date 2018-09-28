@@ -74,7 +74,7 @@ public class PlayerManager implements Listener {
                     "last_server," +
                     "times_reported" +
                     ") " +
-                    "VALUE (?,?,?,?,?,?,?,?,?)");
+                    "VALUE (?,?,?,?,?,?,?,?,?,?)");
             ps.setString(1, uuid.toString());
             ps.setString(2, player.getName());
             ps.setTimestamp(3, new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));

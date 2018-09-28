@@ -1,5 +1,6 @@
 package com.fadelands.core.commands.staff.modcmds;
 
+import com.fadelands.array.player.User;
 import com.fadelands.core.CorePlugin;
 import com.fadelands.array.utils.Utils;
 import org.bukkit.command.Command;
@@ -7,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class FlyCommandExecutor implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        if(!(player.isOp() || (!(player.hasPermission("fadelands.fly"))))){
+        if(!(new User().isMod(player.getName()))){
             player.sendMessage(Utils.No_Perm);
             return true;
         }

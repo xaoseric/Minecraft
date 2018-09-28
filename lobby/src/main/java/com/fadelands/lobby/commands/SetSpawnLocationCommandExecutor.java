@@ -1,5 +1,6 @@
 package com.fadelands.lobby.commands;
 
+import com.fadelands.array.player.User;
 import com.fadelands.array.utils.Utils;
 import com.fadelands.lobby.Main;
 import org.bukkit.ChatColor;
@@ -26,7 +27,7 @@ public class SetSpawnLocationCommandExecutor implements CommandExecutor {
             return true;
         }
 
-        if(!(sender.hasPermission("fadelands.setlobbyspawn"))){
+        if(!(new User().isAdmin(sender.getName()))){
             sender.sendMessage(Utils.No_Perm);
             return true;
         }

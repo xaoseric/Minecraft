@@ -47,6 +47,9 @@ public class LockdownCommand implements CommandExecutor {
             }
                 array.getServerManager().disableLockdown();
                 player.sendMessage(Utils.Prefix + "§2Disabled server lockdown.");
+                array.getPluginMessage().sendMessageToAll(player, "\n§r\n§r                          §c§lLockdown§7§r\n" +
+                    "     §6FadeLands Network is no longer in lockdown mode. \n" +
+                    "§r");
                 return true;
             }
 
@@ -58,6 +61,9 @@ public class LockdownCommand implements CommandExecutor {
             String reason = String.join(" ", args);
             array.getServerManager().activateLockdown(player, reason);
             player.sendMessage(Utils.Prefix + "§2Activated network lockdown with reason §a" + reason + "§2.");
+            array.getPluginMessage().sendMessageToAll(player, "\n§r\n§r                           §c§lLockdown§7§r\n" +
+                    "     §6FadeLands Network has went into lockdown mode. \n" +
+                    "           §7Please log out as soon as possible.\n§r");
 
         return false;
     }
