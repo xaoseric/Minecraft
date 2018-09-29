@@ -1,8 +1,10 @@
 package com.fadelands.core;
 
+import com.fadelands.array.Array;
 import com.fadelands.array.utils.Utils;
 import com.fadelands.core.achievement.AchievementCommand;
 import com.fadelands.core.commands.CommandProcess;
+import com.fadelands.core.commands.ListCommand;
 import com.fadelands.core.commands.help.command.GuidesCommandExecutor;
 import com.fadelands.core.commands.help.guides.DiscordLinkGuide;
 import com.fadelands.core.commands.help.guides.GuideMenu;
@@ -18,6 +20,8 @@ import com.fadelands.core.playerdata.*;
 import com.fadelands.core.profile.ProfileCommandExecutor;
 import com.fadelands.core.profile.ProfileListener;
 import com.fadelands.core.profile.statistics.StatsListener;
+import com.fadelands.core.provider.chat.announcements.AnnouncementListener;
+import com.fadelands.core.provider.chat.announcements.Announcements;
 import com.fadelands.core.provider.chat.command.ChatSlowCommandExecutor;
 import com.fadelands.core.provider.chat.command.SilenceChatCommandExecutor;
 import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
@@ -25,6 +29,7 @@ import com.fadelands.core.provider.scoreboard.SimpleboardManager;
 import com.fadelands.core.provider.chat.SimpleChatProvider;
 import com.fadelands.core.provider.chat.provider.ChatProvider;
 import com.fadelands.core.provider.tablist.TablistText;
+import com.fadelands.core.settings.Settings;
 import com.fadelands.core.settings.SettingsCommandExecutor;
 import com.fadelands.core.settings.inventory.SettingsInventory;
 import net.milkbowl.vault.chat.Chat;
@@ -51,6 +56,8 @@ public class CorePlugin extends JavaPlugin {
     private com.fadelands.core.provider.chat.Chat serverChat;
     private SimpleboardManager simpleboardManager;
     private ChatProvider chatProvider;
+    private Settings settings;
+    private Announcements announcements;
 
     public void onEnable() {
         instance = this;
@@ -120,10 +127,14 @@ public class CorePlugin extends JavaPlugin {
         pm.registerEvents(new com.fadelands.core.provider.chat.Chat(this), this);
 
         this.serverChat = new com.fadelands.core.provider.chat.Chat(this);
+        this.settings = new Settings();
 
         simpleboardManager = new SimpleboardManager(this, new SimpleBoardProvider());
-        pm.registerEvents(simpleboardManager, this);
         simpleboardManager.runTaskTimerAsynchronously(this, 2L, 2L);
+        pm.registerEvents(simpleboardManager, this);
+
+        announcements = new Announcements(this, getSettings(), Array.plugin.getPluginMessage());
+        pm.registerEvents(new AnnouncementListener(this), this);
 
         pm.registerEvents(new CommandProcess(this), this);
 
@@ -147,6 +158,7 @@ public class CorePlugin extends JavaPlugin {
         getCommand("help").setExecutor(new HelpCommandExecutor(this));
         getCommand("guides").setExecutor(new GuidesCommandExecutor(this));
         getCommand("settings").setExecutor(new SettingsCommandExecutor(this));
+        getCommand("list").setExecutor(new ListCommand(this));
 
     }
 
@@ -205,6 +217,14 @@ public class CorePlugin extends JavaPlugin {
 
     public void setChatProvider(ChatProvider chatProvider) {
         this.chatProvider = chatProvider;
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public Announcements getAnnouncements() {
+        return announcements;
     }
 
     public com.fadelands.core.provider.chat.Chat getServerChat() {

@@ -1,5 +1,6 @@
 package com.fadelands.core.commands;
 
+import com.fadelands.array.utils.Utils;
 import com.fadelands.core.CorePlugin;
 import com.fadelands.core.playerdata.PlayerData;
 import org.bukkit.entity.Player;
@@ -13,9 +14,7 @@ public class CommandProcess implements Listener {
     public CorePlugin plugin;
 
     public CommandProcess(CorePlugin plugin) {
-
         this.plugin = plugin;
-
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -33,13 +32,12 @@ public class CommandProcess implements Listener {
                 || msg.toLowerCase().startsWith("/minecraft:") || msg.toLowerCase().startsWith("/minecraft")
                 || msg.toLowerCase().startsWith("/bukkit:") || msg.toLowerCase().startsWith("/bukkit")
                 || msg.toLowerCase().startsWith("/version") || msg.toLowerCase().startsWith("/ver")
-                || msg.toLowerCase().startsWith("/pl") || msg.toLowerCase().startsWith("/plugins")
+                || msg.toLowerCase().equals("/pl") || msg.toLowerCase().startsWith("/plugins")
                 || msg.toLowerCase().startsWith("/bukkit:ver") || msg.toLowerCase().startsWith("/?"))) {
-            event.getPlayer().sendMessage("Unknown command. Type \"/help\" for help.");
+            event.getPlayer().sendMessage(Utils.Prefix + "§cUnknown command. Type \"/help\" for help.");
             event.setCancelled(true);
-            return;
         }
-        Player player = event.getPlayer();
+
        // PlayerData.Statistics stats = PlayerData.get(player.getUniqueId()).getStats();
        // stats.setCommandsUsed(stats.getCommandsUsed() + 1);
 

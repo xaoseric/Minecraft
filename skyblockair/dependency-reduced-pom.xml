@@ -16,7 +16,7 @@
         </includes>
       </resource>
     </resources>
-    <finalName>fadelands-sbair-${project.version}</finalName>
+    <finalName>skyblockair-${project.version}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

@@ -1,6 +1,5 @@
 package com.fadelands.bungeecore;
 
-import com.fadelands.bungeecore.announcer.Announcer;
 import com.fadelands.bungeecore.commands.AlertCommand;
 import com.fadelands.bungeecore.commands.ConnectCommand;
 import com.fadelands.bungeecore.commands.reports.ReportInfoCommand;
@@ -47,7 +46,6 @@ public class Main extends Plugin {
     public static File configfile;
 
     private Plugin plugin;
-    private Announcer announcer;
 
     public void onEnable() {
         try {
@@ -100,8 +98,6 @@ public class Main extends Plugin {
         BuildBot.build();
         registerCommands();
         registerEvents();
-        this.announcer = new Announcer(this);
-        announcer.startAnnouncements();
 
         getProxy().getConsole().sendMessage(new ComponentBuilder(Utils.BungeeCore + "Plugin has been enabled.").color(ChatColor.GREEN).create());
 

@@ -35,13 +35,13 @@ public class FlyCommandExecutor implements CommandExecutor {
         }
 
         if(!flying.contains(player.getName())){
-            player.sendMessage("§aYou have toggled flight mode on.");
+            player.sendMessage(Utils.Prefix + "§aYou have toggled flight mode on.");
             player.setAllowFlight(true);
             player.setFlying(true);
 
             flying.add(player.getName());
         }else{
-            player.sendMessage("§cYou have toggled flight mode off.");
+            player.sendMessage(Utils.Prefix + "§cYou have toggled flight mode off.");
             player.setFlying(false);
             player.setAllowFlight(false);
 

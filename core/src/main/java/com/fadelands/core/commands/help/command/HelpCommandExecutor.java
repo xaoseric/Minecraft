@@ -22,7 +22,7 @@ public class HelpCommandExecutor implements CommandExecutor {
             return true;
         }
             Player player = (Player) sender;
-            HelpInventory.openHelpInv(player);
+            new HelpInventory(plugin).openInventory(player);
         return false;
     }
 }

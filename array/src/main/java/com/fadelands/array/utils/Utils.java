@@ -36,8 +36,8 @@ public class Utils {
     public static String NETWORK_LEVEL_MSG = "§7This user has a network \n" +
             "§7level of §6{0}§7.";
 
-    public static String ANNOUNCEMENT_TOP = "\n§r\n§r                          §c§lAnnouncement§7§r\n";
-    public static String ANNOUNCEMENT_BOTTOM = "\n§r";
+    public static String ANNOUNCEMENT_TOP = "\n§r\n§r           §c§lAnnouncement§7§r\n";
+    public static String Announcement = "§8│ §6§lAnnouncement§7 »§r ";
 
     public static String ALERT_TOP = "\n§r\n§r                          §c§lAlert§7§r\n";
     public static String ALERT_BOTTOM = "\n§r";

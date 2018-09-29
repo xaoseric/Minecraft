@@ -58,8 +58,8 @@ public class ReplyCommand extends Command {
             sb.append(args[i] + " ");
         String message = sb.toString();
 
-        target.sendMessage(new ComponentBuilder("§8[§2" + player.getName() + " §6-> §2me§8] §7" + message).color(ChatColor.DARK_AQUA).create());
-        player.sendMessage(new ComponentBuilder("§8[§2me §6-> §2" + target.getName() + "§8] §7" + message).color(ChatColor.DARK_AQUA).create());
+        target.sendMessage(new ComponentBuilder("§8[§2" + player.getName() + " §6-> §2me§8] §7" + message).color(ChatColor.GRAY).create());
+        player.sendMessage(new ComponentBuilder("§8[§2me §6-> §2" + target.getName() + "§8] §7" + message).color(ChatColor.GRAY).create());
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -77,7 +77,6 @@ public class ReplyCommand extends Command {
             ps.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
-
         } finally {
             Main.closeComponents(ps, connection);
         }

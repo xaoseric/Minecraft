@@ -106,6 +106,7 @@ public class StaffInventory implements Listener {
                 || !event.getInventory().getName().equals(invName)) return;
         Player player = (Player) event.getWhoClicked();
         String table = "fadelands_staff_settings";
+        event.setCancelled(true);
 
-        }
+    }
     }
