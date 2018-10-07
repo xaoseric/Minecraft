@@ -4,7 +4,7 @@ import com.fadelands.array.Array;
 import com.fadelands.core.CorePlugin;
 import com.fadelands.core.provider.scoreboard.SimpleboardManager;
 import com.fadelands.sbair.scoreboard.SBBoardProvider;
-import com.fadelands.sbair.serverchat.SBChatProvider;
+import com.fadelands.sbair.chat.SBChatProvider;
 import com.fadelands.sbair.skyblockmanager.IslandManagerCommand;
 import com.fadelands.sbair.skyblockmanager.IslandMenu;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;

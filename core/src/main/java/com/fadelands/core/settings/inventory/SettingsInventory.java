@@ -1,6 +1,7 @@
 package com.fadelands.core.settings.inventory;
 
 import com.fadelands.array.database.SQLUtils;
+import com.fadelands.array.utils.Utils;
 import com.fadelands.core.CorePlugin;
 import com.fadelands.core.settings.Settings;
 import com.fadelands.core.utils.ItemBuilder;
@@ -20,10 +21,10 @@ public class SettingsInventory implements Listener {
     private CorePlugin core;
     private Settings settings;
 
-    private static String MAIN = "§lYour Settings";
-    private static String SOCIAL = "§lYour Social Settings";
-    private static String GAME = "§lYour Game Settings";
-    private static String LOBBY = "§lYour Lobby Settings";
+    private static String MAIN = "Your Settings";
+    private static String SOCIAL = "Your Social Settings";
+    private static String GAME = "Your Game Settings";
+    private static String LOBBY = "Your Lobby Settings";
 
     public SettingsInventory(CorePlugin core) {
         this.core = core;
@@ -34,7 +35,7 @@ public class SettingsInventory implements Listener {
         Inventory inv = Bukkit.createInventory(null, 9*3, MAIN);
 
         inv.setItem(10, new ItemBuilder(Material.RED_ROSE).setName("§6Social Settings").setLore("§7Click to view your social settings.").toItemStack());
-        inv.setItem(13, new ItemBuilder(Material.MAP).setName("§eGame Settings").setLore("§7Click to view your game settings.").toItemStack());
+        inv.setItem(13, new ItemBuilder(Material.MAP).setName("§6Game Settings").setLore("§7Click to view your game settings.").toItemStack());
         inv.setItem(16, new ItemBuilder(Material.REDSTONE_COMPARATOR).setName("§6Lobby Settings").setLore("§7Click to view your lobby settings.").toItemStack());
         player.openInventory(inv);
     }
@@ -217,31 +218,31 @@ public class SettingsInventory implements Listener {
         inventory.setItem(10, new ItemBuilder(Material.RED_ROSE).setName("§6Friend Requests")
                 .setLore(Arrays.asList("§r",
                         "§7Current State: " + (!settings.allowingFriendRequests(player) ? "§cDisabled" : "§aEnabled"),
-                        "§r", "§eClick to switch friend request privacy " + (settings.allowingFriendRequests(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+                        "§r", Utils.S + "Click to switch friend request privacy " + (settings.allowingFriendRequests(player) ? "§coff" : "§aon") + Utils.S + ".")).toItemStack());
         inventory.setItem(12, new ItemBuilder(Material.PAPER).setName("§6Public Chat")
                 .setLore(Arrays.asList("§r",
                         "§7Current State: " + (!settings.publicChat(player) ? "§cDisabled" : "§aEnabled"),
-                        "§r", "§eClick to toggle " + (settings.publicChat(player) ? "§coff" : "§aon") + " §ethe public chat.")).toItemStack());
+                        "§r", Utils.S + "Click to toggle " + (settings.publicChat(player) ? "§coff" : "§aon") + Utils.S + " the public chat.")).toItemStack());
         inventory.setItem(14, new ItemBuilder(Material.BOOK_AND_QUILL).setName("§6Private Messages")
                 .setLore(Arrays.asList("§r",
                         "§7Current State: " + (!settings.allowingPrivateMessages(player) ? "§cDisabled" : "§aEnabled"),
-                        "§r", "§eClick to switch message privacy " + (settings.allowingPrivateMessages(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+                        "§r", Utils.S + "Click to switch message privacy " + (settings.allowingPrivateMessages(player) ? "§coff" : "§aon") + Utils.S + ".")).toItemStack());
         inventory.setItem(16, new ItemBuilder(Material.BARRIER).setName("§6Inform If Muted")
                 .setLore(Arrays.asList("§r",
                         "§7Current State: " + (!settings.informIfMuted(player) ? "§cDisabled" : "§aEnabled"),
-                        "§r", "§eClick to toggle " + (settings.informIfMuted(player) ? "§coff" : "§aon") + " §einform if muted.")).toItemStack());
+                        "§r", Utils.S + "Click to toggle " + (settings.informIfMuted(player) ? "§coff" : "§aon") + Utils.S + " inform if muted.")).toItemStack());
         inventory.setItem(29, new ItemBuilder(Material.SKULL_ITEM).setData(3).setName("§6Show Friend Alerts")
                 .setLore(Arrays.asList("§r",
                         "§7Current State: " + (!settings.showFriendAlerts(player) ? "§cDisabled" : "§aEnabled"),
-                        "§r", "§eClick to toggle " + (settings.showFriendAlerts(player) ? "§coff" : "§aon") + " §efriend alerts.")).toItemStack());
+                        "§r", Utils.S + "Click to toggle " + (settings.showFriendAlerts(player) ? "§coff" : "§aon") + Utils.S + " friend alerts.")).toItemStack());
         inventory.setItem(31, new ItemBuilder(Material.SKULL_ITEM).setData(3).setName("§6Show Friend Join/Quit Alerts")
                 .setLore(Arrays.asList("§r",
                         "§7Current State: " + (!settings.showFriendJoinAlerts(player) ? "§cDisabled" : "§aEnabled"),
-                        "§r", "§eClick to toggle " + (settings.showFriendJoinAlerts(player) ? "§coff" : "§aon") + " §efriend join/quit alerts.")).toItemStack());
+                        "§r", Utils.S + "Click to toggle " + (settings.showFriendJoinAlerts(player) ? "§coff" : "§aon") + Utils.S + " friend join/quit alerts.")).toItemStack());
         inventory.setItem(33, new ItemBuilder(Material.CHEST).setName("§6Party Invites")
                 .setLore(Arrays.asList("§r",
                         "§7Current State: " + (!settings.allowPartyInvites(player) ? "§cDisabled" : "§aEnabled"),
-                        "§r", "§eClick to switch party invite privacy " + (settings.allowPartyInvites(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+                        "§r", Utils.S + "Click to switch party invite privacy " + (settings.allowPartyInvites(player) ? "§coff" : "§aon") + Utils.S + ".")).toItemStack());
         inventory.setItem(4, new ItemBuilder(Material.ARROW).setName("§cGo Back")
                 .setLore("§7Click to go back.").toItemStack());
 
@@ -251,15 +252,15 @@ public class SettingsInventory implements Listener {
             inventory.setItem(10, new ItemBuilder(Material.DIAMOND_BOOTS).setName("§6Show Game Tips")
                     .setLore(Arrays.asList("§r",
                             "§7Current State: " + (!settings.allowingGameTips(player) ? "§cDisabled" : "§aEnabled"),
-                            "§r", "§eClick to turn game tips " + (settings.allowingGameTips(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+                            "§r", Utils.S + "Click to turn game tips " + (settings.allowingGameTips(player) ? "§coff" : "§aon") + Utils.S + ".")).toItemStack());
             inventory.setItem(13, new ItemBuilder(Material.WATCH).setName("§6Show Scoreboard")
                     .setLore(Arrays.asList("§r",
                             "§7Current State: " + (!settings.showScoreboard(player) ? "§cDisabled" : "§aEnabled"),
-                            "§r", "§eClick to turn side scoreboards " + (settings.showScoreboard(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+                            "§r", Utils.S + "Click to turn side scoreboards " + (settings.showScoreboard(player) ? "§coff" : "§aon") + Utils.S + ".")).toItemStack());
             inventory.setItem(16, new ItemBuilder(Material.WATCH).setName("§6Show Announcements")
                     .setLore(Arrays.asList("§r",
                             "§7Current State: " + (!settings.showAnnouncements(player) ? "§cDisabled" : "§aEnabled"),
-                            "§r", "§eClick to turn automatic chat announcements " + (settings.showAnnouncements(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+                            "§r", Utils.S + "Click to turn automatic chat announcements " + (settings.showAnnouncements(player) ? "§coff" : "§aon") + Utils.S + ".")).toItemStack());
             inventory.setItem(4, new ItemBuilder(Material.ARROW).setName("§cGo Back")
                     .setLore("§7Click to go back.").toItemStack());
         }
@@ -268,11 +269,11 @@ public class SettingsInventory implements Listener {
             inventory.setItem(11, new ItemBuilder(Material.DIAMOND_BOOTS).setName("§6Double Jump")
                     .setLore(Arrays.asList("§r",
                             "§7Current State: " + (!settings.lobbyDoubleJump(player) ? "§cDisabled" : "§aEnabled"),
-                            "§r", "§eClick to turn double jump " + (settings.lobbyDoubleJump(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+                            "§r", Utils.S + "Click to turn double jump " + (settings.lobbyDoubleJump(player) ? "§coff" : "§aon") + Utils.S + ".")).toItemStack());
             inventory.setItem(15, new ItemBuilder(Material.WATCH).setName("§6Player Visibility")
                     .setLore(Arrays.asList("§r",
                             "§7Current State: " + (!settings.lobbyPlayerVisibility(player) ? "§cDisabled" : "§aEnabled"),
-                            "§r", "§eClick to turn player visibility " + (settings.lobbyPlayerVisibility(player) ? "§coff" : "§aon") + "§e.")).toItemStack());
+                            "§r", Utils.S + "Click to turn player visibility " + (settings.lobbyPlayerVisibility(player) ? "§coff" : "§aon") + Utils.S + ".")).toItemStack());
             inventory.setItem(4, new ItemBuilder(Material.ARROW).setName("§cGo Back")
                     .setLore("§7Click to go back.").toItemStack());
         }

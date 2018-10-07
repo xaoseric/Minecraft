@@ -1,7 +1,7 @@
 package com.fadelands.core.commands.help.command;
 
 import com.fadelands.core.CorePlugin;
-import com.fadelands.core.commands.help.HelpInventory;
+import com.fadelands.core.commands.help.inventory.HelpInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

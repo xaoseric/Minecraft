@@ -26,7 +26,7 @@ public class PlayerData {
         all.remove(this);
     }
 
-    public UUID getUUID() {
+    UUID getUUID() {
         return this.uuid;
     }
 
@@ -34,11 +34,11 @@ public class PlayerData {
         return this.stats;
     }
 
-    public AchievementData getAhievementData() {
+    AchievementData getAhievementData() {
         return this.achData;
     }
 
-    public static List<PlayerData> getAll() {
+    static List<PlayerData> getAll() {
         return all;
     }
 

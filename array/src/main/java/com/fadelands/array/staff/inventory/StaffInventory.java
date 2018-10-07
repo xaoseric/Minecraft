@@ -21,7 +21,7 @@ public class StaffInventory implements Listener {
 
     private Array array;
 
-    private static String invName = "§lStaff Overview";
+    private static String invName = "Staff Overview";
     public StaffInventory(Array array) {
         this.array = array;
     }

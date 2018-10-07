@@ -24,7 +24,7 @@ public class PunishmentMenu implements Listener {
         this.array = array;
     }
 
-    private static String invName = "§lPunish";
+    private static String invName = "Punish";
 
     Inventory inv = Bukkit.getServer().createInventory(null, 9*6, invName);
     public void openAsAdmin(Player player, String target, String reason) {

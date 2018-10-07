@@ -14,6 +14,7 @@ import com.fadelands.array.staff.inventory.SettingsInventory;
 import com.fadelands.array.staff.inventory.StaffInventory;
 import com.fadelands.array.utils.PluginMessage;
 import com.fadelands.array.database.Tables;
+import com.fadelands.array.utils.ServerStatistics;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import me.lucko.luckperms.api.LuckPermsApi;
@@ -46,6 +47,7 @@ public class Array extends JavaPlugin {
     private GeoManager geoManager;
     private ServerManager serverManager;
     private PlayerManager playerManager;
+    private ServerStatistics serverStats;
 
     private LuckPermsApi luckPerms;
     public static Array plugin;
@@ -127,6 +129,8 @@ public class Array extends JavaPlugin {
         pm.registerEvents(new ServerManager(this), this);
         this.playerManager = new PlayerManager(this);
         pm.registerEvents(new PlayerManager(this), this);
+        this.serverStats = new ServerStatistics();
+
     }
 
     public void onDisable() {
@@ -361,4 +365,9 @@ public class Array extends JavaPlugin {
     public LuckPermsApi getLuckPermsApi() {
         return luckPerms;
     }
+
+    public ServerStatistics getServerStats() {
+        return serverStats;
+    }
+
 }

@@ -8,15 +8,14 @@ import com.fadelands.core.commands.ListCommand;
 import com.fadelands.core.commands.help.command.GuidesCommandExecutor;
 import com.fadelands.core.commands.help.guides.DiscordLinkGuide;
 import com.fadelands.core.commands.help.guides.GuideMenu;
+import com.fadelands.core.commands.help.inventory.ServerStatsInventory;
 import com.fadelands.core.commands.staff.admincmds.GameModeCommandExecutor;
 import com.fadelands.core.commands.staff.admincmds.SudoCommandExecutor;
 import com.fadelands.core.commands.staff.modcmds.FlyCommandExecutor;
 import com.fadelands.core.commands.staff.modcmds.TeleportCommandExecutor;
-import com.fadelands.core.commands.help.ApplyGui;
+import com.fadelands.core.commands.help.inventory.ApplyGui;
 import com.fadelands.core.commands.help.command.HelpCommandExecutor;
-import com.fadelands.core.commands.help.HelpInventory;
-import com.fadelands.core.npcs.CreateNPC;
-import com.fadelands.core.playerdata.*;
+import com.fadelands.core.commands.help.inventory.HelpInventory;
 import com.fadelands.core.profile.ProfileCommandExecutor;
 import com.fadelands.core.profile.ProfileListener;
 import com.fadelands.core.profile.statistics.StatsListener;
@@ -104,6 +103,7 @@ public class CorePlugin extends JavaPlugin {
 
         pm.registerEvents(new HelpInventory(this), this);
         pm.registerEvents(new ApplyGui(this), this);
+        pm.registerEvents(new ServerStatsInventory(this, Array.plugin.getServerStats()), this);
         pm.registerEvents(new GuideMenu(this), this);
         pm.registerEvents(new DiscordLinkGuide(this), this);
 

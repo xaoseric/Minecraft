@@ -19,7 +19,7 @@ public class SettingsInventory implements Listener {
     private Array array;
     private StaffSettings staffSettings;
 
-    private static String invName = "§lStaff Settings";
+    private static String invName = "Staff Settings";
     public SettingsInventory(Array array) {
         this.array = array;
         this.staffSettings = new StaffSettings();

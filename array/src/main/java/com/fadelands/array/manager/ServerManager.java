@@ -30,11 +30,7 @@ public class ServerManager implements Listener {
             ps = connection.prepareStatement("SELECT * FROM fadelands_server_lockdown WHERE active = ?");
             ps.setBoolean(1, true);
             rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -57,7 +53,7 @@ public class ServerManager implements Listener {
                 if (rs.next()) {
                     return rs.getString("reason");
                 } else {
-                    return "Not Available";
+                    return "Reason not available -1";
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -65,7 +61,7 @@ public class ServerManager implements Listener {
                 Array.closeComponents(rs, ps, connection);
             }
         }
-        return "Not Available";
+        return "Reason not available -2";
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -76,7 +72,6 @@ public class ServerManager implements Listener {
                 event.allow();
                 return;
             }
-                System.out.println("a randy loggin in :v");
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_WHITELIST, "§6§lThe server is currently on lockdown.\n§f" + getLockdownReason() + "\n\n§2Look out for news on our website, Discord and Twitter.");
             }
     }

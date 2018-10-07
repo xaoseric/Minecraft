@@ -23,14 +23,14 @@ public class FindCommand extends Command {
             commandSender.sendMessage(new ComponentBuilder(Utils.Prefix + "§cInvalid usage. Correct usage is /find <target>.").create());
             return;
         }
-        String targetStr  = args[0];
 
+        String targetStr  = args[0];
         if(ProxyServer.getInstance().getPlayer(targetStr) == null){
             commandSender.sendMessage(new ComponentBuilder(Utils.Prefix + "§cThat is not a valid player.").create());
             return;
         }
-        ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetStr);
 
+        ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetStr);
         commandSender.sendMessage(new ComponentBuilder(Utils.Prefix + "§a" + target.getName() + " §2can be found at §a" + target.getServer().getInfo().getName() + "§2.").create());
 
     }

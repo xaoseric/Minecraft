@@ -5,7 +5,9 @@ import com.fadelands.dailyrewards.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,7 +16,7 @@ import java.util.Arrays;
 public class RewardInventory implements Listener {
 
     private Main plugin;
-    private static String NAME = "§lYour Rewards";
+    private static String NAME = "Your Rewards";
 
     public RewardInventory(Main plugin) {
         this.plugin = plugin;
@@ -89,8 +91,20 @@ public class RewardInventory implements Listener {
         inv.setItem(42, barrier);
         inv.setItem(43, barrier);
         inv.setItem(44, barrier);
-
-
     }
 
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        if (event.getClickedInventory() == null) return;
+        if (event.getCurrentItem() == null) return;
+
+        Player player = (Player) event.getWhoClicked();
+
+        if (event.getInventory().getName().equals(NAME)) {
+            event.setCancelled(true);
+
+            switch (event.getSlot()) {
+            }
+        }
+    }
 }

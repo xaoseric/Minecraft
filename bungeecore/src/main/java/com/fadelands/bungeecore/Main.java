@@ -1,7 +1,6 @@
 package com.fadelands.bungeecore;
 
-import com.fadelands.bungeecore.commands.AlertCommand;
-import com.fadelands.bungeecore.commands.ConnectCommand;
+import com.fadelands.bungeecore.commands.*;
 import com.fadelands.bungeecore.commands.reports.ReportInfoCommand;
 import com.fadelands.bungeecore.commands.reports.ReportsCommand;
 import com.fadelands.bungeecore.commands.servers.*;
@@ -11,8 +10,6 @@ import com.fadelands.bungeecore.pm.PrivateMessageCommand;
 import com.fadelands.bungeecore.utils.Utils;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import com.fadelands.bungeecore.commands.FindCommand;
-import com.fadelands.bungeecore.commands.SCCommand;
 import com.fadelands.bungeecore.commands.reports.HandleReportCommand;
 import com.fadelands.bungeecore.commands.reports.ReportCommand;
 import com.fadelands.bungeecore.discord.discordsync.LinkDiscordID;
@@ -85,7 +82,7 @@ public class Main extends Plugin {
         this.hikariConfig.setPassword(this.pass);
         this.hikariConfig.setConnectionTimeout(10 * 1000);
         this.hikariConfig.setIdleTimeout(120 * 1000);
-        this.hikariConfig.setMaximumPoolSize(7);
+        this.hikariConfig.setMaximumPoolSize(5);
         this.hikariConfig.setPoolName("flbungee");
 
         try {
@@ -110,6 +107,7 @@ public class Main extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new FindCommand());
         getProxy().getPluginManager().registerCommand(this, new AlertCommand());
         getProxy().getPluginManager().registerCommand(this, new SCCommand());
+        getProxy().getPluginManager().registerCommand(this, new SendCommand());
 
         getProxy().getPluginManager().registerCommand(this, new ReportsCommand());
         getProxy().getPluginManager().registerCommand(this, new ReportCommand(this));

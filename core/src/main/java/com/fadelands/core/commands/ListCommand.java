@@ -23,7 +23,7 @@ public class ListCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         sender.sendMessage("§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8= \n" +
-                "§6Players Online: §f" + Array.plugin.getPluginMessage().getPlayers("ALL") + " §7(" + Bukkit.getOnlinePlayers().size() + " here)\n" +
+                "§6Players Online: §f" + getGlobalPlayers() + " §7(" + Bukkit.getOnlinePlayers().size() + " here)\n" +
                 "§r \n" +
                 "§6Staff Online: §7" + Arrays.toString(getStaffOnline()).replace("[", "").replace("]", "") + "\n" +
                 "§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=§6=§8=");
@@ -38,6 +38,10 @@ public class ListCommand implements CommandExecutor {
                 }
             }
         }
-        return new String[]{"None"};
+        return new String[]{"None."};
+    }
+
+    public int getGlobalPlayers() {
+        return Array.plugin.getPluginMessage().getPlayers("ALL");
     }
 }

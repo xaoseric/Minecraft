@@ -11,6 +11,13 @@ public class Utils {
     public static String AdminPrefix = "§8[§c✪§8] ";
 
     public static String Prefix = "§8│ §6FadeLands§7 »§r ";
+    public static String M = "§a";
+    public static String M_DARK = "§2";
+    public static String S = "§e";
+    public static String S_DARK = "§6";
+    public static String E = "§c";
+    public static String E_DARK = "§4";
+
     public static String Prefix_Red = "§8│ §4FadeLands§7 »§r ";
     public static String Prefix_Green = "§8│ §2FadeLands§7 »§r ";
     public static String Alert = "§8│ §6Alert§7 »§r ";

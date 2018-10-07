@@ -1,4 +1,4 @@
-package com.fadelands.sbair.serverchat;
+package com.fadelands.sbair.chat;
 
 import com.fadelands.array.utils.Utils;
 import com.fadelands.core.CorePlugin;

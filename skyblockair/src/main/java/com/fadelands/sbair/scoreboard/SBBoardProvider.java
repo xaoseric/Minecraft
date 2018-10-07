@@ -28,17 +28,14 @@ public class SBBoardProvider extends SimpleBoardProvider {
     @Override
     public List<String> getBoardLines(Player player) {
         List<String> toReturn = Lists.newArrayList();
-
-            main.getSkyBlockApi().getTeamMembers(player.getUniqueId()).add(player.getUniqueId());
-
             toReturn.add("&r ");
             toReturn.add("&7&l\u00bb &f&l" + player.getName());
-            toReturn.add("&7Rank " + main.getPermissions().getPrimaryGroup(player));
-            toReturn.add("&7Money &2" + main.getEconomy().getBalance(player.getName() + "k"));
+            toReturn.add("&7Rank: " + main.getPermissions().getPrimaryGroup(player));
+            toReturn.add("&7Money: &2" + main.getEconomy().getBalance(player.getName() + "k"));
             toReturn.add("&r ");
             toReturn.add("&7&l\u00bb &f&lIsland");
-            toReturn.add("&7Level &2" + main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId()));
-            toReturn.add("&7Team §2" + main.getSkyBlockApi().getTeamMembers(player.getUniqueId()).size());
+            toReturn.add("&7Level: &2" + main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId()));
+            toReturn.add("&7Team: §2" + main.getSkyBlockApi().getTeamMembers(player.getUniqueId()).size());
             toReturn.add("&r ");
             toReturn.add("&2www.fadelands.com");
         return toReturn;

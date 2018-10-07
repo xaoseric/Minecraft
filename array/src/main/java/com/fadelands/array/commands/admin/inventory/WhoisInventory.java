@@ -24,7 +24,7 @@ public class WhoisInventory implements Listener {
     }
 
     public void whoIs(Player commandSender, String playerName) {
-        Inventory inventory = Bukkit.createInventory(null, 9*4, "§lWhoIs");
+        Inventory inventory = Bukkit.createInventory(null, 9*4, "WhoIs");
 
         updateInventory(inventory, playerName);
 
