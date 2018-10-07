@@ -118,7 +118,7 @@ public class WhoisInventory implements Listener {
     public void onInvClick(InventoryClickEvent event) {
         if (event.getClickedInventory() == null
                 || (event.getCurrentItem() == null)
-                || !event.getInventory().getName().equals("§lWhoIs")) return;
+                || !event.getInventory().getName().equals("WhoIs")) return;
         Player player = (Player) event.getWhoClicked();
         event.setCancelled(true);
     }
