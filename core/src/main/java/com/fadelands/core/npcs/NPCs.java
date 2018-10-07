@@ -1,6 +1,5 @@
 package com.fadelands.core.npcs;
 
-
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.server.v1_8_R3.*;

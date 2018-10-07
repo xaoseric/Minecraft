@@ -16,7 +16,8 @@ import com.fadelands.core.commands.staff.modcmds.TeleportCommandExecutor;
 import com.fadelands.core.commands.help.inventory.ApplyGui;
 import com.fadelands.core.commands.help.command.HelpCommandExecutor;
 import com.fadelands.core.commands.help.inventory.HelpInventory;
-import com.fadelands.core.profile.ProfileCommandExecutor;
+import com.fadelands.core.events.Events;
+import com.fadelands.core.profile.command.ProfileCommand;
 import com.fadelands.core.profile.ProfileListener;
 import com.fadelands.core.profile.statistics.StatsListener;
 import com.fadelands.core.provider.chat.announcements.AnnouncementListener;
@@ -98,6 +99,7 @@ public class CorePlugin extends JavaPlugin {
         pm.registerEvents(new ProfileListener(), this);
         pm.registerEvents(new StatsListener(), this);
         pm.registerEvents(new SettingsInventory(this), this);
+        pm.registerEvents(new Events(this), this);
 
         //GUIDES & HELP
 
@@ -107,22 +109,23 @@ public class CorePlugin extends JavaPlugin {
         pm.registerEvents(new GuideMenu(this), this);
         pm.registerEvents(new DiscordLinkGuide(this), this);
 
-        //   pm.registerEvents(new NPCs(), this);
-
         // Tablist
         pm.registerEvents(new TablistText(this), this);
 
         // PlayerData Classes
-       /* pm.registerEvents(new CountMessages(this), this);
+
+        /* pm.registerEvents(new CountMessages(this), this);
         pm.registerEvents(new CountLogins(this), this);
         pm.registerEvents(new CountBlocksPlaced(this), this);
         pm.registerEvents(new CountBlocksRemoved(this), this);
         pm.registerEvents(new CountKills(this), this);
         pm.registerEvents(new SaveOnQuit(this), this);
         pm.registerEvents(new LoadPlayerData(), this);
-        //pm.registerEvents(new CountDeaths(this), this);
-                new AutoSaveDb().runTaskTimer(this, 2 * 60 * 20, 2 * 60 * 20);
+        pm.registerEvents(new CountDeaths(this), this);
+        new AutoSaveDb().runTaskTimer(this, 2 * 60 * 20, 2 * 60 * 20);
         */
+        //todo: ^^ above is temporarily disabled
+
 
         pm.registerEvents(new com.fadelands.core.provider.chat.Chat(this), this);
 
@@ -141,16 +144,16 @@ public class CorePlugin extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getCommand("profile").setExecutor(new ProfileCommandExecutor(this));
+        getCommand("profile").setExecutor(new ProfileCommand(this));
         getCommand("achievement").setExecutor(new AchievementCommand(this));
 
-        // Mod cmds:
+        // Mod cmds
         getCommand("teleport").setExecutor(new TeleportCommandExecutor(this));
         getCommand("fly").setExecutor(new FlyCommandExecutor(this));
         getCommand("chatslow").setExecutor(new ChatSlowCommandExecutor(this));
         getCommand("silencechat").setExecutor(new SilenceChatCommandExecutor(this));
 
-        // Admin cmds:
+        // Admin cmds
         getCommand("gamemode").setExecutor(new GameModeCommandExecutor(this));
         getCommand("sudo").setExecutor(new SudoCommandExecutor(this));
 

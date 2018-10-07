@@ -105,7 +105,6 @@ public class StatsListener implements Listener {
 
     }
 
-
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getClickedInventory() == null) return;

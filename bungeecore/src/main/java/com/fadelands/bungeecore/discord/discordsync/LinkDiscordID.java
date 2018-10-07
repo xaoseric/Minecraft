@@ -236,6 +236,7 @@ public class LinkDiscordID extends Command {
                     }
 
                 } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -243,7 +244,7 @@ public class LinkDiscordID extends Command {
             }
         }
 
-        public static enum Group {
+        public enum Group {
 
             VERIFIED("430121745647796225", true),
 
@@ -265,7 +266,7 @@ public class LinkDiscordID extends Command {
 
             private final String ID;
 
-            private Group(String ID, boolean auto) {
+            Group(String ID, boolean auto) {
                 this.ID = ID;
             }
 

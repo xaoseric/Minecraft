@@ -103,6 +103,7 @@ public class Main extends Plugin {
         getProxy().getPluginManager().registerListener(this, new BungeeCommandsLogging(this));
         getProxy().getPluginManager().registerListener(this, new ChatLogging(this));
     }
+
     private void registerCommands() {
         getProxy().getPluginManager().registerCommand(this, new FindCommand());
         getProxy().getPluginManager().registerCommand(this, new AlertCommand());

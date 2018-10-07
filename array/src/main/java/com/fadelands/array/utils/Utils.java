@@ -6,8 +6,6 @@ import java.util.Date;
 
 public class Utils {
 
-    public static Color color_gray = new Color(2, 0, 1);
-
     public static String AdminPrefix = "§8[§c✪§8] ";
 
     public static String Prefix = "§8│ §6FadeLands§7 »§r ";
@@ -43,10 +41,5 @@ public class Utils {
     public static String NETWORK_LEVEL_MSG = "§7This user has a network \n" +
             "§7level of §6{0}§7.";
 
-    public static String ANNOUNCEMENT_TOP = "\n§r\n§r           §c§lAnnouncement§7§r\n";
     public static String Announcement = "§8│ §6§lAnnouncement§7 »§r ";
-
-    public static String ALERT_TOP = "\n§r\n§r                          §c§lAlert§7§r\n";
-    public static String ALERT_BOTTOM = "\n§r";
-
 }

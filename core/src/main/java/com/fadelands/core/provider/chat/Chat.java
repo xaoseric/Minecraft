@@ -72,7 +72,7 @@ public class Chat implements Listener {
             setSilence(0, true);
     }
 
-    public boolean checkSilenced(Player player) {
+    private boolean checkSilenced(Player player) {
 
         silenceEnd();
 
@@ -145,6 +145,7 @@ public class Chat implements Listener {
         ComponentBuilder[] format = chatProvider.getFormat(chatSender);
         List<BaseComponent> components = new ArrayList<>();
 
+        //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < format.length; i++) {
             components.addAll(Arrays.asList(format[i].create()));
         }
@@ -153,13 +154,15 @@ public class Chat implements Listener {
 
         for (Player online : Bukkit.getOnlinePlayers()) {
             if (settings.publicChat(online)) {
+                //noinspection ToArrayCallWithZeroLengthArrayArgument
                 online.spigot().sendMessage(components.toArray(new BaseComponent[components.size()]));
+
             }
             lastChatMessage.put(chatSender.getUniqueId(), new ChatData(event.getMessage()));
         }
     }
 
-    public String[] getHackusations() {
+    private String[] getHackusations() {
         return this.hackusations;
     }
 

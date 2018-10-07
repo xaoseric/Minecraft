@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class ChooseStatsMenu {
+    //todo: revamp the entire fucking cod
     private final static String invName = "§lChoose a Server";
 
     public static void open(Player player) {

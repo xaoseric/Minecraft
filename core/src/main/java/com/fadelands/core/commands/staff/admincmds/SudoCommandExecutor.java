@@ -34,7 +34,6 @@ public class SudoCommandExecutor implements CommandExecutor {
         if (args.length == 0) {
             player.sendMessage("§cInvalid usage. /sudo <player> </command or message>");
             return true;
-
         }
 
         String user = args[0];
@@ -72,6 +71,7 @@ public class SudoCommandExecutor implements CommandExecutor {
                 sender.sendMessage("§cThe target you specified can not use chat.");
                 return false;
             }
+
             Player p = (Player) u;
             p.chat(input.toString());
             sender.sendMessage("§aSuccessfully made " + p.getName() + " say §2[§7" + input + "§2]§a.");

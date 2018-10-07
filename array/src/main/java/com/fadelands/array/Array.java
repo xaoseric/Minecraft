@@ -52,7 +52,6 @@ public class Array extends JavaPlugin {
     private LuckPermsApi luckPerms;
     public static Array plugin;
 
-
     public void onEnable() {
         plugin = this;
         this.saveDefaultConfig();
@@ -134,7 +133,6 @@ public class Array extends JavaPlugin {
     }
 
     public void onDisable() {
-
         Bukkit.getLogger().info("[Array] Plugin has been disabled.");
     }
 
@@ -277,59 +275,10 @@ public class Array extends JavaPlugin {
         }
     }
 
-    public static String getUsernameFromUUID(String uuid) {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        String query = "SELECT player_username FROM fadelands_players WHERE uuid = ?;";
-
-        try {
-            connection = Array.getConnection();
-            ps = connection.prepareStatement(query);
-            ps.setString(1, uuid);
-
-            rs = Array.executeQuery(connection, ps);
-            if (rs.next()) {
-                return rs.getString("player_username");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Array.closeComponents(rs, ps, connection);
-        }
-
-        return null;
-    }
-
-    public static String getUuidFromUsername(String username) {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        String query = "SELECT player_uuid FROM fadelands_players WHERE player_username = ?;";
-
-        try {
-            connection = Array.getConnection();
-            ps = connection.prepareStatement(query);
-            ps.setString(1, username);
-
-            rs = Array.executeQuery(connection, ps);
-            if (rs.next()) {
-                return rs.getString("player_uuid");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Array.closeComponents(rs, ps, connection);
-        }
-
-        return null;
-    }
-
     public long getServerStartTime() {
         return this.serverStartTime;
     }
+
     public long getServerUptime() {
         return System.currentTimeMillis() - this.serverStartTime;
     }
