@@ -79,7 +79,6 @@
     </build>
 
     <dependencies>
-
         <!--Parent Dependencies-->
         <dependency>
             <groupId>com.fadelands.Array</groupId>
@@ -87,8 +86,6 @@
             <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
-
         <!--Spigot, Bukkit-->
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -96,11 +93,11 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <!--Bukkit API-->
         <dependency>
@@ -109,7 +106,6 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
         <!--Vault API-->
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
@@ -117,7 +113,6 @@
             <version>1.6</version>
             <scope>compile</scope>
         </dependency>
-
         <!--Discord Dependencies-->
         <dependency>
             <groupId>net.jodah</groupId>

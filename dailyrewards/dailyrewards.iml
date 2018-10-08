@@ -28,7 +28,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okhttp3:okhttp:3.11.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okio:okio:1.14.0" level="project" />
     <orderEntry type="module" module-name="core" scope="PROVIDED" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.jodah:expiringmap:0.5.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.jagrosh:jda-utilities-command:2.1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.jagrosh:jda-utilities-commons:2.1.1" level="project" />
