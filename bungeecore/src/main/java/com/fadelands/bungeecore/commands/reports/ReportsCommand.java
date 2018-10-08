@@ -46,7 +46,7 @@ public class ReportsCommand extends Command {
             final List<String> unhandled = new ArrayList<>();
 
             try (Connection connection = Main.getConnection()){
-                try(ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM fadelands_ingamereports WHERE status='UNHANDLED' ORDER BY report_id")) {
+                try(ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM fadelands_reports WHERE status='3' ORDER BY id")) {
 
                     while (rs.next()) {
                         unhandled.add("§7#§b" + rs.getInt("report_id") + "§7: §b" + rs.getString("reported_username") + "§7 - §b" + rs.getString("reason") + "§7 - §b" + rs.getString("status"));

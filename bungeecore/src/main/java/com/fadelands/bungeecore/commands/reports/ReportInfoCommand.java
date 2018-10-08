@@ -33,14 +33,14 @@ public class ReportInfoCommand extends Command {
             player.sendMessage(new ComponentBuilder(Utils.Prefix + "§cInvalid usage. /reportinfo <ID>").color(ChatColor.RED).create());
             return;
         }
-        String query = "SELECT * FROM fadelands_ingamereports WHERE report_id='" + args[0] + "'";
+        String query = "SELECT * FROM fadelands_reports WHERE id='" + args[0] + "'";
         try (Connection connection = Main.getConnection()){
             try(PreparedStatement statement = connection.prepareStatement(query)){
                 try(ResultSet rs = statement.executeQuery()) {
                     if (!rs.next()) {
                         player.sendMessage(new ComponentBuilder(Utils.Prefix_Red + "§cI could either not find that report or you may have entered an unvalid ID.").color(ChatColor.RED).create());
                     } else {
-                        if (rs.getString("status").equals("UNHANDLED")) {
+                        if (rs.getInt("status") == 3) {
                             player.sendMessage(new ComponentBuilder(Utils.Prefix + "§3Reviewing Report ID #" + rs.getString("report_id") + ".").color(ChatColor.DARK_AQUA).create());
                             commandSender.sendMessage(new ComponentBuilder("" +
                                     "§8§l┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + "\n" +

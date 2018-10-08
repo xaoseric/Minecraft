@@ -1,6 +1,5 @@
 package com.fadelands.core.commands.help.inventory;
 
-import com.fadelands.core.profile.ProfileListener;
 import com.fadelands.core.utils.ItemBuilder;
 import com.fadelands.core.CorePlugin;
 import org.bukkit.Bukkit;

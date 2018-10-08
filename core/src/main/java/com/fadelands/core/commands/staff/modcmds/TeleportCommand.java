@@ -12,10 +12,10 @@ import org.bukkit.entity.Player;
 
 import javax.jws.soap.SOAPBinding;
 
-public class TeleportCommandExecutor implements CommandExecutor {
+public class TeleportCommand implements CommandExecutor {
 
     public CorePlugin plugin;
-    public TeleportCommandExecutor(CorePlugin plugin)
+    public TeleportCommand(CorePlugin plugin)
     {
         this.plugin = plugin;
     }

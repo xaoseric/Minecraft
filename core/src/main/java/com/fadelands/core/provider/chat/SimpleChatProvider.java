@@ -9,11 +9,18 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
 
 public class SimpleChatProvider implements ChatProvider {
+
+    private CorePlugin plugin;
+
+    public SimpleChatProvider(CorePlugin plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public ComponentBuilder[] getFormat(Player player) {
 
-        Chat chat = CorePlugin.getChat();
-        Permission permission = CorePlugin.getPermissions();
+        Chat chat = plugin.getChat();
+        Permission permission = plugin.getPermissions();
 
         ComponentBuilder levelComponent = new ComponentBuilder("§71 ");
         levelComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.NETWORK_LEVEL_MSG

@@ -19,7 +19,7 @@ public class GuideMenu implements Listener {
         this.plugin = plugin;
     }
 
-    private final static String invName = "§lGuides";
+    private final static String invName = "Guides";
 
     private static ItemStack linkDiscord = new ItemBuilder(Material.BOOK).setName("§6Linking your Discord").setLore("§7Click to view!").setAmount(1).toItemStack();
 

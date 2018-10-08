@@ -12,12 +12,12 @@ import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlyCommandExecutor implements CommandExecutor {
+public class FlyCommand implements CommandExecutor {
 
     List<String> flying = new ArrayList<>();
 
     public CorePlugin plugin;
-    public FlyCommandExecutor(CorePlugin plugin){
+    public FlyCommand(CorePlugin plugin){
         this.plugin = plugin;
     }
 

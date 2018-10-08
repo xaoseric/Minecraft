@@ -9,7 +9,9 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import org.joda.time.DateTime;
@@ -34,7 +36,7 @@ public class ReportCommand extends Command {
     public void execute(CommandSender commandSender, String[] args) {
         ProxiedPlayer sender = (ProxiedPlayer) commandSender;
         if(cooldown.contains(sender)){
-            sender.sendMessage(new ComponentBuilder(Utils.Prefix_Red + "§cYou have to wait a minute until you can use this command again.").color(ChatColor.RED).create());
+            sender.sendMessage(new ComponentBuilder(Utils.Prefix + "§cYou have to wait a minute until you can use this command again.").color(ChatColor.RED).create());
             return;
         }
         if (args.length == 0) {
@@ -47,13 +49,14 @@ public class ReportCommand extends Command {
             sender.sendMessage(new ComponentBuilder(Utils.Prefix + "§cThat player is not online.").create());
             return;
         }
+        /* todo: Add back after testing.
         if (ProxyServer.getInstance().getPlayer(targetStr) == commandSender) {
             sender.sendMessage(new ComponentBuilder(Utils.Prefix + "§cYou can't report yourself.").create());
             return;
-        }
+        }*/
 
         sender.sendMessage(new ComponentBuilder(Utils.Prefix_Green + "§aThank you, your report has been sent. A staff member will deal with it as soon as possible.").color(ChatColor.GREEN).create());
-        sender.sendMessage(new ComponentBuilder("§4§l(!) §cKeep in mind, abusing this command will result in a punishments.").color(ChatColor.RED).create());
+        sender.sendMessage(new ComponentBuilder("§4§l(!) §cKeep in mind, abusing this command will result in a punishment.").color(ChatColor.RED).create());
         cooldown.add(sender);
         ProxyServer.getInstance().getScheduler().schedule(plugin, () -> cooldown.remove(sender), 60, TimeUnit.SECONDS);
 
@@ -63,83 +66,82 @@ public class ReportCommand extends Command {
                 ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetStr);
                 StringBuilder sb = new StringBuilder();
                 for (int i = 1; i < args.length; i++)
-                    sb.append(args[i] + " ");
+                    sb.append(args[i]).append(" ");
                 String reason = sb.toString();
 
                 // Attempting to enter the report info to the db. \\
 
-                try (Connection connection = Main.getConnection()){
-                    try(PreparedStatement insert = connection.prepareStatement("INSERT INTO " +
-                            "fadelands_ingamereports " +
+                Connection connection = null;
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                int id = 0;
+
+                try {
+                    connection = Main.getConnection();
+                    ps = connection.prepareStatement("INSERT INTO " +
+                            "fadelands_reports " +
                             "(" +
-                            "player_uuid," +
-                            "player_username," +
-                            "reported_uuid," +
-                            "reported_username," +
+                            "reporter," +
+                            "reported," +
                             "server," +
-                            "date," +
                             "reason," +
+                            "date," +
                             "status," +
-                            "handled_by," +
-                            "handled_uuid," +
-                            "handled_date," +
-                            "handled_text" +
+                            "staff," +
+                            "handled," +
+                            "comment" +
                             ") " +
-                            "VALUE (?,?,?,?,?,?,?,?,?,?,?,?)")) {
+                            "VALUE (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                    ps.setString(1, sender.getUniqueId().toString());
+                    ps.setString(2, target.getUniqueId().toString());
+                    ps.setString(3, target.getServer().getInfo().getName());
+                    ps.setString(4, reason);
+                    ps.setTimestamp(5, new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
+                    ps.setInt(6, ReportStatusType.OPEN.ordinal());
+                    ps.setString(7, null);
+                    ps.setTimestamp(8, null);
+                    ps.setString(9, null);
+                    ps.executeUpdate();
 
-                        insert.setString(1, sender.getUniqueId().toString());
-                        insert.setString(2, sender.getName());
-                        insert.setString(3, target.getUniqueId().toString());
-                        insert.setString(4, target.getName());
-                        insert.setString(5, target.getServer().getInfo().getName());
-                        insert.setTimestamp(6, new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
-                        insert.setString(7, reason);
-                        insert.setString(8, "UNHANDLED");
-                        insert.setString(9, null);
-                        insert.setString(10, null);
-                        insert.setString(11, null);
-                        insert.setString(12, null);
-                        insert.executeUpdate();
-                        insert.close();
+                   // Getting the results from the latest insert.
 
-                        // Getting the results from the latest insert. \\
-
-                        ResultSet rs = connection.createStatement().executeQuery("SELECT SCOPE_IDENTITY()");
+                    rs = ps.getGeneratedKeys();
                         if (rs.next()) {
-                            // Inserted data to db, starting to messaging process \\
+                            id = rs.getInt(1);
+                            // Inserted data to db, starting messaging process \\
                             staff.sendMessage(new ComponentBuilder("" +
                                     "§8§l┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + "\n" +
-                                    "§8§l┣ §c§lNew In-game Report §cID: #" + rs.getString("LAST_INSERTED_ID()") + "\n" +
-                                    "§8§l┣ §3Reported: §b" + target.getName() + "\n" +
-                                    "§8§l┣ §3Reason: §b" + (reason.equals("") ? "No Reason specified." : reason) + "\n" +
-                                    "§8§l┣ §3Report By: §b" + sender.getName() + "\n" +
-                                    "§8§l┣ §3Server: §b" + target.getServer().getInfo().getName() + "\n" +
-                                    "§8§l┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛").create());
-
+                                    "§8§l┣ §c§lNew Report - §6ID: #" + id + "\n" +
+                                    "§8§l┣ §2Reported: §e" + target.getName() + "\n" +
+                                    "§8§l┣ §2Reason: §e" + (reason.equals("") ? "No Reason specified." : reason) + "\n" +
+                                    "§8§l┣ §2Report By: §e" + sender.getName() + "\n" +
+                                    "§8§l┣ §2Server: §e" + target.getServer().getInfo().getName() + "\n" +
+                                    "§8§l┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
+                                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Press to connect to server.").color(ChatColor.GOLD)
+                                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "connect " + target.getServer().getInfo().getName())).create())).create());
 
                             // Sending an embed message to discord to alert staff members that aren't on the server. \\
                             EmbedBuilder embed = new EmbedBuilder();
                             embed.setTitle("New In-game Report");
-                            embed.setColor(Color.darkGray);
+                            embed.setColor(Color.decode("#5c85d6"));
+                            embed.setDescription("Reported User: **" + target.getName() + "** `(" + target.getUniqueId().toString() + ")` \n" +
+                                    "Reported By: **" + sender.getName() + "** `(" + sender.getUniqueId().toString() + ")` \n" +
+                                    "Reason: **" + reason + "** \n" +
+                                    "Server: **" + target.getServer().getInfo().getName() + "** \n" +
+                                    "ID: **" + id + "**");
 
-                            embed.setDescription("Player `" + target.getName() +
-                                    " (" + target.getUniqueId().toString() + ")` has been reported for `" + reason +
-                                    "` by player `" + sender.getName() +
-                                    " (" + sender.getUniqueId().toString() + ")`\n" +
-                                    "**Server:** `" + target.getServer().getInfo().getName() + "` \n" +
-                                    "**Report ID:** `#" + rs.getString("report_id") + "`");
-
-                            embed.setFooter("For more info: /reportinfo " + rs.getString("report_id") + " | To handle report: /handlereport " + rs.getString("report_id"), null);
+                            embed.setFooter("For more info: /reportinfo " + id + " | To handle report: /handlereport " + id, null);
 
                             MessageEmbed build = embed.build();
 
                             DiscordUtils.getIngameReports().sendMessage(build).queue();
                             rs.close();
                         }
-                    }
                     } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    e.printStackTrace();
+                } finally {
+                    Main.closeComponents(rs, ps, connection);
+                }
             }
         }
     }

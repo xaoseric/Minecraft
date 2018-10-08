@@ -1,24 +1,22 @@
 package com.fadelands.lobby.events;
 
 import com.fadelands.lobby.Main;
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class LobbyEvents implements Listener {
@@ -106,6 +104,19 @@ public class LobbyEvents implements Listener {
                 event.getEntity().sendMessage("§eWoah there, watch out for the void!");
             }
         }
+    }
+
+    @EventHandler
+    public void disableBlockDamage(BlockDamageEvent event) {
+        if (!(main.buildMode.contains(event.getPlayer()))) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void disableCropBreaking(PlayerInteractEvent event) {
+        if(event.getAction() == Action.PHYSICAL && event.getClickedBlock().getType() == Material.SOIL)
+            event.setCancelled(true);
     }
 
     @EventHandler

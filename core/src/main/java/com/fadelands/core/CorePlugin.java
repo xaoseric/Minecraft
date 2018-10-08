@@ -9,17 +9,16 @@ import com.fadelands.core.commands.help.command.GuidesCommandExecutor;
 import com.fadelands.core.commands.help.guides.DiscordLinkGuide;
 import com.fadelands.core.commands.help.guides.GuideMenu;
 import com.fadelands.core.commands.help.inventory.ServerStatsInventory;
-import com.fadelands.core.commands.staff.admincmds.GameModeCommandExecutor;
-import com.fadelands.core.commands.staff.admincmds.SudoCommandExecutor;
-import com.fadelands.core.commands.staff.modcmds.FlyCommandExecutor;
-import com.fadelands.core.commands.staff.modcmds.TeleportCommandExecutor;
+import com.fadelands.core.commands.staff.admincmds.GameModeCommand;
+import com.fadelands.core.commands.staff.admincmds.SudoCommand;
+import com.fadelands.core.commands.staff.modcmds.FlyCommand;
+import com.fadelands.core.commands.staff.modcmds.TeleportCommand;
 import com.fadelands.core.commands.help.inventory.ApplyGui;
 import com.fadelands.core.commands.help.command.HelpCommandExecutor;
 import com.fadelands.core.commands.help.inventory.HelpInventory;
 import com.fadelands.core.events.Events;
 import com.fadelands.core.profile.command.ProfileCommand;
-import com.fadelands.core.profile.ProfileListener;
-import com.fadelands.core.profile.statistics.StatsListener;
+import com.fadelands.core.profile.inventory.ProfileInventory;
 import com.fadelands.core.provider.chat.announcements.AnnouncementListener;
 import com.fadelands.core.provider.chat.announcements.Announcements;
 import com.fadelands.core.provider.chat.command.ChatSlowCommandExecutor;
@@ -61,7 +60,7 @@ public class CorePlugin extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
-        this.chatProvider = new SimpleChatProvider();
+        this.chatProvider = new SimpleChatProvider(this);
 
         Bukkit.getConsoleSender().sendMessage("[Core] Make sure this server is running core plugin Array. This server does not work without it.");
 
@@ -96,8 +95,7 @@ public class CorePlugin extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
 
         // Profile & Players
-        pm.registerEvents(new ProfileListener(), this);
-        pm.registerEvents(new StatsListener(), this);
+        pm.registerEvents(new ProfileInventory(this), this);
         pm.registerEvents(new SettingsInventory(this), this);
         pm.registerEvents(new Events(this), this);
 
@@ -148,14 +146,14 @@ public class CorePlugin extends JavaPlugin {
         getCommand("achievement").setExecutor(new AchievementCommand(this));
 
         // Mod cmds
-        getCommand("teleport").setExecutor(new TeleportCommandExecutor(this));
-        getCommand("fly").setExecutor(new FlyCommandExecutor(this));
+        getCommand("teleport").setExecutor(new TeleportCommand(this));
+        getCommand("fly").setExecutor(new FlyCommand(this));
         getCommand("chatslow").setExecutor(new ChatSlowCommandExecutor(this));
         getCommand("silencechat").setExecutor(new SilenceChatCommandExecutor(this));
 
         // Admin cmds
-        getCommand("gamemode").setExecutor(new GameModeCommandExecutor(this));
-        getCommand("sudo").setExecutor(new SudoCommandExecutor(this));
+        getCommand("gamemode").setExecutor(new GameModeCommand(this));
+        getCommand("sudo").setExecutor(new SudoCommand(this));
 
         //Help
         getCommand("help").setExecutor(new HelpCommandExecutor(this));
@@ -194,15 +192,15 @@ public class CorePlugin extends JavaPlugin {
 
     }
 
-    public static Economy getEconomy() {
+    public Economy getEconomy() {
         return econ;
     }
 
-    public static Permission getPermissions() {
+    public Permission getPermissions() {
         return perms;
     }
 
-    public static Chat getChat() {
+    public Chat getChat() {
         return chat;
     }
 

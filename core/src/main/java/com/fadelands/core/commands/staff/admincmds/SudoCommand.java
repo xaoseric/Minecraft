@@ -11,10 +11,10 @@ import org.bukkit.entity.Player;
 
 import javax.jws.soap.SOAPBinding;
 
-public class SudoCommandExecutor implements CommandExecutor {
+public class SudoCommand implements CommandExecutor {
 
     public CorePlugin plugin;
-    public SudoCommandExecutor(CorePlugin plugin){
+    public SudoCommand(CorePlugin plugin){
         this.plugin = plugin;
     }
 

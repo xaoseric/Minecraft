@@ -3,7 +3,7 @@ package com.fadelands.core.profile.command;
 import com.fadelands.array.Array;
 import com.fadelands.array.utils.Utils;
 import com.fadelands.core.CorePlugin;
-import com.fadelands.core.profile.ProfileListener;
+import com.fadelands.core.profile.inventory.ProfileInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,7 +34,7 @@ public class ProfileCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-                new ProfileListener().openInventory(player, player.getName());
+                new ProfileInventory(plugin).openProfileInventory(player, player.getName());
                 return false;
             }
 
@@ -52,7 +52,7 @@ public class ProfileCommand implements CommandExecutor {
                     player.sendMessage(Utils.Prefix + "§cI couldn't find that player.");
                 } else {
                     targetStr = rs.getString("player_username");
-                    new ProfileListener().openInventory(player, targetStr);
+                    new ProfileInventory(plugin).openProfileInventory(player, targetStr);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -264,6 +264,7 @@ public class User {
     }
 
     public String getRank(String playerName) {
-        return Objects.requireNonNull(Array.plugin.getLuckPermsApi().getUser(playerName)).getPrimaryGroup();
+        //noinspection ConstantConditions
+        return Array.plugin.getLuckPermsApi().getUserManager().getUser(playerName).getPrimaryGroup();
     }
 }

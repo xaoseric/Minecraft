@@ -34,3 +34,6 @@ commands:
     description: Change staff settings
   staff:
     description: Admin command
+  vanish:
+    description: Toggle staff mode
+    aliases: [modmode]

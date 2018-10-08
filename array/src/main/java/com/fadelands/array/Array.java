@@ -8,8 +8,11 @@ import com.fadelands.array.manager.ServerManager;
 import com.fadelands.array.punishments.PunishmentManager;
 import com.fadelands.array.punishments.commands.*;
 import com.fadelands.array.punishments.PunishmentMenu;
+import com.fadelands.array.staff.StaffMode;
+import com.fadelands.array.staff.StaffSettings;
 import com.fadelands.array.staff.command.StaffManagementCommand;
 import com.fadelands.array.staff.command.StaffSettingsCommand;
+import com.fadelands.array.staff.command.VanishCommand;
 import com.fadelands.array.staff.inventory.SettingsInventory;
 import com.fadelands.array.staff.inventory.StaffInventory;
 import com.fadelands.array.utils.PluginMessage;
@@ -48,6 +51,7 @@ public class Array extends JavaPlugin {
     private ServerManager serverManager;
     private PlayerManager playerManager;
     private ServerStatistics serverStats;
+    private StaffSettings staffSettings;
 
     private LuckPermsApi luckPerms;
     public static Array plugin;
@@ -108,17 +112,11 @@ public class Array extends JavaPlugin {
         getCommand("lockdown").setExecutor(new LockdownCommand(this));
         getCommand("staffsettings").setExecutor(new StaffSettingsCommand(this));
         getCommand("staff").setExecutor(new StaffManagementCommand(this));
-
+        getCommand("vanish").setExecutor(new VanishCommand(this, new StaffMode(getStaffSettings()), getStaffSettings()));
     }
 
     private void registerEvents(){
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new PunishmentMenu(this), this);
-        pm.registerEvents(new WhoisInventory(this), this);
-        pm.registerEvents(new SettingsInventory(this), this);
-        pm.registerEvents(new WhoisInventory(this), this);
-        pm.registerEvents(new StaffInventory(this), this);
-
         this.punishmentMenu = new PunishmentMenu(this);
         this.punishmentManager = new PunishmentManager(this);
         pm.registerEvents(new PunishmentManager(this), this);
@@ -129,7 +127,14 @@ public class Array extends JavaPlugin {
         this.playerManager = new PlayerManager(this);
         pm.registerEvents(new PlayerManager(this), this);
         this.serverStats = new ServerStatistics();
+        this.staffSettings = new StaffSettings();
 
+        pm.registerEvents(new PunishmentMenu(this), this);
+        pm.registerEvents(new WhoisInventory(this), this);
+        pm.registerEvents(new SettingsInventory(this), this);
+        pm.registerEvents(new WhoisInventory(this), this);
+        pm.registerEvents(new StaffInventory(this), this);
+        pm.registerEvents(new StaffMode(getStaffSettings()), this);
     }
 
     public void onDisable() {
@@ -317,6 +322,10 @@ public class Array extends JavaPlugin {
 
     public ServerStatistics getServerStats() {
         return serverStats;
+    }
+
+    public StaffSettings getStaffSettings() {
+        return staffSettings;
     }
 
 }

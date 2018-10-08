@@ -2,6 +2,7 @@ package com.fadelands.array.staff.inventory;
 
 import com.fadelands.array.Array;
 import com.fadelands.array.database.SQLUtils;
+import com.fadelands.array.staff.StaffMode;
 import com.fadelands.array.staff.StaffSettings;
 import com.fadelands.array.utils.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -63,7 +64,7 @@ public class SettingsInventory implements Listener {
             case 10:
                 boolean vanish = staffSettings.vanishOn(player);
                 vanish = !vanish;
-
+                player.performCommand("vanish");
                 SQLUtils.updateTable(player, table, "vanish_toggled", vanish);
                 updateInventory(event.getInventory(), player);
                 break;

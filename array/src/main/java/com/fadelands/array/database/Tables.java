@@ -68,20 +68,17 @@ public class Tables {
 
         // DATABASE STAFF TABLES
 
-        String reports = "CREATE TABLE IF NOT EXISTS fadelands_ingamereports " +
-                "(report_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
-                "player_uuid VARCHAR(64), " +
-                "player_username VARCHAR(30), " +
-                "reported_uuid VARCHAR(64), " +
-                "reported_username VARCHAR(30), " +
+        String reports = "CREATE TABLE IF NOT EXISTS fadelands_reports " +
+                "(id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
+                "reporter VARCHAR(64), " +
+                "reported VARCHAR(64), " +
                 "server VARCHAR(30), " +
+                "reason TEXT, " +
                 "date timestamp, " +
-                "reason VARCHAR(100), " +
-                "status VARCHAR(50), " +
-                "handled_by VARCHAR(30), " +
-                "handled_uuid VARCHAR(64), " +
-                "handled_date VARCHAR(30), " +
-                "handled_text VARCHAR(100))";
+                "status integer, " +
+                "staff VARCHAR(64), " +
+                "handled timestamp, " +
+                "comment TEXT)";
 
         String staff = "CREATE TABLE IF NOT EXISTS fadelands_staff_members " +
                 "(player_uuid VARCHAR(64) PRIMARY KEY, " +

@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.io.IOException;
 
 public class SetSpawnLocationCommandExecutor implements CommandExecutor {
@@ -41,8 +42,9 @@ public class SetSpawnLocationCommandExecutor implements CommandExecutor {
         plugin.getConfig().set("yaw", location.getYaw());
         plugin.getConfig().set("pitch", location.getPitch());
         plugin.getConfig().set("world", location.getWorld().getName());
+        File file = new File(plugin.getDataFolder() + File.separator + "config.yml");
         try {
-            plugin.getConfig().save("config.yml");
+            plugin.getConfig().save(file);
         } catch (IOException e) {
             e.printStackTrace();
             player.sendMessage("§cCouldn't save spawn location to configuration file.");
