@@ -68,12 +68,11 @@ public class JoinItems implements Listener {
                 if (player.getItemInHand().getItemMeta().getDisplayName().equals(selectorName)) {
                     ServerSelectorGui.openServerSelector(player);
                 }
-            if (player.getItemInHand().getItemMeta().getDisplayName().equals(profileName)) {
-                player.performCommand("profile");
-            }
-            if (player.getItemInHand().getItemMeta().getDisplayName().equals(settingsName)) {
-                player.performCommand("lobbysettings");
-
+                if (player.getItemInHand().getItemMeta().getDisplayName().equals(profileName)) {
+                    player.performCommand("profile");
+                }
+                if (player.getItemInHand().getItemMeta().getDisplayName().equals(settingsName)) {
+                    player.performCommand("lobbysettings");
                 }
             }
         }

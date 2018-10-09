@@ -71,6 +71,7 @@ public class CorePlugin extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[Core] Couldn't find plugin Array. This server can't run without it. Stopping the server.");
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "stop");
         }
+
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + Utils.Core + "Array found and loaded, yay!");
 
         registerCommands();
@@ -86,6 +87,7 @@ public class CorePlugin extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
         setupPermissions();
         setupChat();
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + Utils.Core + "Vault API hooked into the plugin.");
@@ -99,7 +101,7 @@ public class CorePlugin extends JavaPlugin {
         pm.registerEvents(new SettingsInventory(this), this);
         pm.registerEvents(new Events(this), this);
 
-        //GUIDES & HELP
+        // Guides & Help
 
         pm.registerEvents(new HelpInventory(this), this);
         pm.registerEvents(new ApplyGui(this), this);
@@ -112,7 +114,8 @@ public class CorePlugin extends JavaPlugin {
 
         // PlayerData Classes
 
-        /* pm.registerEvents(new CountMessages(this), this);
+        /*
+        pm.registerEvents(new CountMessages(this), this);
         pm.registerEvents(new CountLogins(this), this);
         pm.registerEvents(new CountBlocksPlaced(this), this);
         pm.registerEvents(new CountBlocksRemoved(this), this);
@@ -138,7 +141,6 @@ public class CorePlugin extends JavaPlugin {
         pm.registerEvents(new AnnouncementListener(this), this);
 
         pm.registerEvents(new CommandProcess(this), this);
-
     }
 
     private void registerCommands() {
@@ -167,10 +169,12 @@ public class CorePlugin extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
+
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
             return false;
         }
+
         econ = rsp.getProvider();
         return econ != null;
     }
