@@ -15,15 +15,15 @@ public class DateUtils {
         if(!((day>10) && (day<19)))
             switch (day % 10) {
                 case 1:
-                    return new SimpleDateFormat("d'st' 'of' MMMM yyyy").format(date);
+                    return new SimpleDateFormat("MMMM d'st'").format(date);
                 case 2:
-                    return new SimpleDateFormat("d'nd' 'of' MMMM yyyy").format(date);
+                    return new SimpleDateFormat("MMMM d'nd'").format(date);
                 case 3:
-                    return new SimpleDateFormat("d'rd' 'of' MMMM yyyy").format(date);
+                    return new SimpleDateFormat("MMMM d'rd'").format(date);
                 default:
-                    return new SimpleDateFormat("d'th' 'of' MMMM yyyy").format(date);
+                    return new SimpleDateFormat("MMMM d'th'").format(date);
             }
-        return new SimpleDateFormat("d'th' 'of' MMMM yyyy").format(date);
+        return new SimpleDateFormat("MMMM d'th'").format(date);
     }
 
 
