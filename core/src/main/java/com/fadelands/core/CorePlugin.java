@@ -18,6 +18,7 @@ import com.fadelands.core.commands.help.inventory.ApplyGui;
 import com.fadelands.core.commands.help.command.HelpCommandExecutor;
 import com.fadelands.core.commands.help.inventory.HelpInventory;
 import com.fadelands.core.events.Events;
+import com.fadelands.core.npc.NPCManager;
 import com.fadelands.core.profile.command.ProfileCommand;
 import com.fadelands.core.profile.inventory.ProfileInventory;
 import com.fadelands.core.provider.chat.announcements.AnnouncementListener;
@@ -37,17 +38,23 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 @SuppressWarnings("ALL")
 public class CorePlugin extends JavaPlugin {
 
     private static CorePlugin instance;
+
+    private File npcFile;
+    private FileConfiguration npcConfig;
 
     public static final Logger log = Logger.getLogger("Minecraft");
     private static Economy econ = null;
@@ -58,10 +65,10 @@ public class CorePlugin extends JavaPlugin {
     private ChatProvider chatProvider;
     private Settings settings;
     private Announcements announcements;
+    private NPCManager npcManager;
 
     public void onEnable() {
         instance = this;
-        this.chatProvider = new SimpleChatProvider(this);
 
         Bukkit.getConsoleSender().sendMessage("[Core] Make sure this server is running core plugin Array. This server does not work without it.");
 
@@ -128,11 +135,14 @@ public class CorePlugin extends JavaPlugin {
         */
         //todo: ^^ above is temporarily disabled
 
+        this.settings = new Settings();
+
+        this.npcManager = new NPCManager();
 
         pm.registerEvents(new com.fadelands.core.provider.chat.Chat(this), this);
-
         this.serverChat = new com.fadelands.core.provider.chat.Chat(this);
-        this.settings = new Settings();
+
+        this.chatProvider = new SimpleChatProvider(this);
 
         simpleboardManager = new SimpleboardManager(this, new SimpleBoardProvider());
         simpleboardManager.runTaskTimerAsynchronously(this, 2L, 2L);
@@ -164,7 +174,6 @@ public class CorePlugin extends JavaPlugin {
         getCommand("guides").setExecutor(new GuidesCommandExecutor(this));
         getCommand("settings").setExecutor(new SettingsCommandExecutor(this));
         getCommand("list").setExecutor(new ListCommand(this));
-
     }
 
     private boolean setupEconomy() {
@@ -237,4 +246,9 @@ public class CorePlugin extends JavaPlugin {
     public com.fadelands.core.provider.chat.Chat getServerChat() {
         return this.serverChat;
     }
+
+    public NPCManager getNpcManager() {
+        return npcManager;
+    }
+
 }
