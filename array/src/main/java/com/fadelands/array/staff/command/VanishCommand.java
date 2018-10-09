@@ -39,11 +39,11 @@ public class VanishCommand implements CommandExecutor {
         if(settings.vanishOn(player)) {
             staffMode.toggleOff(player);
             System.out.println("toggled off for " + player.getName());
-            SQLUtils.updateTable(player, "fadelands_staff_settings", "vanish_toggled", false);
+            SQLUtils.updateTable(player, "staff_settings", "vanish_toggled", false);
         } else {
             staffMode.toggleOn(player);
             System.out.println("toggled on for " + player.getName());
-            SQLUtils.updateTable(player, "fadelands_staff_settings", "vanish_toggled", true);
+            SQLUtils.updateTable(player, "staff_settings", "vanish_toggled", true);
         }
         return false;
     }

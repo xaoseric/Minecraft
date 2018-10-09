@@ -27,7 +27,7 @@ public class ServerManager implements Listener {
         ResultSet rs = null;
         try {
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_server_lockdown WHERE active = ?");
+            ps = connection.prepareStatement("SELECT * FROM server_lockdown WHERE active = ?");
             ps.setBoolean(1, true);
             rs = ps.executeQuery();
             return rs.next();
@@ -48,7 +48,7 @@ public class ServerManager implements Listener {
             ResultSet rs = null;
             try {
                 connection = Array.getConnection();
-                ps = connection.prepareStatement("SELECT * FROM fadelands_server_lockdown WHERE active = true");
+                ps = connection.prepareStatement("SELECT * FROM server_lockdown WHERE active = true");
                 rs = ps.executeQuery();
                 if (rs.next()) {
                     return rs.getString("reason");
@@ -81,7 +81,7 @@ public class ServerManager implements Listener {
         PreparedStatement ps = null;
         try {
             connection = Array.getConnection();
-            ps = connection.prepareStatement("UPDATE fadelands_server_lockdown SET lockdowner = ?, active = ?, reason = ? WHERE active = false");
+            ps = connection.prepareStatement("UPDATE server_lockdown SET lockdowner = ?, active = ?, reason = ? WHERE active = false");
             ps.setString(1, lockdowner.getUniqueId().toString());
             ps.setBoolean(2, true);
             ps.setString(3, reason);
@@ -99,7 +99,7 @@ public class ServerManager implements Listener {
         PreparedStatement ps = null;
         try {
             connection = Array.getConnection();
-            ps = connection.prepareStatement("UPDATE fadelands_server_lockdown SET active = ? WHERE active = true");
+            ps = connection.prepareStatement("UPDATE server_lockdown SET active = ? WHERE active = true");
             ps.setBoolean(1, false);
             ps.executeUpdate();
         } catch (SQLException e) {

@@ -79,7 +79,7 @@ public class ReportCommand extends Command {
                 try {
                     connection = Main.getConnection();
                     ps = connection.prepareStatement("INSERT INTO " +
-                            "fadelands_reports " +
+                            "reports " +
                             "(" +
                             "reporter," +
                             "reported," +

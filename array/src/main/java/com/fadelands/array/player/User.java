@@ -23,7 +23,7 @@ public class User {
         ResultSet rs = null;
         try {
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_username = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, username);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -43,7 +43,7 @@ public class User {
         ResultSet rs = null;
         try {
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_username = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, username);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -63,7 +63,7 @@ public class User {
         ResultSet rs = null;
         try {
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_uuid = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?");
             ps.setString(1, UUID);
             rs = ps.executeQuery();
             if(rs.next()) {
@@ -84,7 +84,7 @@ public class User {
         ResultSet rs = null;
         try{
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_username = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, username);
             rs = ps.executeQuery();
             if(rs.next()) {
@@ -110,7 +110,7 @@ public class User {
         ResultSet rs = null;
         try{
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_uuid = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?");
             ps.setString(1, uuid);
             rs = ps.executeQuery();
             if(rs.next()) {
@@ -135,7 +135,7 @@ public class User {
         ResultSet rs = null;
         try{
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_username = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, name);
             rs = ps.executeQuery();
             return rs.next();
@@ -154,7 +154,7 @@ public class User {
         ResultSet rs = null;
         try{
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_username = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, name);
             rs = ps.executeQuery();
             if(!rs.next()){
@@ -176,7 +176,7 @@ public class User {
         ResultSet rs = null;
         try{
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_username = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, name);
             rs = ps.executeQuery();
             if(!rs.next()){
@@ -199,7 +199,7 @@ public class User {
         ResultSet rs = null;
         try{
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_uuid = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?");
             ps.setString(1, new User().getUuid(player));
             rs = ps.executeQuery();
             if(rs.next()) {

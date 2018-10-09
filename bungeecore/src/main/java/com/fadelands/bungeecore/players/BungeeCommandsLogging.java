@@ -30,7 +30,7 @@ public class BungeeCommandsLogging implements Listener {
 
             try(Connection connection = Main.getConnection()){
                try(PreparedStatement insert = connection
-                        .prepareStatement("INSERT INTO fadelands_chat_commands (player_uuid,player_username,server,date,commands) VALUE (?,?,?,?,?)")) {
+                        .prepareStatement("INSERT INTO chat_commands (player_uuid,player_username,server,date,commands) VALUE (?,?,?,?,?)")) {
 
                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 

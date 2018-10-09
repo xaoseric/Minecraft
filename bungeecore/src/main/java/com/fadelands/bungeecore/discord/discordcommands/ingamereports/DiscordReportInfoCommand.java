@@ -37,7 +37,7 @@ public class DiscordReportInfoCommand extends Command {
             return;
 
         }
-        String query = "SELECT * FROM fadelands_ingamereports WHERE report_id='" + args[0] + "'";
+        String query = "SELECT * FROM ingamereports WHERE report_id='" + args[0] + "'";
         try(Connection connection = Main.getConnection()){
             try(PreparedStatement statement = connection.prepareStatement(query)){
                 try(ResultSet rs = statement.executeQuery()) {

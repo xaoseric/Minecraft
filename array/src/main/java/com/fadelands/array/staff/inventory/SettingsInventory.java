@@ -57,7 +57,7 @@ public class SettingsInventory implements Listener {
                 || (event.getCurrentItem() == null)
                 || !event.getInventory().getName().equals(invName)) return;
         Player player = (Player) event.getWhoClicked();
-        String table = "fadelands_staff_settings";
+        String table = "staff_settings";
         event.setCancelled(true);
 
         switch (event.getSlot()) {

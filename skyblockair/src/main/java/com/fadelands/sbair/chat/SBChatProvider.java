@@ -22,8 +22,8 @@ public class SBChatProvider implements com.fadelands.core.provider.chat.provider
     @Override
     public ComponentBuilder[] getFormat(Player player) {
 
-        Chat chat = CorePlugin.getChat();
-        Permission permission = CorePlugin.getPermissions();
+        Chat chat = main.getChat();
+        Permission permission = main.getPermissions();
 
         // Network level
         ComponentBuilder levelComponent = new ComponentBuilder("§71 ");

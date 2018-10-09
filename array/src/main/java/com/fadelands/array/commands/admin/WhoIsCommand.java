@@ -46,7 +46,7 @@ public class WhoIsCommand implements CommandExecutor {
 
         try {
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_username = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, t);
             rs = ps.executeQuery();
             if (!rs.next()) {

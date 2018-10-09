@@ -39,7 +39,7 @@ public class HandleReportCommand extends Command {
             player.sendMessage(new ComponentBuilder(Utils.Prefix + "§cInvalid usage. /handlereport <ID> <COMMENT>").color(ChatColor.RED).create());
             return;
         }
-        String query = "SELECT * FROM fadelands_reports WHERE id='" + args[0] + "'";
+        String query = "SELECT * FROM reports WHERE id='" + args[0] + "'";
         try (Connection connection = Main.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 try (ResultSet rs = statement.executeQuery()) {
@@ -60,7 +60,7 @@ public class HandleReportCommand extends Command {
                             sb.append(args[i] + " ");
                         String comment = sb.toString();
 
-                        PreparedStatement statement2 = connection.prepareStatement("UPDATE fadelands_reports SET status=?,staff=?,handled=?,comment=? WHERE id='" + args[0] + "'");
+                        PreparedStatement statement2 = connection.prepareStatement("UPDATE reports SET status=?,staff=?,handled=?,comment=? WHERE id='" + args[0] + "'");
                         statement2.setInt(1, ReportStatusType.HANDLED.ordinal());
                         statement2.setString(2, player.getUniqueId().toString());
                         statement2.setTimestamp(3, new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
@@ -72,10 +72,10 @@ public class HandleReportCommand extends Command {
                         DiscordUtils.getIngameReports().sendMessage("Staff member `" + player.getName() + "` handled report `#" + args[0] + "` with comment `" + comment + "`.").queue();
 
                         // Add to staff data! \\
-                        try(PreparedStatement add = connection.prepareStatement("SELECT * FROM fadelands_staff_members WHERE player_uuid='" + player.getUniqueId() + "'")) {
+                        try(PreparedStatement add = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid='" + player.getUniqueId() + "'")) {
                             try (ResultSet rs2 = add.executeQuery()) {
                                 if (rs2.next()) {
-                                    MySQL.updateTable(player, "fadelands_players_staff", "reports_handled", rs2.getInt("reports_handled") + 1);
+                                    MySQL.updateTable(player, "players_staff", "reports_handled", rs2.getInt("reports_handled") + 1);
                                     //Added the stats to the staff profile!\\
                                 }
                             }

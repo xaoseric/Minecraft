@@ -52,7 +52,7 @@ public class AltsCommand implements CommandExecutor {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            String query = "SELECT * FROM fadelands_players WHERE first_ip = ? OR last_ip LIKE ?";
+            String query = "SELECT * FROM players WHERE first_ip = ? OR last_ip LIKE ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, ip);

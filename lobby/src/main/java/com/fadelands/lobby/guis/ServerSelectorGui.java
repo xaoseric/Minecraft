@@ -26,7 +26,7 @@ public class ServerSelectorGui implements Listener {
         this.plugin = plugin;
     }
 
-    private final static String invName = "§lSelect a Gamemode";
+    private final static String invName = "Select a GameMode";
 
     private static ItemStack SkyBlockRealms = new ItemBuilder(Material.MAP).setName("§6§lSkyblock Realms").setLore(Arrays.asList("§r",
             "§7Click to view our SkyBlock Realms!")).toItemStack();
@@ -60,9 +60,7 @@ public class ServerSelectorGui implements Listener {
         selector.setItem(15, SurvivalRealms);
         selector.setItem(31, SMP);
 
-
         player.openInventory(selector);
-
     }
 
     @EventHandler

@@ -42,7 +42,7 @@ public class StaffInventory implements Listener {
         ResultSet rs = null;
         try {
             connection = array.getDatabaseConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_staff_members WHERE player_uuid = ?");
+            ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
             ps.setString(1, uuid);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -105,7 +105,7 @@ public class StaffInventory implements Listener {
                 || (event.getCurrentItem() == null)
                 || !event.getInventory().getName().equals(invName)) return;
         Player player = (Player) event.getWhoClicked();
-        String table = "fadelands_staff_settings";
+        String table = "staff_settings";
         event.setCancelled(true);
 
     }

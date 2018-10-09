@@ -18,7 +18,7 @@ public class AutoSaveDb extends BukkitRunnable {
     public void run() {
         for (PlayerData playerdata : PlayerData.getAll()) {
             try(Connection connection = Array.getConnection()){
-                try (PreparedStatement statement = connection.prepareStatement("UPDATE fadelands_stats_global SET " +
+                try (PreparedStatement statement = connection.prepareStatement("UPDATE stats_global SET " +
                         "messages_sent=?," +
                         "commands_used=?," +
                         "login_count=?," +

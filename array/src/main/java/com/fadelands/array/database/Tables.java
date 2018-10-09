@@ -7,13 +7,11 @@ import java.util.logging.Logger;
 
 public class Tables {
 
-    private static Logger log = Logger.getLogger("Minecraft");
-
     public static void createTables() {
 
         // DATABASE PLAYER TABLES
 
-        String players = "CREATE TABLE IF NOT EXISTS fadelands_players " +
+        String players = "CREATE TABLE IF NOT EXISTS players " +
                 "(player_uuid VARCHAR(64) PRIMARY KEY, " +
                 "player_username VARCHAR(30), " +
                 "first_join timestamp, " +
@@ -25,7 +23,7 @@ public class Tables {
                 "last_server VARCHAR(20)," +
                 "times_reported INT)";
 
-        String statsglobal = "CREATE TABLE IF NOT EXISTS fadelands_stats_global " +
+        String statsglobal = "CREATE TABLE IF NOT EXISTS stats_global " +
                 "(player_uuid VARCHAR(64) PRIMARY KEY, " +
                 "tokens INT," +
                 "messages_sent INT, " +
@@ -40,21 +38,21 @@ public class Tables {
 
         // DATABASE CHAT TABLES
 
-        String chatlogs = "CREATE TABLE IF NOT EXISTS fadelands_chat_messages " +
+        String chatlogs = "CREATE TABLE IF NOT EXISTS chat_messages " +
                 "(player_uuid VARCHAR(64), " +
                 "player_username VARCHAR(30), " +
                 "server VARCHAR(50), " +
                 "date timestamp, " +
                 "messages VARCHAR(100))";
 
-        String commandlogs = "CREATE TABLE IF NOT EXISTS fadelands_chat_commands " +
+        String commandlogs = "CREATE TABLE IF NOT EXISTS chat_commands " +
                 "(player_uuid VARCHAR(64), " +
                 "player_username VARCHAR(30), " +
                 "server VARCHAR(50), " +
                 "date timestamp, " +
                 "commands VARCHAR(100))";
 
-        String pmlogs = "CREATE TABLE IF NOT EXISTS fadelands_chat_pms " +
+        String pmlogs = "CREATE TABLE IF NOT EXISTS chat_pms " +
                 "(sender_uuid VARCHAR(64), " +
                 "sender_name VARCHAR(30), " +
                 "receiver_uuid VARCHAR(64), " +
@@ -62,13 +60,13 @@ public class Tables {
                 "date timestamp, " +
                 "message VARCHAR(100))";
 
-        String color = "CREATE TABLE IF NOT EXISTS fadelands_chat_color " +
+        String color = "CREATE TABLE IF NOT EXISTS chat_color " +
                 "(player_uuid VARCHAR(64) NOT NULL PRIMARY KEY, " +
                 "color VARCHAR(30) NOT NULL)";
 
         // DATABASE STAFF TABLES
 
-        String reports = "CREATE TABLE IF NOT EXISTS fadelands_reports " +
+        String reports = "CREATE TABLE IF NOT EXISTS reports " +
                 "(id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
                 "reporter VARCHAR(64), " +
                 "reported VARCHAR(64), " +
@@ -80,7 +78,7 @@ public class Tables {
                 "handled timestamp, " +
                 "comment TEXT)";
 
-        String staff = "CREATE TABLE IF NOT EXISTS fadelands_staff_members " +
+        String staff = "CREATE TABLE IF NOT EXISTS staff_members " +
                 "(player_uuid VARCHAR(64) PRIMARY KEY, " +
                 "date_hired timestamp null, " +
                 "bans BIGINT null, " +
@@ -90,7 +88,7 @@ public class Tables {
 
         // DATABASE DISCORD TABLES
 
-        String discordLink = "CREATE TABLE IF NOT EXISTS fadelands_discord_regs " +
+        String discordLink = "CREATE TABLE IF NOT EXISTS discord_regs " +
                 "(player_uuid VARCHAR(64), " +
                 "player_username VARCHAR(30), " +
                 "registered boolean, " +
@@ -99,7 +97,7 @@ public class Tables {
                 "reg_to_discord_disc VARCHAR(100), " +
                 "security_key VARCHAR(16))";
 
-        String settings = "CREATE TABLE IF NOT EXISTS fadelands_players_settings " +
+        String settings = "CREATE TABLE IF NOT EXISTS players_settings " +
                 "(player_uuid VARCHAR(64), " +
                 "friend_requests boolean default true, " +
                 "join_leave_messages boolean default true, " +
@@ -114,12 +112,12 @@ public class Tables {
                 "party_requests boolean default true" +
                 ")";
 
-        String lobbysettings = "CREATE TABLE IF NOT EXISTS fadelands_players_lobbysettings " +
+        String lobbysettings = "CREATE TABLE IF NOT EXISTS players_lobbysettings " +
                 "(player_uuid VARCHAR(64), " +
                 "double_jump boolean default false, " +
                 "player_visibility boolean default true)";
 
-        String settingsStaff = "CREATE TABLE IF NOT EXISTS fadelands_staff_settings " +
+        String settingsStaff = "CREATE TABLE IF NOT EXISTS staff_settings " +
                 "(player_uuid VARCHAR(64), " +
                 "flight_toggled boolean default false, " +
                 "vanish_toggled boolean default false, " +
@@ -128,7 +126,7 @@ public class Tables {
                 "admin_notifications boolean default true)";
 
         //Punishments
-        String banrecords = "CREATE TABLE IF NOT EXISTS fadelands_ban_records " +
+        String banrecords = "CREATE TABLE IF NOT EXISTS ban_records " +
                 "(banned_uuid VARCHAR(64) PRIMARY KEY NOT NULL, " +
                 "banner_uuid VARCHAR(64) NOT NULL, " +
                 "banned_date timestamp NOT NULL, " +
@@ -136,7 +134,7 @@ public class Tables {
                 "server VARCHAR(30) NOT NULL, " +
                 "reason text NOT NULL)";
 
-        String punishments = "CREATE TABLE IF NOT EXISTS fadelands_punishments " +
+        String punishments = "CREATE TABLE IF NOT EXISTS punishments " +
                 "(punish_id integer AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
                 "appeal_key varchar(30) NOT NULL, " +
                 "punisher_uuid varchar(64) NOT NULL, " +
@@ -151,7 +149,7 @@ public class Tables {
                 "remove_admin varchar(40))";
 
         //Server
-        String lockdown = "CREATE TABLE IF NOT EXISTS fadelands_server_lockdown " +
+        String lockdown = "CREATE TABLE IF NOT EXISTS server_lockdown " +
                 "(lockdowner varchar(64), " +
                 "active boolean, " +
                 "reason text)";

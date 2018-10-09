@@ -25,7 +25,7 @@ public class PlayerManager implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         try (Connection connection = Array.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_uuid = ?")) {
+            try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?")) {
                 statement.setString(1, player.getUniqueId().toString());
                 try (ResultSet rs = statement.executeQuery()) {
                     boolean exists = rs.next();
@@ -40,16 +40,11 @@ public class PlayerManager implements Listener {
     }
 
     private void playerExist(Player player) {
-        SQLUtils.updateTable(player, "fadelands_players", "player_username", player.getName());
-        SQLUtils.updateTable(player, "fadelands_players", "last_login", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
-        SQLUtils.updateTable(player, "fadelands_players", "last_ip", player.getAddress().getAddress().getHostAddress());
-        SQLUtils.updateTable(player, "fadelands_players", "last_country", "none");
-        SQLUtils.updateTable(player, "fadelands_players", "last_server", array.getPluginMessage().getServerName(player));
-
-        if(new User().isAdmin(player.getName())){
-            SQLUtils.updateTable(player, "fadelands_players", "last_ip", "[hidden]");
-            player.sendMessage("§cYour IP address has been hid in the database.");
-        }
+        SQLUtils.updateTable(player, "players", "player_username", player.getName());
+        SQLUtils.updateTable(player, "players", "last_login", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
+        SQLUtils.updateTable(player, "players", "last_ip", player.getAddress().getAddress().getHostAddress());
+        SQLUtils.updateTable(player, "players", "last_country", "none");
+        SQLUtils.updateTable(player, "players", "last_server", array.getPluginMessage().getServerName(player));
     }
 
     private void createPlayer(Player player) {
@@ -61,7 +56,7 @@ public class PlayerManager implements Listener {
         try {
             connection = Array.getConnection();
             ps = connection.prepareStatement("INSERT INTO " +
-                    "fadelands_players " +
+                    "players " +
                     "(" +
                     "player_uuid," +
                     "player_username," +
@@ -88,7 +83,7 @@ public class PlayerManager implements Listener {
             ps.executeUpdate();
 
             ps2 = connection.prepareStatement("INSERT INTO " +
-                    "fadelands_stats_global " +
+                    "stats_global " +
                     "(" +
                     "player_uuid," +
                     "tokens," +
@@ -116,8 +111,8 @@ public class PlayerManager implements Listener {
             ps2.setInt(11, 0);
             ps2.executeUpdate();
 
-            SQLUtils.insertTo("fadelands_players_settings", "player_uuid", player.getUniqueId().toString());
-            SQLUtils.insertTo("fadelands_players_lobbysettings", "player_uuid", player.getUniqueId().toString());
+            SQLUtils.insertTo("players_settings", "player_uuid", player.getUniqueId().toString());
+            SQLUtils.insertTo("players_lobbysettings", "player_uuid", player.getUniqueId().toString());
 
             player.sendMessage("§2✔ §aYour profile has been created.");
 

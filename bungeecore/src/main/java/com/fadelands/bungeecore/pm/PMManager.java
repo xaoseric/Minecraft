@@ -23,7 +23,7 @@ public class PMManager {
 
         try{
             connection = Main.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players_settings WHERE player_uuid = ?");
+            ps = connection.prepareStatement("SELECT * FROM players_settings WHERE player_uuid = ?");
             ps.setString(1, player.getUniqueId().toString());
             rs = ps.executeQuery();
             if(rs.next()){

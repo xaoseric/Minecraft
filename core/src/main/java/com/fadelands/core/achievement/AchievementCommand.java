@@ -35,7 +35,7 @@ public class AchievementCommand implements CommandExecutor {
 
             String targetStr = args[0];
 
-            Array.executeQuery("SELECT * FROM fadelands_players WHERE player_username='" + targetStr + "'", rs -> {
+            Array.executeQuery("SELECT * FROM players WHERE player_username='" + targetStr + "'", rs -> {
                     try {
                         if (!rs.next()) {
                             player.sendMessage("§cThat player has never played on the server before.");

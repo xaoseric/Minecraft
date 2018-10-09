@@ -63,7 +63,7 @@ public class HistoryCommand implements CommandExecutor {
 
         try {
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_punishments WHERE punished_uuid = ?");
+            ps = connection.prepareStatement("SELECT * FROM punishments WHERE punished_uuid = ?");
             ps.setString(1, fadeLandsPlayer.getUuid(targetraw));
             rs = ps.executeQuery();
             if(!(rs.next())){

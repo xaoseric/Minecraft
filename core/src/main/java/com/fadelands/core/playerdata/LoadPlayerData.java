@@ -25,7 +25,7 @@ public class LoadPlayerData implements Listener {
     private static void load(UUID uuid) {
 
         try(Connection connection = Array.getConnection()){
-            try(PreparedStatement st = connection.prepareStatement("SELECT * FROM `fadelands_stats_global` WHERE `player_uuid`='" + uuid.toString() + "'")) {
+            try(PreparedStatement st = connection.prepareStatement("SELECT * FROM `stats_global` WHERE `player_uuid`='" + uuid.toString() + "'")) {
                 try (ResultSet resultPlayerStats = st.executeQuery()) {
 
                     if (resultPlayerStats.next()) {

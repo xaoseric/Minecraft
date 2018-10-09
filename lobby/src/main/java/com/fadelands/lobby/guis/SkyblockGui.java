@@ -27,7 +27,7 @@ public class SkyblockGui implements Listener {
         this.plugin = plugin;
     }
 
-    private final static String invName = "§lSelect a Realm";
+    private final static String invName = "Select a Realm";
 
     private static ItemStack airRealm = new ItemBuilder(Material.MILK_BUCKET).setName("§6§lAir Realm").setLore(Arrays.asList(
             "§2Players (" + pluginMessage.getPlayers("SB-AIR") + "/100)",

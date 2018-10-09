@@ -31,7 +31,7 @@ public class ChatLogging implements Listener {
 
             try(Connection connection = Main.getConnection()){
                try( PreparedStatement insert = connection
-                        .prepareStatement("INSERT INTO fadelands_chat_messages (player_uuid,player_username,server,date,messages) VALUE (?,?,?,?,?)")) {
+                        .prepareStatement("INSERT INTO chat_messages (player_uuid,player_username,server,date,messages) VALUE (?,?,?,?,?)")) {
 
                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
