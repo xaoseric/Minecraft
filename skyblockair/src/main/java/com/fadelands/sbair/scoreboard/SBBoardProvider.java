@@ -35,10 +35,10 @@ public class SBBoardProvider extends SimpleBoardProvider {
             toReturn.add("  &7Money: &2$" + main.getEconomy().getBalance(player.getName() + "k"));
             toReturn.add("&r ");
             toReturn.add("&6&lIsland");
-            toReturn.add("  &7Level: &2" + main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId()));
-            toReturn.add("  &7Team: §2" + main.getSkyBlockApi().getTeamMembers(player.getUniqueId()).size());
+            toReturn.add("  &7Level: &f" + main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId()));
+            toReturn.add("  &7Team: §f" + main.getSkyBlockApi().getTeamMembers(player.getUniqueId()).size());
             toReturn.add("&r ");
-            toReturn.add("&2www.fadelands.com");
+            toReturn.add("&ewww.fadelands.com");
 
             return toReturn;
     }
