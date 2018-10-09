@@ -58,7 +58,7 @@ public class ApplyGui implements Listener {
             if (event.getCurrentItem().isSimilar(staff)) {
                 player.sendMessage("§r \n" +
                         "§7Read more about our staff applications at: \n " +
-                        "§6https://www.fadelands.com/moderator \n " +
+                        "§6https://www.fadelands.com/mod \n " +
                         "§r ");
                 player.closeInventory();
             }

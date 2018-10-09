@@ -77,7 +77,7 @@ public class PunishCommand implements CommandExecutor {
                             array.getPunishmentMenu().openAsAdmin(player, targetName, reason);
                             break;
                         case "developer":
-                            player.sendMessage("Developer is a non-moderator rank. You can still apply for moderator as a developer.");
+                            player.sendMessage("Developer is a non-mod rank. You can still apply for mod as a developer.");
                             break;
                         case "senior":
                             array.getPunishmentMenu().openAsSenior(player, targetName, reason);

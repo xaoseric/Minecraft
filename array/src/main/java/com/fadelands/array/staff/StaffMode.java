@@ -109,9 +109,35 @@ public class StaffMode implements Listener {
     }
 
     @EventHandler
-    public void noDamage(PlayerInteractEvent event) {
+    public void interactEvent(PlayerInteractEvent event) {
         if(settings.vanishOn(event.getPlayer())){
-            event.setCancelled(true);
+            if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if(!(event.getPlayer().getItemInHand().hasItemMeta())) return;
+                if(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("§c§lVanish On §7(Click to toggle)")) {
+                    event.getPlayer().performCommand("vanish");
+                    event.setCancelled(true);
+                }
+                if (event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("§6Staff Settings")) {
+                    event.getPlayer().performCommand("staffsettings");
+                    event.setCancelled(true);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void inventoryChecker(PlayerInteractEntityEvent event) {
+        Player player = event.getPlayer();
+        if(settings.vanishOn(player)){
+            if(!(event.getPlayer().getItemInHand().hasItemMeta())) return;
+            if(player.getItemInHand().getItemMeta().getDisplayName().equals("§6Show Inventory")) {
+                if (event.getRightClicked() instanceof Player) {
+                    Player entity = (Player) event.getRightClicked();
+                    PlayerInventory targetInventory = entity.getInventory();
+                    player.openInventory(targetInventory);
+                    event.setCancelled(true);
+                }
+            }
         }
     }
 

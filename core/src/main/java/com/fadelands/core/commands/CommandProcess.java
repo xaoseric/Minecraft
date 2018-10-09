@@ -38,9 +38,10 @@ public class CommandProcess implements Listener {
             event.setCancelled(true);
         }
 
-       // PlayerData.Statistics stats = PlayerData.get(player.getUniqueId()).getStats();
-       // stats.setCommandsUsed(stats.getCommandsUsed() + 1);
-
+        /* ignored for now
+       PlayerData.Statistics stats = PlayerData.get(player.getUniqueId()).getStats();
+       stats.setCommandsUsed(stats.getCommandsUsed() + 1);
+        */
     }
 
 }

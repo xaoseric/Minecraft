@@ -46,7 +46,7 @@ public class SBChatProvider implements com.fadelands.core.provider.chat.provider
         rankComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/profile " + player.getName()));
 
         // Username block
-        ComponentBuilder userComponent = new ComponentBuilder(player.getName());
+        ComponentBuilder userComponent = new ComponentBuilder("§7" + player.getName());
         userComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.USER_BLOCK
                 .replace("{0}", permission.getPrimaryGroup(player).toUpperCase()
                         .replaceAll("&", "§"))
