@@ -3,14 +3,13 @@ package com.fadelands.sbair.scoreboard;
 import com.fadelands.array.utils.PluginMessage;
 import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
 import com.fadelands.sbair.Main;
+import com.fadelands.sbair.utils.DateUtils;
 import com.google.common.collect.Lists;
 import org.bukkit.entity.Player;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import static com.fadelands.sbair.utils.DateUtils.getFormattedDate;
 
 public class SBBoardProvider extends SimpleBoardProvider {
 
@@ -38,8 +37,8 @@ public class SBBoardProvider extends SimpleBoardProvider {
         for(int i=0;i<32;i++){
         }
 
-            toReturn.add("&7" + (getFormattedDate(cal.getTime())));
-            toReturn.add("&");
+            toReturn.add("&7" + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
+            toReturn.add("&r");
             toReturn.add("&6&lYou");
             toReturn.add("  &7Rank: " + main.getPermissions().getPrimaryGroup(player));
             toReturn.add("  &7Money: &2$" + main.getEconomy().getBalance(player.getName() + "k"));
@@ -73,6 +72,11 @@ public class SBBoardProvider extends SimpleBoardProvider {
     public String getNameTag(Player player, Player other) {
         return super.getNameTag(player, other); // Exists in core already, use this if you dont want to override <-
 
+    }
+
+    public static String getMonthName(int month){
+        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        return monthNames[month];
     }
 
 }

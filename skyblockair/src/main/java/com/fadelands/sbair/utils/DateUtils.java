@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class DateUtils {
 
-    public static String getFormattedDate(Date date){
+    public static String getFormattedDayDate(Date date){
         Calendar cal=Calendar.getInstance();
         cal.setTime(date);
         //2nd of march 2015
@@ -15,15 +15,15 @@ public class DateUtils {
         if(!((day>10) && (day<19)))
             switch (day % 10) {
                 case 1:
-                    return new SimpleDateFormat("MMMM d'st'").format(date);
+                    return new SimpleDateFormat("d'st'").format(date);
                 case 2:
-                    return new SimpleDateFormat("MMMM d'nd'").format(date);
+                    return new SimpleDateFormat("d'nd'").format(date);
                 case 3:
-                    return new SimpleDateFormat("MMMM d'rd'").format(date);
+                    return new SimpleDateFormat("d'rd'").format(date);
                 default:
-                    return new SimpleDateFormat("MMMM d'th'").format(date);
+                    return new SimpleDateFormat("d'th'").format(date);
             }
-        return new SimpleDateFormat("MMMM d'th'").format(date);
+        return new SimpleDateFormat("d'th'").format(date);
     }
 
 
