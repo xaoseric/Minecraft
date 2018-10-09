@@ -37,7 +37,7 @@ public class SBBoardProvider extends SimpleBoardProvider {
         for(int i=0;i<32;i++){
         }
 
-            toReturn.add("&7" + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
+            toReturn.add("&7        " + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
             toReturn.add("&r");
             toReturn.add("&6&lYou");
             toReturn.add("  &7Rank: " + main.getPermissions().getPrimaryGroup(player));
