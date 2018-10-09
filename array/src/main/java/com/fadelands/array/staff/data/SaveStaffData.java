@@ -27,7 +27,7 @@ public class SaveStaffData implements Listener {
         if (user.isStaff(player.getName())) {
 
             for (StaffMemberData staffdata : StaffMemberData.getAll()) {
-                try (PreparedStatement statement = Array.getConnection().prepareStatement("UPDATE fadelands_players_staff SET " +
+                try (PreparedStatement statement = Array.getConnection().prepareStatement("UPDATE players_staff SET " +
                         "bans=?,kicks=?,mutes=?,reports_handled=?" +
                         " WHERE player_uuid='" + staffdata.getUUID() + "'")){
                      statement.setInt(1, staffdata.getStats().getBans());

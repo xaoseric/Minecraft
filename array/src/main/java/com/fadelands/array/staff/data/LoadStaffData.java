@@ -11,7 +11,7 @@ public class LoadStaffData {
 
 
     private static void loadStaffData(Player player) {
-        Array.executeQuery("SELECT * FROM `fadelands_players_staff` WHERE `player_uuid`='" + player.getUniqueId().toString() + "'", resultPlayerStats -> {
+        Array.executeQuery("SELECT * FROM `players_staff` WHERE `player_uuid`='" + player.getUniqueId().toString() + "'", resultPlayerStats -> {
                 try {
                     if (resultPlayerStats.next()) {
                         User user = new User();

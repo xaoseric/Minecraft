@@ -161,18 +161,22 @@ public class StaffMode implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if(inventoryArmorHashMap.containsKey(event.getPlayer().getUniqueId()) || inventoryItemsHashMap.containsKey(event.getPlayer().getUniqueId()) || playerLocation.containsKey(event.getPlayer().getUniqueId())) {
-            inventoryItemsHashMap.remove(event.getPlayer().getUniqueId());
-            inventoryArmorHashMap.remove(event.getPlayer().getUniqueId());
-            playerLocation.remove(event.getPlayer().getUniqueId());
+        if(new User().isStaff(event.getPlayer().getName())) {
+            if (inventoryArmorHashMap.containsKey(event.getPlayer().getUniqueId()) || inventoryItemsHashMap.containsKey(event.getPlayer().getUniqueId()) || playerLocation.containsKey(event.getPlayer().getUniqueId())) {
+                inventoryItemsHashMap.remove(event.getPlayer().getUniqueId());
+                inventoryArmorHashMap.remove(event.getPlayer().getUniqueId());
+                playerLocation.remove(event.getPlayer().getUniqueId());
+            }
         }
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if(settings.vanishOn(event.getPlayer())) {
-            toggleOn(event.getPlayer());
-            event.getPlayer().sendMessage(Utils.Prefix + "§aLast time you left, you were in vanish. You have been put in vanish again. You can toggle off with /vanish.");
+        if(new User().isStaff(event.getPlayer().getName())) {
+            if (settings.vanishOn(event.getPlayer())) {
+                toggleOn(event.getPlayer());
+                event.getPlayer().sendMessage(Utils.Prefix + "§aLast time you left, you were in vanish. You have been put in vanish again. You can toggle off with /vanish.");
+            }
         }
     }
 }

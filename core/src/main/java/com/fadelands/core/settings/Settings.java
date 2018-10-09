@@ -16,7 +16,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -37,7 +37,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -58,7 +58,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -79,7 +79,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -100,7 +100,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -121,7 +121,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -142,7 +142,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -163,7 +163,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -184,7 +184,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -205,7 +205,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -226,7 +226,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            String query = "SELECT * FROM fadelands_players_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -247,7 +247,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            String query = "SELECT * FROM fadelands_players_lobbysettings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_lobbysettings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -268,7 +268,7 @@ public class Settings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            String query = "SELECT * FROM fadelands_players_lobbysettings WHERE player_uuid = ?";
+            String query = "SELECT * FROM players_lobbysettings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());

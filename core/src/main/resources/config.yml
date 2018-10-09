@@ -4,7 +4,7 @@
 
 host: 'localhost'
 port: '3306'
-database: 'fadelands_server'
+database: 'server'
 username: 'root'
 password: ''
 

@@ -46,7 +46,7 @@ public class SimpleBoardProvider implements BoardProvider {
                             }
 
                             case ("senior"): {
-                                return "&6&lSENIOR &7{player}";
+                                return "&6&lSR.MOD &7{player}";
                             }
 
                             case ("mod"): {
@@ -87,7 +87,7 @@ public class SimpleBoardProvider implements BoardProvider {
 
                             case ("default"): {
                                 return "&7{player}";
-                            }
+                            }//ignore below pls
                             // den kommer bli cuttad ifall du går över 32 characters samma gäller vid scoreboard linjerna
                             // om den inte hittar någon rank så går den till denna
 

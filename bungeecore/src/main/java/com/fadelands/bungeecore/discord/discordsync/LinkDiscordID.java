@@ -40,7 +40,7 @@ public class LinkDiscordID extends Command {
 
         if (args.length == 0) {
             try (Connection connection = Main.getConnection()) {
-                try (PreparedStatement st = connection.prepareStatement("SELECT * FROM fadelands_discord_regs WHERE player_uuid='" + player.getUniqueId().toString() + "'")) {
+                try (PreparedStatement st = connection.prepareStatement("SELECT * FROM discord_regs WHERE player_uuid='" + player.getUniqueId().toString() + "'")) {
                     try (ResultSet rs = st.executeQuery()) {
 
                         if (!rs.next()) {
@@ -91,7 +91,7 @@ public class LinkDiscordID extends Command {
 
             if (args[0].equalsIgnoreCase("unlink"))
                 try (Connection connection = Main.getConnection()) {
-                    try (PreparedStatement st = connection.prepareStatement("SELECT * FROM fadelands_discord_regs WHERE player_uuid='" + player.getUniqueId().toString() + "'")) {
+                    try (PreparedStatement st = connection.prepareStatement("SELECT * FROM discord_regs WHERE player_uuid='" + player.getUniqueId().toString() + "'")) {
                         try (ResultSet rs = st.executeQuery()) {
 
                             if (!rs.next()) {
@@ -112,7 +112,7 @@ public class LinkDiscordID extends Command {
 
                                 player.sendMessage(new ComponentBuilder(Utils.Prefix + "§aUnlinked your Discord account!").color(ChatColor.GREEN).create());
                                 dm.log("`" + player.getName() + " (" + player.getUniqueId().toString() + ")` unlinked their Minecraft account from their Discord account `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + "`.");
-                                MySQL.deleteFromTable(player, "fadelands_discord_regs");
+                                MySQL.deleteFromTable(player, "discord_regs");
 
                             }
                         }
@@ -138,7 +138,7 @@ public class LinkDiscordID extends Command {
                 Guild guild = BuildBot.jda.getGuildById("402096765018570752");
                 GuildController gc = guild.getController();
                 try(Connection connection = Main.getConnection()){
-                    try(PreparedStatement st = connection.prepareStatement("SELECT * FROM fadelands_discord_regs WHERE player_uuid='" + player.getUniqueId() + "'")) {
+                    try(PreparedStatement st = connection.prepareStatement("SELECT * FROM discord_regs WHERE player_uuid='" + player.getUniqueId() + "'")) {
                         try (ResultSet rs = st.executeQuery()) {
 
                             if (rs.next()) {
@@ -150,7 +150,7 @@ public class LinkDiscordID extends Command {
 
                                 String key = output.nextString();
 
-                                try (PreparedStatement insert = connection.prepareStatement("INSERT INTO fadelands_discord_regs " +
+                                try (PreparedStatement insert = connection.prepareStatement("INSERT INTO discord_regs " +
                                         "(player_uuid," +
                                         "player_username," +
                                         "registered," +
@@ -185,13 +185,13 @@ public class LinkDiscordID extends Command {
 
             if (args[0].equalsIgnoreCase("verify")) {
                 try(Connection connection = Main.getConnection()){
-                    try(PreparedStatement st = connection.prepareStatement("SELECT * FROM fadelands_discord_regs WHERE security_key='" + args[1] + "'")){
+                    try(PreparedStatement st = connection.prepareStatement("SELECT * FROM discord_regs WHERE security_key='" + args[1] + "'")){
                         try(ResultSet rs = st.executeQuery()) {
 
                             if (!rs.next()) {
                                 player.sendMessage(new ComponentBuilder(Utils.Prefix_Red + "§cThat's not a valid key!").color(ChatColor.RED).create());
                             } else {
-                                try (PreparedStatement st2 = connection.prepareStatement("SELECT * FROM fadelands_discord_regs WHERE player_uuid='" + player.getUniqueId().toString() + "'")) {
+                                try (PreparedStatement st2 = connection.prepareStatement("SELECT * FROM discord_regs WHERE player_uuid='" + player.getUniqueId().toString() + "'")) {
                                     try (ResultSet rs2 = st2.executeQuery()) {
 
                                         if (rs2.next()) {
@@ -218,7 +218,7 @@ public class LinkDiscordID extends Command {
 
                                                             gc.addSingleRoleToMember(member, guild.getRoleById(Group.VERIFIED.getID())).queue();
                                                             gc.setNickname(member, player.getName()).queue();
-                                                            MySQL.updateTable(player, "fadelands_discord_regs", "registered", true);
+                                                            MySQL.updateTable(player, "discord_regs", "registered", true);
 
                                                             player.sendMessage(new ComponentBuilder(Utils.Prefix + "§2Your account has been linked to " + user.getName() + "#" + user.getDiscriminator() + ".").color(ChatColor.DARK_GREEN).create());
                                                             dm.log("`" + player.getName() + " (" + player.getUniqueId().toString() + ")` linked their Minecraft account to Discord account `" + user.getName() + "#" + user.getDiscriminator() + "` with permission group: `" + luckyGroup + "`");

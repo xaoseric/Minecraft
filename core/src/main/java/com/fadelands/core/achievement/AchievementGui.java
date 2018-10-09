@@ -24,7 +24,7 @@ public class AchievementGui implements Listener {
 
     public static void openOtherPlayerAchievements(Player player, String target) {
         try(Connection connection = Array.getConnection()){
-            try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_username='" + target + "'")) {
+            try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM players WHERE player_username='" + target + "'")) {
                 try (ResultSet rs = statement.executeQuery()) {
                     if (!rs.next()) {
                         player.sendMessage("§cAn error occurred while loading " + target + "'s achievements.");

@@ -51,11 +51,12 @@ public class StaffManagementCommand implements CommandExecutor {
             Connection connection = null;
             PreparedStatement ps = null;
             PreparedStatement ps2 = null;
+            PreparedStatement ps3 = null;
             ResultSet rs = null;
 
             try {
                 connection = Array.getConnection();
-                ps = connection.prepareStatement("SELECT * FROM fadelands_staff_members WHERE player_uuid = ?");
+                ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
                 ps.setString(1, user.getUuid(target));
                 rs = ps.executeQuery();
                 boolean exists = rs.next();
@@ -64,8 +65,9 @@ public class StaffManagementCommand implements CommandExecutor {
                     player.sendMessage(Utils.Prefix + "§cThat user already exists in the staff database.");
                     return true;
                 }
+
                 ps2 = connection.prepareStatement("INSERT INTO " +
-                        "fadelands_staff_members " +
+                        "staff_members " +
                         "(" +
                         "player_uuid," +
                         "date_hired" +
@@ -75,13 +77,18 @@ public class StaffManagementCommand implements CommandExecutor {
                 ps2.setString(1, user.getUuid(target));
                 ps2.setTimestamp(2, new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
                 ps2.executeUpdate();
-                ps2.close();
+
+                ps3 = connection.prepareStatement("INSERT INTO staff_settings (player_uuid) VALUES (?)");
+                ps3.setString(1, user.getUuid(target));
+                ps3.executeUpdate();
+
                 player.sendMessage(Utils.Prefix + "§aSuccessfully added " + target + " to staff database.");
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
                 Array.closeComponents(rs, ps, connection);
                 Array.closeComponents(ps2);
+                Array.closeComponents(ps3);
             }
         }
 
@@ -103,7 +110,7 @@ public class StaffManagementCommand implements CommandExecutor {
 
             try {
                 connection = Array.getConnection();
-                ps = connection.prepareStatement("SELECT * FROM fadelands_staff_members WHERE player_uuid = ?");
+                ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
                 ps.setString(1, user.getUuid(target));
                 rs = ps.executeQuery();
                 boolean exists = rs.next();
@@ -112,7 +119,7 @@ public class StaffManagementCommand implements CommandExecutor {
                     return true;
                 }
 
-                SQLUtils.updateTable(target, "fadelands_staff_members", "resignation_date", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
+                SQLUtils.updateTable(target, "staff_members", "resignation_date", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
                 player.sendMessage(Utils.Prefix + "§aAdded resignation date to " + target + " in staff database.");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -139,7 +146,7 @@ public class StaffManagementCommand implements CommandExecutor {
 
             try {
                 connection = Array.getConnection();
-                ps = connection.prepareStatement("SELECT * FROM fadelands_staff_members WHERE player_uuid = ?");
+                ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
                 ps.setString(1, user.getUuid(target));
                 rs = ps.executeQuery();
                 if (!rs.next()) {

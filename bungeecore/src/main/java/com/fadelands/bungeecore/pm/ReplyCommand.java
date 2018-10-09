@@ -66,7 +66,7 @@ public class ReplyCommand extends Command {
 
         try{
             connection = Main.getConnection();
-            ps =  connection.prepareStatement("INSERT INTO fadelands_chat_pms (sender_uuid,sender_name,receiver_uuid,receiver_name,date,message) " +
+            ps =  connection.prepareStatement("INSERT INTO chat_pms (sender_uuid,sender_name,receiver_uuid,receiver_name,date,message) " +
                     "VALUES (?,?,?,?,?,?)");
             ps.setString(1, player.getUniqueId().toString());
             ps.setString(2, player.getName());

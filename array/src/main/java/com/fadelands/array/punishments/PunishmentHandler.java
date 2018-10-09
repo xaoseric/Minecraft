@@ -26,7 +26,7 @@ public class PunishmentHandler {
 
         Connection connection = null;
         PreparedStatement ps = null;
-        String query = "INSERT INTO fadelands_punishments (appeal_key, punisher_uuid, punish_type, reason, punished_uuid, date, until) " +
+        String query = "INSERT INTO punishments (appeal_key, punisher_uuid, punish_type, reason, punished_uuid, date, until) " +
                 "VALUES (?,?,?,?,?,?,?)";
         try {
             connection = Array.getConnection();
@@ -59,7 +59,7 @@ public class PunishmentHandler {
 
         try {
             connection = Array.getConnection();
-            ps = connection.prepareStatement("UPDATE fadelands_punishments SET (active,removed,remove_reason,remove_admin) WHERE report_id='" + punishmentId + "'");
+            ps = connection.prepareStatement("UPDATE punishments SET (active,removed,remove_reason,remove_admin) WHERE report_id='" + punishmentId + "'");
             ps.setBoolean(1, false);
             ps.setBoolean(2, true);
             ps.setString(3, removalReason);
@@ -84,7 +84,7 @@ public class PunishmentHandler {
 
         try {
             connection = Array.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_punishments WHERE punished_uuid = ?");
+            ps = connection.prepareStatement("SELECT * FROM punishments WHERE punished_uuid = ?");
             ps.setString(1, targetUuid);
             rs = ps.executeQuery();
             if (!rs.next()) {

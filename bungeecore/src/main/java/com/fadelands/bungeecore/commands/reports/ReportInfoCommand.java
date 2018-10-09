@@ -33,7 +33,7 @@ public class ReportInfoCommand extends Command {
             player.sendMessage(new ComponentBuilder(Utils.Prefix + "§cInvalid usage. /reportinfo <ID>").color(ChatColor.RED).create());
             return;
         }
-        String query = "SELECT * FROM fadelands_reports WHERE id='" + args[0] + "'";
+        String query = "SELECT * FROM reports WHERE id='" + args[0] + "'";
         try (Connection connection = Main.getConnection()){
             try(PreparedStatement statement = connection.prepareStatement(query)){
                 try(ResultSet rs = statement.executeQuery()) {

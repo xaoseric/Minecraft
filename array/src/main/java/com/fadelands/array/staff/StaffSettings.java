@@ -15,7 +15,7 @@ public class StaffSettings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String query = "SELECT * FROM fadelands_staff_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM staff_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -28,7 +28,7 @@ public class StaffSettings {
         } finally {
             Array.closeComponents(rs, ps, connection);
         }
-        return true;
+        return false;
     }
 
     public boolean vanishOn(Player player) {
@@ -36,7 +36,7 @@ public class StaffSettings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String query = "SELECT * FROM fadelands_staff_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM staff_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -49,7 +49,7 @@ public class StaffSettings {
         } finally {
             Array.closeComponents(rs, ps, connection);
         }
-        return true;
+        return false;
     }
 
     public boolean staffChatOn(Player player) {
@@ -57,7 +57,7 @@ public class StaffSettings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String query = "SELECT * FROM fadelands_staff_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM staff_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -70,7 +70,7 @@ public class StaffSettings {
         } finally {
             Array.closeComponents(rs, ps, connection);
         }
-        return true;
+        return false;
     }
 
     public boolean adminNotificationsOn(Player player) {
@@ -78,7 +78,7 @@ public class StaffSettings {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String query = "SELECT * FROM fadelands_staff_settings WHERE player_uuid = ?";
+            String query = "SELECT * FROM staff_settings WHERE player_uuid = ?";
             connection = Array.getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
@@ -91,6 +91,6 @@ public class StaffSettings {
         } finally {
             Array.closeComponents(rs, ps, connection);
         }
-        return true;
+        return false;
     }
 }

@@ -46,7 +46,7 @@ public class ProfileCommand implements CommandExecutor {
             //noinspection Duplicates
             try {
                 connection = Array.getConnection();
-                ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_username='" + targetStr + "'");
+                ps = connection.prepareStatement("SELECT * FROM players WHERE player_username='" + targetStr + "'");
                 rs = ps.executeQuery();
                 if (!rs.next()) {
                     player.sendMessage(Utils.Prefix + "§cI couldn't find that player.");

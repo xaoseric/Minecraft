@@ -88,7 +88,7 @@ public class SettingsInventory implements Listener {
                 || (event.getCurrentItem() == null)
                 || !event.getInventory().getName().equals(SOCIAL)) return;
         Player player = (Player) event.getWhoClicked();
-        String table = "fadelands_players_settings";
+        String table = "players_settings";
         event.setCancelled(true);
 
         switch (event.getSlot()) {
@@ -153,7 +153,7 @@ public class SettingsInventory implements Listener {
                 || (event.getCurrentItem() == null)
                 || !event.getInventory().getName().equals(LOBBY)) return;
         Player player = (Player) event.getWhoClicked();
-        String table = "fadelands_players_lobbysettings";
+        String table = "players_lobbysettings";
         event.setCancelled(true);
 
         switch (event.getSlot()) {
@@ -183,7 +183,7 @@ public class SettingsInventory implements Listener {
                 || (event.getCurrentItem() == null)
                 || !event.getInventory().getName().equals(GAME)) return;
         Player player = (Player) event.getWhoClicked();
-        String table = "fadelands_players_settings";
+        String table = "players_settings";
         event.setCancelled(true);
 
         switch (event.getSlot()) {

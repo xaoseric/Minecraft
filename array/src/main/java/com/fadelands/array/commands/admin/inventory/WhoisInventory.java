@@ -39,7 +39,7 @@ public class WhoisInventory implements Listener {
         ResultSet rs = null;
         try {
             connection = array.getDatabaseConnection();
-            ps = connection.prepareStatement("SELECT * FROM fadelands_players WHERE player_uuid = ?");
+            ps = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?");
             ps.setString(1, uuid);
             rs = ps.executeQuery();
             if (rs.next()) {
