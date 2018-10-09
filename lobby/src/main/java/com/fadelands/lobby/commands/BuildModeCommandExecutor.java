@@ -26,7 +26,7 @@ public class BuildModeCommandExecutor implements CommandExecutor {
         Player player = (Player) sender;
 
         if(command.getName().equalsIgnoreCase("buildmode")){
-            if(!(new User().isBuilder(player.getName()))){
+            if(!(new User().isAdmin(player.getName()))){
                 player.sendMessage(Utils.No_Perm);
                 return false;
             }
