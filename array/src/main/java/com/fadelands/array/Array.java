@@ -10,7 +10,7 @@ import com.fadelands.array.punishments.commands.*;
 import com.fadelands.array.punishments.PunishmentMenu;
 import com.fadelands.array.staff.StaffMode;
 import com.fadelands.array.staff.StaffSettings;
-import com.fadelands.array.staff.command.StaffManagementCommand;
+import com.fadelands.array.staff.command.StaffCommand;
 import com.fadelands.array.staff.command.StaffSettingsCommand;
 import com.fadelands.array.staff.command.VanishCommand;
 import com.fadelands.array.staff.inventory.SettingsInventory;
@@ -33,6 +33,9 @@ import java.util.function.Consumer;
 @SuppressWarnings("ALL")
 public class Array extends JavaPlugin {
 
+    private static FileConfiguration fileConfiguration;
+    private static HikariConfig hikariConfig;
+    private static HikariDataSource hikariDataSource;
     private long serverStartTime = System.currentTimeMillis();
 
     private String host;
@@ -40,9 +43,6 @@ public class Array extends JavaPlugin {
     private String pass;
     private String db;
 
-    private static FileConfiguration fileConfiguration;
-    private static HikariConfig hikariConfig;
-    private static HikariDataSource hikariDataSource;
     private OkHttpClient okHttpClient;
     private PluginMessage pluginMessage;
     private PunishmentMenu punishmentMenu;
@@ -52,8 +52,8 @@ public class Array extends JavaPlugin {
     private PlayerManager playerManager;
     private ServerStatistics serverStats;
     private StaffSettings staffSettings;
-
     private LuckPermsApi luckPerms;
+
     public static Array plugin;
 
     public void onEnable() {
@@ -78,10 +78,11 @@ public class Array extends JavaPlugin {
         try {
             this.hikariDataSource = new HikariDataSource(this.hikariConfig);
             Tables.createTables();
-
         } catch (Exception e) {
-            e.printStackTrace();
+            Bukkit.getLogger().warning("[Array] Couldn't connect to the database pool. Shutting down.");
+            Bukkit.shutdown();
         }
+
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", pluginMessage = new PluginMessage(this));
 
@@ -111,7 +112,7 @@ public class Array extends JavaPlugin {
         getCommand("country").setExecutor(new CountryCommand(this));
         getCommand("lockdown").setExecutor(new LockdownCommand(this));
         getCommand("staffsettings").setExecutor(new StaffSettingsCommand(this));
-        getCommand("staff").setExecutor(new StaffManagementCommand(this));
+        getCommand("staff").setExecutor(new StaffCommand(this));
         getCommand("vanish").setExecutor(new VanishCommand(this, new StaffMode(getStaffSettings()), getStaffSettings()));
     }
 

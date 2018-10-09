@@ -60,9 +60,6 @@ public class ReportCommand extends Command {
         cooldown.add(sender);
         ProxyServer.getInstance().getScheduler().schedule(plugin, () -> cooldown.remove(sender), 60, TimeUnit.SECONDS);
 
-        for (ProxiedPlayer staff : ProxyServer.getInstance().getPlayers()) {
-            if (staff.hasPermission(Perms.staffAlerts)) {
-
                 ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetStr);
                 StringBuilder sb = new StringBuilder();
                 for (int i = 1; i < args.length; i++)
@@ -109,18 +106,21 @@ public class ReportCommand extends Command {
                         if (rs.next()) {
                             id = rs.getInt(1);
                             // Inserted data to db, starting messaging process \\
-                            staff.sendMessage(new ComponentBuilder("" +
-                                    "§8§l┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + "\n" +
-                                    "§8§l┣ §c§lNew Report - §6ID: #" + id + "\n" +
-                                    "§8§l┣ §2Reported: §e" + target.getName() + "\n" +
-                                    "§8§l┣ §2Reason: §e" + (reason.equals("") ? "No Reason specified." : reason) + "\n" +
-                                    "§8§l┣ §2Report By: §e" + sender.getName() + "\n" +
-                                    "§8§l┣ §2Server: §e" + target.getServer().getInfo().getName() + "\n" +
-                                    "§8§l┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
-                                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Press to connect to server.").color(ChatColor.GOLD)
-                                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "connect " + target.getServer().getInfo().getName())).create())).create());
-
-                            // Sending an embed message to discord to alert staff members that aren't on the server. \\
+                            for (ProxiedPlayer staff : ProxyServer.getInstance().getPlayers()) {
+                                if (staff.hasPermission(Perms.staffAlerts)) {
+                                    staff.sendMessage(new ComponentBuilder("" +
+                                            "§8§l┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + "\n" +
+                                            "§8§l┣ §c§lNew Report - §6ID: #" + id + "\n" +
+                                            "§8§l┣ §2Reported: §e" + target.getName() + "\n" +
+                                            "§8§l┣ §2Reason: §e" + (reason.equals("") ? "No Reason specified." : reason) + "\n" +
+                                            "§8§l┣ §2Report By: §e" + sender.getName() + "\n" +
+                                            "§8§l┣ §2Server: §e" + target.getServer().getInfo().getName() + "\n" +
+                                            "§8§l┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
+                                            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Press to connect to server.").color(ChatColor.GOLD)
+                                                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "connect " + target.getServer().getInfo().getName())).create())).create());
+                                }
+                            }
+                            // Sending an embed message to discord to alert staff members that aren't on the server.
                             EmbedBuilder embed = new EmbedBuilder();
                             embed.setTitle("New In-game Report");
                             embed.setColor(Color.decode("#5c85d6"));
@@ -143,6 +143,4 @@ public class ReportCommand extends Command {
                     Main.closeComponents(rs, ps, connection);
                 }
             }
-        }
     }
-}

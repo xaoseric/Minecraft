@@ -32,7 +32,7 @@ public class SudoCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            player.sendMessage("§cInvalid usage. /sudo <player> </command or message>");
+            player.sendMessage(Utils.Prefix + "§cInvalid usage. /sudo <player> </command or message>");
             return true;
         }
 
@@ -43,6 +43,7 @@ public class SudoCommand implements CommandExecutor {
             input.append(args[i]).append(" ");
             i++;
         }
+
         input = new StringBuilder(input.toString().trim());
         boolean command = input.toString().startsWith("/");
         CommandSender u;
@@ -51,13 +52,14 @@ public class SudoCommand implements CommandExecutor {
         } else {
             u = Bukkit.getPlayer(user);
         }
-        if (u == null) {
-            player.sendMessage("§cThat is not a valid player.");
-            return false;
 
+        if (u == null) {
+            player.sendMessage(Utils.Prefix + "§cThat is not a valid player.");
+            return false;
         }
+
         if(args.length == 1) {
-            sender.sendMessage("§cInput may not be null. /sudo <player> </command or message>");
+            sender.sendMessage(Utils.Prefix + "§cInput may not be null. /sudo <player> </command or message>");
             return false;
         }
 
@@ -65,16 +67,16 @@ public class SudoCommand implements CommandExecutor {
             input = new StringBuilder(input.substring(1));
             Player pu = (Player) u;
             Bukkit.dispatchCommand(u, input.toString());
-            sender.sendMessage("§aSuccessfully made " + pu.getName() + " run command §2[§7" + input + "§2]§a.");
+            sender.sendMessage(Utils.Prefix + "§aSuccessfully made " + pu.getName() + " run command \"" + input + "\".");
         } else {
             if (!(u instanceof Player)) {
-                sender.sendMessage("§cThe target you specified can not use chat.");
+                sender.sendMessage(Utils.Prefix + "§cThe target you specified can not use chat.");
                 return false;
             }
 
             Player p = (Player) u;
             p.chat(input.toString());
-            sender.sendMessage("§aSuccessfully made " + p.getName() + " say §2[§7" + input + "§2]§a.");
+            sender.sendMessage(Utils.Prefix + "§aSuccessfully made " + p.getName() + " say \"" + input + "\".");
         }
         return false;
     }

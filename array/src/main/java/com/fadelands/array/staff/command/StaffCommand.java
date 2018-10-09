@@ -15,11 +15,11 @@ import org.joda.time.DateTimeZone;
 
 import java.sql.*;
 
-public class StaffManagementCommand implements CommandExecutor {
+public class StaffCommand implements CommandExecutor {
 
     private Array array;
 
-    public StaffManagementCommand(Array array) {
+    public StaffCommand(Array array) {
         this.array = array;
     }
 

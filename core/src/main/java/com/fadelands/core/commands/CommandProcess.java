@@ -28,7 +28,7 @@ public class CommandProcess implements Listener {
     @EventHandler
     public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) {
         String msg = event.getMessage();
-        if (!event.getPlayer().isOp() && (msg.toLowerCase().startsWith("/me")
+        if (!event.getPlayer().isOp() && (msg.toLowerCase().contains("/me")
                 || msg.toLowerCase().startsWith("/minecraft:") || msg.toLowerCase().startsWith("/minecraft")
                 || msg.toLowerCase().startsWith("/bukkit:") || msg.toLowerCase().startsWith("/bukkit")
                 || msg.toLowerCase().startsWith("/version") || msg.toLowerCase().startsWith("/ver")
@@ -38,9 +38,10 @@ public class CommandProcess implements Listener {
             event.setCancelled(true);
         }
 
-       // PlayerData.Statistics stats = PlayerData.get(player.getUniqueId()).getStats();
-       // stats.setCommandsUsed(stats.getCommandsUsed() + 1);
-
+        /* ignored for now
+       PlayerData.Statistics stats = PlayerData.get(player.getUniqueId()).getStats();
+       stats.setCommandsUsed(stats.getCommandsUsed() + 1);
+        */
     }
 
 }
