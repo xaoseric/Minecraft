@@ -36,3 +36,5 @@ commands:
     description: Slow down the chat.
   silencechat:
     description: Silence the chat.
+  heal:
+    description: Heal a player.

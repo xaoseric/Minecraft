@@ -10,6 +10,7 @@ import com.fadelands.core.commands.help.guides.DiscordLinkGuide;
 import com.fadelands.core.commands.help.guides.GuideMenu;
 import com.fadelands.core.commands.help.inventory.ServerStatsInventory;
 import com.fadelands.core.commands.staff.admincmds.GameModeCommand;
+import com.fadelands.core.commands.staff.admincmds.HealCommand;
 import com.fadelands.core.commands.staff.admincmds.SudoCommand;
 import com.fadelands.core.commands.staff.modcmds.FlyCommand;
 import com.fadelands.core.commands.staff.modcmds.TeleportCommand;
@@ -156,6 +157,7 @@ public class CorePlugin extends JavaPlugin {
         // Admin cmds
         getCommand("gamemode").setExecutor(new GameModeCommand(this));
         getCommand("sudo").setExecutor(new SudoCommand(this));
+        getCommand("heal").setExecutor(new HealCommand());
 
         //Help
         getCommand("help").setExecutor(new HelpCommandExecutor(this));

@@ -25,7 +25,7 @@ public class HealCommand implements CommandExecutor {
             player.setHealth(20);
             player.setFoodLevel(20);
             player.setFireTicks(0);
-            player.sendMessage("§aYou have been healed.");
+            player.sendMessage(Utils.Prefix + "§aYou have been healed.");
 
         } else if (args.length == 1) {
 
@@ -34,14 +34,12 @@ public class HealCommand implements CommandExecutor {
                 player.setHealth(20);
                 player.setFoodLevel(20);
                 player.setFireTicks(0);
-                player.sendMessage("§aYou have healed " + target.getName());
-                target.sendMessage("§aYou have been healed by" + player.getName());
+                player.sendMessage(Utils.Prefix + "§aYou have healed " + target.getName() + ".");
+                target.sendMessage(Utils.Prefix + "§aYou have been healed by " + player.getName() + ".");
 
             } else {
-                player.sendMessage("§cThat player is not online.");
+                player.sendMessage(Utils.Prefix + "§cThat player is not online.");
             }
-
-
         }
         return true;
     }
