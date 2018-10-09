@@ -7,9 +7,7 @@ import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class SBBoardProvider extends SimpleBoardProvider {
 
@@ -30,8 +28,10 @@ public class SBBoardProvider extends SimpleBoardProvider {
     public List<String> getBoardLines(Player player) {
         List<String> toReturn = Lists.newArrayList();
 
-            toReturn.add("&7" + (Calendar.MONTH) + Calendar.DAY_OF_MONTH );
-            toReturn.add("&");
+        Calendar calendar = Calendar.getInstance();
+
+            toReturn.add("&7" + getMonthName(calendar.get(Calendar.MONTH)) + " Number");
+            toReturn.add("&r");
             toReturn.add("&6&lYou");
             toReturn.add("  &7Rank: " + main.getPermissions().getPrimaryGroup(player));
             toReturn.add("  &7Money: &2$" + main.getEconomy().getBalance(player.getName() + "k"));
@@ -63,6 +63,11 @@ public class SBBoardProvider extends SimpleBoardProvider {
     public String getNameTag(Player player, Player other) {
         return super.getNameTag(player, other); // Exists in core already, use this if you dont want to override <-
 
+    }
+
+    public String getMonthName(int month){
+        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        return monthNames[month];
     }
 
 }
