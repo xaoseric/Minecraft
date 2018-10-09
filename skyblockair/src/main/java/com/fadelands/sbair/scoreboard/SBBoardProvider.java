@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ public class SBBoardProvider extends SimpleBoardProvider {
     public List<String> getBoardLines(Player player) {
         List<String> toReturn = Lists.newArrayList();
 
+            toReturn.add("&7" + (Calendar.MONTH) + Calendar.DAY_OF_MONTH );
             toReturn.add("&");
             toReturn.add("&6&lYou");
             toReturn.add("  &7Rank: " + main.getPermissions().getPrimaryGroup(player));
