@@ -60,44 +60,6 @@
       <artifactId>array</artifactId>
       <version>1.0-SNAPSHOT</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>joda-time</artifactId>
-          <groupId>joda-time</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>HikariCP</artifactId>
-          <groupId>com.zaxxer</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>mysql-connector-java</artifactId>
-          <groupId>mysql</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>unirest-java</artifactId>
-          <groupId>com.mashape.unirest</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>httpclient</artifactId>
-          <groupId>org.apache.httpcomponents</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>httpasyncclient</artifactId>
-          <groupId>org.apache.httpcomponents</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>httpmime</artifactId>
-          <groupId>org.apache.httpcomponents</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>json</artifactId>
-          <groupId>org.json</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>okhttp</artifactId>
-          <groupId>com.squareup.okhttp3</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.fadelands.Core</groupId>
@@ -106,36 +68,8 @@
       <scope>provided</scope>
       <exclusions>
         <exclusion>
-          <artifactId>expiringmap</artifactId>
-          <groupId>net.jodah</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>jda-utilities</artifactId>
           <groupId>com.jagrosh</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>JDA</artifactId>
-          <groupId>net.dv8tion</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>json</artifactId>
-          <groupId>org.json</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>unirest-java</artifactId>
-          <groupId>com.mashape.unirest</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>joda-time</artifactId>
-          <groupId>joda-time</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>HikariCP</artifactId>
-          <groupId>com.zaxxer</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>mysql-connector-java</artifactId>
-          <groupId>mysql</groupId>
         </exclusion>
       </exclusions>
     </dependency>

@@ -3,7 +3,7 @@ package com.fadelands.sbair.scoreboard;
 import com.fadelands.array.utils.PluginMessage;
 import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
 import com.fadelands.sbair.Main;
-import com.fadelands.sbair.utils.DateUtils;
+import com.fadelands.array.utils.DateUtils;
 import com.google.common.collect.Lists;
 import org.bukkit.entity.Player;
 
@@ -19,7 +19,6 @@ public class SBBoardProvider extends SimpleBoardProvider {
     public SBBoardProvider(PluginMessage pluginMessage, Main main) {
         this.pluginMessage = pluginMessage;
         this.main = main;
-
     }
 
     @Override
@@ -32,16 +31,14 @@ public class SBBoardProvider extends SimpleBoardProvider {
         List<String> toReturn = Lists.newArrayList();
 
         Date date = new Date();
-        Calendar cal=Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        for(int i=0;i<32;i++){
-        }
 
-            toReturn.add("&7        " + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
+            toReturn.add("&7      " + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
             toReturn.add("&r");
             toReturn.add("&6&lYou");
             toReturn.add("  &7Rank: " + main.getPermissions().getPrimaryGroup(player));
-            toReturn.add("  &7Money: &2$" + main.getEconomy().getBalance(player.getName() + "k"));
+            toReturn.add("  &7Money: &f$" + main.getEconomy().getBalance(player.getName() + "k"));
             toReturn.add("&r ");
             toReturn.add("&6&lIsland");
             toReturn.add("  &7Level: &f" + main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId()));
@@ -71,7 +68,6 @@ public class SBBoardProvider extends SimpleBoardProvider {
     @Override
     public String getNameTag(Player player, Player other) {
         return super.getNameTag(player, other); // Exists in core already, use this if you dont want to override <-
-
     }
 
     public static String getMonthName(int month){

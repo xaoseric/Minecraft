@@ -1,4 +1,4 @@
-package com.fadelands.sbair.utils;
+package com.fadelands.array.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
