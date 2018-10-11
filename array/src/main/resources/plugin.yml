@@ -8,9 +8,6 @@ commands:
     description: Receive sub-server up time.
   dbstatus:
     description: Receive information about the Array database.
-  whois:
-    aliases: [userinfo]
-    description: Receive information about a player.
   punish:
     aliases: [p]
     description: Punish a user.
@@ -26,8 +23,6 @@ commands:
     description: Check a player punishment history.
   alts:
     description: Check a users alt accounts.
-  country:
-    description: Get a player country.
   lockdown:
     description: Lock the network for public player.
   staffsettings:
@@ -37,3 +32,24 @@ commands:
   vanish:
     description: Toggle staff mode
     aliases: [modmode]
+  profile:
+    description: View your user profile
+  achievement:
+    aliases: [achievements, ach]
+    description: Check your achievements.
+  help:
+    description: Used if you need help.
+  guides:
+    description: Browse our guides.
+  color:
+    aliases: [namecolor]
+    description: Select a name color.
+  list:
+    aliases: [playersonline, playerlist]
+    description: Show who is online.
+  settings:
+    description: Change your settings.
+  chatslow:
+    description: Slow down the chat.
+  silencechat:
+    description: Silence the chat.

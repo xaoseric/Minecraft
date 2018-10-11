@@ -1,5 +1,6 @@
 package com.fadelands.array.database;
 
+import com.fadelands.array.Array;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -154,34 +155,34 @@ public class Tables {
                 "active boolean, " +
                 "reason text)";
 
-        SQLUtils.createTable(players);
-        SQLUtils.createTable(statsglobal);
+        Array.plugin.getDatabaseManager().createTable(players);
+        Array.plugin.getDatabaseManager().createTable(statsglobal);
         //Chat
 
-        SQLUtils.createTable(chatlogs);
-        SQLUtils.createTable(commandlogs);
-        SQLUtils.createTable(pmlogs);
-        SQLUtils.createTable(color);
+        Array.plugin.getDatabaseManager().createTable(chatlogs);
+        Array.plugin.getDatabaseManager().createTable(commandlogs);
+        Array.plugin.getDatabaseManager().createTable(pmlogs);
+        Array.plugin.getDatabaseManager().createTable(color);
 
         // settings
-        SQLUtils.createTable(lobbysettings);
-        SQLUtils.createTable(settings);
+        Array.plugin.getDatabaseManager().createTable(lobbysettings);
+        Array.plugin.getDatabaseManager().createTable(settings);
 
         //Staff
 
-        SQLUtils.createTable(reports);
-        SQLUtils.createTable(staff);
-        SQLUtils.createTable(settingsStaff);
+        Array.plugin.getDatabaseManager().createTable(reports);
+        Array.plugin.getDatabaseManager().createTable(staff);
+        Array.plugin.getDatabaseManager().createTable(settingsStaff);
 
         //Discord
 
-        SQLUtils.createTable(discordLink);
+        Array.plugin.getDatabaseManager().createTable(discordLink);
 
         // Punishments
-        SQLUtils.createTable(punishments);
+        Array.plugin.getDatabaseManager().createTable(punishments);
 
         // Server
-        SQLUtils.createTable(lockdown);
+        Array.plugin.getDatabaseManager().createTable(lockdown);
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "[Array] Created/generated database tables.");
         }

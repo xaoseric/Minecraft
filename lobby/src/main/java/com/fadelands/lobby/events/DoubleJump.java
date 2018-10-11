@@ -1,10 +1,9 @@
 package com.fadelands.lobby.events;
 
-import com.fadelands.core.settings.Settings;
+import com.fadelands.array.settings.Settings;
 import com.fadelands.lobby.Main;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

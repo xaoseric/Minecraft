@@ -2,7 +2,7 @@ package com.fadelands.lobby.scoreboard;
 
 import com.fadelands.array.utils.DateUtils;
 import com.fadelands.array.utils.PluginMessage;
-import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
+import com.fadelands.array.provider.scoreboard.SimpleBoardProvider;
 import com.fadelands.lobby.Main;
 import com.google.common.collect.Lists;
 import org.bukkit.entity.Player;

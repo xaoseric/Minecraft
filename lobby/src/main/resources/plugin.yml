@@ -2,7 +2,7 @@ name: Lobby
 version: 1.0
 author: arrayofc
 main: com.fadelands.lobby.Main
-depend: [Array, Core]
+depend: [Array]
 
 commands:
   createnpc:

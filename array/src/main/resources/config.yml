@@ -2,3 +2,7 @@ db_host:
 db_user:
 db_pass:
 db_db:
+
+header-text: Header
+
+footer-text: Footer

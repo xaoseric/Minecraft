@@ -3,7 +3,7 @@ main: com.fadelands.dailyrewards.Main
 version: 1.0
 author: arrayofc
 description: FadeLands Daily Rewards Plugin
-depend: [Array, Core]
+depend: [Array]
 
 commands:
   rewardman:

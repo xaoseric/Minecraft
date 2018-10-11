@@ -13,11 +13,11 @@
     <description>Parent project for every FadeLands Plugin modules.</description>
 
     <modules>
-        <module>core</module>
         <module>array</module>
         <module>skyblockair</module>
         <module>lobby</module>
         <module>bungeecore</module>
         <module>dailyrewards</module>
+        <module>essentials</module>
     </modules>
 </project>

@@ -1,7 +1,6 @@
 package com.fadelands.array.staff.command;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.database.SQLUtils;
 import com.fadelands.array.player.User;
 import com.fadelands.array.staff.StaffMode;
 import com.fadelands.array.staff.StaffSettings;
@@ -39,11 +38,11 @@ public class VanishCommand implements CommandExecutor {
         if(settings.vanishOn(player)) {
             staffMode.toggleOff(player);
             System.out.println("toggled off for " + player.getName());
-            SQLUtils.updateTable(player, "staff_settings", "vanish_toggled", false);
+            array.getDatabaseManager().updateTable(player, "staff_settings", "vanish_toggled", false);
         } else {
             staffMode.toggleOn(player);
             System.out.println("toggled on for " + player.getName());
-            SQLUtils.updateTable(player, "staff_settings", "vanish_toggled", true);
+            array.getDatabaseManager().updateTable(player, "staff_settings", "vanish_toggled", true);
         }
         return false;
     }

@@ -26,7 +26,7 @@ public class ServerManager implements Listener {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            connection = Array.getConnection();
+            connection = array.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM server_lockdown WHERE active = ?");
             ps.setBoolean(1, true);
             rs = ps.executeQuery();
@@ -34,7 +34,7 @@ public class ServerManager implements Listener {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            array.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return true;
     }
@@ -47,7 +47,7 @@ public class ServerManager implements Listener {
             PreparedStatement ps = null;
             ResultSet rs = null;
             try {
-                connection = Array.getConnection();
+                connection = array.getDatabaseManager().getConnection();
                 ps = connection.prepareStatement("SELECT * FROM server_lockdown WHERE active = true");
                 rs = ps.executeQuery();
                 if (rs.next()) {
@@ -58,7 +58,7 @@ public class ServerManager implements Listener {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                Array.closeComponents(rs, ps, connection);
+                array.getDatabaseManager().closeComponents(rs, ps, connection);
             }
         }
         return "Reason not available -2";
@@ -80,7 +80,7 @@ public class ServerManager implements Listener {
         Connection connection = null;
         PreparedStatement ps = null;
         try {
-            connection = Array.getConnection();
+            connection = array.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("UPDATE server_lockdown SET lockdowner = ?, active = ?, reason = ? WHERE active = false");
             ps.setString(1, lockdowner.getUniqueId().toString());
             ps.setBoolean(2, true);
@@ -89,7 +89,7 @@ public class ServerManager implements Listener {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(ps, connection);
+            array.getDatabaseManager().closeComponents(ps, connection);
         }
         array.getPluginMessage().getPlayerNames("ALL");
     }
@@ -98,14 +98,14 @@ public class ServerManager implements Listener {
         Connection connection = null;
         PreparedStatement ps = null;
         try {
-            connection = Array.getConnection();
+            connection = array.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("UPDATE server_lockdown SET active = ? WHERE active = true");
             ps.setBoolean(1, false);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(ps, connection);
+            array.getDatabaseManager().closeComponents(ps, connection);
         }
     }
 }

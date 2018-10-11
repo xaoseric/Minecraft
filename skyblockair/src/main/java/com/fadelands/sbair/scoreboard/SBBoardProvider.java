@@ -1,7 +1,7 @@
 package com.fadelands.sbair.scoreboard;
 
 import com.fadelands.array.utils.PluginMessage;
-import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
+import com.fadelands.array.provider.scoreboard.SimpleBoardProvider;
 import com.fadelands.sbair.Main;
 import com.fadelands.array.utils.DateUtils;
 import com.google.common.collect.Lists;

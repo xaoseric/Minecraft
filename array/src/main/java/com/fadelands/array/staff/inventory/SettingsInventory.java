@@ -1,8 +1,6 @@
 package com.fadelands.array.staff.inventory;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.database.SQLUtils;
-import com.fadelands.array.staff.StaffMode;
 import com.fadelands.array.staff.StaffSettings;
 import com.fadelands.array.utils.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -65,21 +63,21 @@ public class SettingsInventory implements Listener {
                 boolean vanish = staffSettings.vanishOn(player);
                 vanish = !vanish;
                 player.performCommand("vanish");
-                SQLUtils.updateTable(player, table, "vanish_toggled", vanish);
+                array.getDatabaseManager().updateTable(player, table, "vanish_toggled", vanish);
                 updateInventory(event.getInventory(), player);
                 break;
             case 13:
                 boolean staffchat = staffSettings.staffChatOn(player);
                 staffchat = !staffchat;
 
-                SQLUtils.updateTable(player, table, "staff_chat", staffchat);
+                array.getDatabaseManager().updateTable(player, table, "staff_chat", staffchat);
                 updateInventory(event.getInventory(), player);
                 break;
             case 16:
                 boolean notifications = staffSettings.adminNotificationsOn(player);
                 notifications = !notifications;
 
-                SQLUtils.updateTable(player, table, "admin_notifications", notifications);
+                array.getDatabaseManager().updateTable(player, table, "admin_notifications", notifications);
                 updateInventory(event.getInventory(), player);
                 break;
             case 4:

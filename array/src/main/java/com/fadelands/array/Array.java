@@ -1,13 +1,36 @@
 package com.fadelands.array;
 
-import com.fadelands.array.commands.admin.*;
-import com.fadelands.array.commands.admin.inventory.WhoisInventory;
+import com.fadelands.array.achievements.AchievementCommand;
+import com.fadelands.array.commands.*;
+import com.fadelands.array.commands.help.command.GuidesCommandExecutor;
+import com.fadelands.array.commands.help.command.HelpCommandExecutor;
+import com.fadelands.array.commands.help.guides.DiscordLinkGuide;
+import com.fadelands.array.commands.help.guides.GuideMenu;
+import com.fadelands.array.commands.help.inventory.ApplyGui;
+import com.fadelands.array.commands.help.inventory.HelpInventory;
+import com.fadelands.array.commands.help.inventory.ServerStatsInventory;
+import com.fadelands.array.events.Events;
+import com.fadelands.array.manager.DatabaseManager;
 import com.fadelands.array.manager.GeoManager;
 import com.fadelands.array.manager.PlayerManager;
 import com.fadelands.array.manager.ServerManager;
+import com.fadelands.array.npc.NPCManager;
+import com.fadelands.array.profile.command.ProfileCommand;
+import com.fadelands.array.profile.inventory.ProfileInventory;
+import com.fadelands.array.provider.chat.SimpleChatProvider;
+import com.fadelands.array.provider.chat.announcements.AnnouncementListener;
+import com.fadelands.array.provider.chat.announcements.Announcements;
+import com.fadelands.array.provider.chat.command.ChatSlowCommandExecutor;
+import com.fadelands.array.provider.chat.command.SilenceChatCommandExecutor;
+import com.fadelands.array.provider.chat.provider.ChatProvider;
+import com.fadelands.array.provider.scoreboard.SimpleBoardProvider;
+import com.fadelands.array.provider.scoreboard.SimpleboardManager;
+import com.fadelands.array.provider.tablist.TablistText;
 import com.fadelands.array.punishments.PunishmentManager;
 import com.fadelands.array.punishments.commands.*;
 import com.fadelands.array.punishments.PunishmentMenu;
+import com.fadelands.array.settings.Settings;
+import com.fadelands.array.settings.SettingsCommandExecutor;
 import com.fadelands.array.staff.StaffMode;
 import com.fadelands.array.staff.StaffSettings;
 import com.fadelands.array.staff.command.StaffCommand;
@@ -16,32 +39,23 @@ import com.fadelands.array.staff.command.VanishCommand;
 import com.fadelands.array.staff.inventory.SettingsInventory;
 import com.fadelands.array.staff.inventory.StaffInventory;
 import com.fadelands.array.utils.PluginMessage;
-import com.fadelands.array.database.Tables;
 import com.fadelands.array.utils.ServerStatistics;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import com.fadelands.array.utils.Utils;
 import me.lucko.luckperms.api.LuckPermsApi;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 import okhttp3.OkHttpClient;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.*;
-import java.util.function.Consumer;
 @SuppressWarnings("ALL")
 public class Array extends JavaPlugin {
 
-    private static FileConfiguration fileConfiguration;
-    private static HikariConfig hikariConfig;
-    private static HikariDataSource hikariDataSource;
     private long serverStartTime = System.currentTimeMillis();
-
-    private String host;
-    private String user;
-    private String pass;
-    private String db;
 
     private OkHttpClient okHttpClient;
     private PluginMessage pluginMessage;
@@ -50,9 +64,20 @@ public class Array extends JavaPlugin {
     private GeoManager geoManager;
     private ServerManager serverManager;
     private PlayerManager playerManager;
+    private DatabaseManager databaseManager;
+    private NPCManager npcManager;
     private ServerStatistics serverStats;
     private StaffSettings staffSettings;
     private LuckPermsApi luckPerms;
+    private Settings settings;
+    private ChatProvider chatProvider;
+    private com.fadelands.array.provider.chat.Chat serverChat;
+    private SimpleboardManager simpleboardManager;
+    private Announcements announcements;
+
+    private Economy econ = null;
+    private Permission perms = null;
+    private Chat chat = null;
 
     public static Array plugin;
 
@@ -60,41 +85,16 @@ public class Array extends JavaPlugin {
         plugin = this;
         this.saveDefaultConfig();
 
-        this.host = "localhost";
-        this.user = "root";
-        this.pass = "";
-        this.db = "fadelands_server";
-
-        Bukkit.getLogger().info("[Array] Loading database connection");
-
-        this.hikariConfig = new HikariConfig();
-        this.hikariConfig.setJdbcUrl("jdbc:mysql://" + this.host + ":3306/" + this.db + "?useSSL=false");
-        this.hikariConfig.setUsername(this.user);
-        this.hikariConfig.setPassword(this.pass);
-        this.hikariConfig.setMaximumPoolSize(10);
-        this.hikariConfig.setRegisterMbeans(true);
-        this.hikariConfig.setPoolName("flarray");
-
-        try {
-            this.hikariDataSource = new HikariDataSource(this.hikariConfig);
-            Tables.createTables();
-        } catch (Exception e) {
-            Bukkit.getLogger().warning("[Array] Couldn't connect to the database pool. Shutting down.");
-            Bukkit.shutdown();
-        }
-
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", pluginMessage = new PluginMessage(this));
 
-        RegisteredServiceProvider<LuckPermsApi> provider = Bukkit.getServicesManager().getRegistration(LuckPermsApi.class);
-        if (provider == null) {
-            Bukkit.getLogger().warning("[Array] Something went wrong when attempting to load LuckPerms API.");
-        } else {
-            luckPerms = provider.getProvider();
-            Bukkit.getLogger().warning("[Array] Loaded LuckPerms API.");
-        }
+        initVault();
+        initLuckPerms();
 
         registerEvents();
+
+        getDatabaseManager().init();
+
         registerCommands();
 
         Bukkit.getLogger().info("[Array] Plugin has been enabled.");
@@ -103,182 +103,128 @@ public class Array extends JavaPlugin {
     private void registerCommands() {
         getCommand("uptime").setExecutor(new UptimeCommand(this));
         getCommand("dbstatus").setExecutor(new DatabaseStatusCommand(this));
-        getCommand("whois").setExecutor(new WhoIsCommand(this));
         getCommand("punish").setExecutor(new PunishCommand(this));
         getCommand("ban").setExecutor(new BanCommand(this, getPunishmentManager()));
         getCommand("mute").setExecutor(new MuteCommand(this, getPunishmentManager()));
         getCommand("history").setExecutor(new HistoryCommand(this, getPunishmentManager()));
         getCommand("alts").setExecutor(new AltsCommand(this));
-        getCommand("country").setExecutor(new CountryCommand(this));
         getCommand("lockdown").setExecutor(new LockdownCommand(this));
         getCommand("staffsettings").setExecutor(new StaffSettingsCommand(this));
         getCommand("staff").setExecutor(new StaffCommand(this));
         getCommand("vanish").setExecutor(new VanishCommand(this, new StaffMode(getStaffSettings()), getStaffSettings()));
+        getCommand("profile").setExecutor(new ProfileCommand(this));
+        getCommand("achievements").setExecutor(new AchievementCommand(this));
+        getCommand("chatslow").setExecutor(new ChatSlowCommandExecutor(this));
+        getCommand("silencechat").setExecutor(new SilenceChatCommandExecutor(this));
+        getCommand("help").setExecutor(new HelpCommandExecutor(this));
+        getCommand("guides").setExecutor(new GuidesCommandExecutor(this));
+        getCommand("settings").setExecutor(new SettingsCommandExecutor(this));
+        getCommand("list").setExecutor(new ListCommand(this));
     }
 
     private void registerEvents(){
-        PluginManager pm = Bukkit.getPluginManager();
         this.punishmentMenu = new PunishmentMenu(this);
         this.punishmentManager = new PunishmentManager(this);
-        pm.registerEvents(new PunishmentManager(this), this);
         this.okHttpClient = new OkHttpClient();
         this.geoManager = new GeoManager(this);
         this.serverManager = new ServerManager(this);
-        pm.registerEvents(new ServerManager(this), this);
         this.playerManager = new PlayerManager(this);
-        pm.registerEvents(new PlayerManager(this), this);
+        this.databaseManager = new DatabaseManager();
         this.serverStats = new ServerStatistics();
         this.staffSettings = new StaffSettings();
+        this.settings = new Settings();
+        this.npcManager = new NPCManager();
+        this.serverChat = new com.fadelands.array.provider.chat.Chat(this);
+        this.chatProvider = new SimpleChatProvider(this);
+        this.simpleboardManager = new SimpleboardManager(this, new SimpleBoardProvider());
+        simpleboardManager.runTaskTimerAsynchronously(this, 2L, 2L);
+        this.announcements = new Announcements(this, getSettings(), Array.plugin.getPluginMessage());
 
+        PluginManager pm = Bukkit.getPluginManager(); //can not be placed above
+
+        pm.registerEvents(new PunishmentManager(this), this);
+        pm.registerEvents(new ServerManager(this), this);
+        pm.registerEvents(new PlayerManager(this), this);
         pm.registerEvents(new PunishmentMenu(this), this);
-        pm.registerEvents(new WhoisInventory(this), this);
         pm.registerEvents(new SettingsInventory(this), this);
-        pm.registerEvents(new WhoisInventory(this), this);
         pm.registerEvents(new StaffInventory(this), this);
         pm.registerEvents(new StaffMode(getStaffSettings()), this);
+        pm.registerEvents(new ProfileInventory(this), this);
+        pm.registerEvents(new com.fadelands.array.settings.inventory.SettingsInventory(this), this);
+        pm.registerEvents(new Events(this), this);
+        pm.registerEvents(new HelpInventory(this), this);
+        pm.registerEvents(new ApplyGui(this), this);
+        pm.registerEvents(new ServerStatsInventory(this, Array.plugin.getServerStats()), this);
+        pm.registerEvents(new GuideMenu(this), this);
+        pm.registerEvents(new DiscordLinkGuide(this), this);
+        pm.registerEvents(new TablistText(this), this);
+        /*
+        pm.registerEvents(new CountMessages(this), this);
+        pm.registerEvents(new CountLogins(this), this);
+        pm.registerEvents(new CountBlocksPlaced(this), this);
+        pm.registerEvents(new CountBlocksRemoved(this), this);
+        pm.registerEvents(new CountKills(this), this);
+        pm.registerEvents(new SaveOnQuit(this), this);
+        pm.registerEvents(new LoadPlayerData(), this);
+        pm.registerEvents(new CountDeaths(this), this);
+        new AutoSaveDb().runTaskTimer(this, 2 * 60 * 20, 2 * 60 * 20);
+        */
+        //todo: ^^ above is temporarily disabled
+
+        pm.registerEvents(new com.fadelands.array.provider.chat.Chat(this), this);
+        pm.registerEvents(simpleboardManager, this);
+        pm.registerEvents(new AnnouncementListener(this), this);
+        pm.registerEvents(new CommandProcess(this), this);
+    }
+
+    private void initVault() {
+        if (!setupEconomy()) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + Utils.Core + "Disabled due to no Vault dependency found! - " + getDescription().getName());
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + Utils.Core + "Vault API hooked into the plugin.");
+    }
+
+    private void initLuckPerms() {
+        RegisteredServiceProvider<LuckPermsApi> provider = Bukkit.getServicesManager().getRegistration(LuckPermsApi.class);
+        if (provider == null) {
+            Bukkit.getLogger().warning("[Array] Something went wrong when attempting to load LuckPerms API.");
+        } else {
+            luckPerms = provider.getProvider();
+            Bukkit.getLogger().warning("[Array] Loaded LuckPerms API.");
+        }
     }
 
     public void onDisable() {
+        getDatabaseManager().shutdown();
         Bukkit.getLogger().info("[Array] Plugin has been disabled.");
     }
 
-    public static Connection getConnection() throws SQLException {
-        try {
-            return hikariDataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Bukkit.getLogger().severe("Warning! Couldn't find a database connection for Array. Plugins won't function without a db connection.");
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
         }
-        return hikariDataSource.getConnection();
+
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+
+        econ = rsp.getProvider();
+        return econ != null;
     }
 
-    public Connection getDatabaseConnection() throws SQLException {
-        try {
-            return hikariDataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Bukkit.getLogger().severe("Warning! Couldn't find a database connection for Array. Plugins won't function without a db connection.");
-        }
-        return hikariDataSource.getConnection();
+    private boolean setupChat() {
+        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        chat = rsp.getProvider();
+        return chat != null;
     }
 
-    public static ResultSet executeQuery(Connection connection, PreparedStatement stmt) throws SQLException {
-        return stmt.executeQuery();
-    }
-
-    public static int executeUpdate(Connection connection, PreparedStatement stmt) throws SQLException {
-        return stmt.executeUpdate();
-    }
-
-    public static void executeQuery(String query, Consumer<ResultSet> consumer) {
-        Connection connection = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
-
-        try {
-            connection = hikariDataSource.getConnection();
-            st = connection.prepareStatement(query);
-            rs = st.executeQuery();
-
-            consumer.accept(rs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static void closeComponents(ResultSet rs, PreparedStatement ps, Connection connection) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (ps != null) {
-            try {
-                ps.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static void closeComponents(PreparedStatement ps, Connection connection) {
-        if (ps != null) {
-            try {
-                ps.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void closeComponents(PreparedStatement ps) {
-        if (ps != null) {
-            try {
-                ps.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void closeComponents(ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void closeComponents(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    private boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+        perms = rsp.getProvider();
+        return perms != null;
     }
 
     public long getServerStartTime() {
@@ -289,8 +235,32 @@ public class Array extends JavaPlugin {
         return System.currentTimeMillis() - this.serverStartTime;
     }
 
+    public Economy getEconomy() {
+        return econ;
+    }
+
+    public Permission getPermissions() {
+        return perms;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
     public PluginMessage getPluginMessage() {
         return pluginMessage;
+    }
+
+    public SimpleboardManager getSimpleboardManager() {
+        return simpleboardManager;
+    }
+
+    public ChatProvider getChatProvider() {
+        return this.chatProvider;
+    }
+
+    public void setChatProvider(ChatProvider chatProvider) {
+        this.chatProvider = chatProvider;
     }
 
     public PunishmentMenu getPunishmentMenu() {
@@ -317,6 +287,22 @@ public class Array extends JavaPlugin {
         return playerManager;
     }
 
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
+    }
+
+    public NPCManager getNpcManager() {
+        return npcManager;
+    }
+
+    public com.fadelands.array.provider.chat.Chat getServerChat() {
+        return this.serverChat;
+    }
+
+    public Announcements getAnnouncements() {
+        return announcements;
+    }
+
     public LuckPermsApi getLuckPermsApi() {
         return luckPerms;
     }
@@ -329,4 +315,7 @@ public class Array extends JavaPlugin {
         return staffSettings;
     }
 
+    public Settings getSettings() {
+        return settings;
+    }
 }

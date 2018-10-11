@@ -2,7 +2,6 @@ package com.fadelands.array.staff.command;
 
 
 import com.fadelands.array.Array;
-import com.fadelands.array.database.SQLUtils;
 import com.fadelands.array.player.User;
 import com.fadelands.array.staff.inventory.StaffInventory;
 import com.fadelands.array.utils.Utils;
@@ -17,10 +16,10 @@ import java.sql.*;
 
 public class StaffCommand implements CommandExecutor {
 
-    private Array array;
+    private Array plugin;
 
-    public StaffCommand(Array array) {
-        this.array = array;
+    public StaffCommand(Array plugin) {
+        this.plugin = plugin;
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -55,7 +54,7 @@ public class StaffCommand implements CommandExecutor {
             ResultSet rs = null;
 
             try {
-                connection = Array.getConnection();
+                connection = plugin.getDatabaseManager().getConnection();
                 ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
                 ps.setString(1, user.getUuid(target));
                 rs = ps.executeQuery();
@@ -86,9 +85,9 @@ public class StaffCommand implements CommandExecutor {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                Array.closeComponents(rs, ps, connection);
-                Array.closeComponents(ps2);
-                Array.closeComponents(ps3);
+                plugin.getDatabaseManager().closeComponents(rs, ps, connection);
+                plugin.getDatabaseManager().closeComponents(ps2);
+                plugin.getDatabaseManager().closeComponents(ps3);
             }
         }
 
@@ -109,7 +108,7 @@ public class StaffCommand implements CommandExecutor {
             ResultSet rs = null;
 
             try {
-                connection = Array.getConnection();
+                connection = plugin.getDatabaseManager().getConnection();
                 ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
                 ps.setString(1, user.getUuid(target));
                 rs = ps.executeQuery();
@@ -119,12 +118,12 @@ public class StaffCommand implements CommandExecutor {
                     return true;
                 }
 
-                SQLUtils.updateTable(target, "staff_members", "resignation_date", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
+                plugin.getDatabaseManager().updateTable(target, "staff_members", "resignation_date", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
                 player.sendMessage(Utils.Prefix + "§aAdded resignation date to " + target + " in staff database.");
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                Array.closeComponents(rs, ps, connection);
+                plugin.getDatabaseManager().closeComponents(rs, ps, connection);
             }
         }
 
@@ -145,20 +144,20 @@ public class StaffCommand implements CommandExecutor {
             ResultSet rs = null;
 
             try {
-                connection = Array.getConnection();
+                connection = plugin.getDatabaseManager().getConnection();
                 ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
                 ps.setString(1, user.getUuid(target));
                 rs = ps.executeQuery();
                 if (!rs.next()) {
                     player.sendMessage(Utils.Prefix + "§cCouldn't find any staff statistics of that user.");
                 } else {
-                    StaffInventory inv = new StaffInventory(array);
+                    StaffInventory inv = new StaffInventory(plugin);
                     inv.openInventory(player, target);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                Array.closeComponents(rs,ps,connection);
+                plugin.getDatabaseManager().closeComponents(rs,ps,connection);
             }
         }
         return false;

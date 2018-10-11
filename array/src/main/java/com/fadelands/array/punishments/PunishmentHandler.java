@@ -29,7 +29,7 @@ public class PunishmentHandler {
         String query = "INSERT INTO punishments (appeal_key, punisher_uuid, punish_type, reason, punished_uuid, date, until) " +
                 "VALUES (?,?,?,?,?,?,?)";
         try {
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, appealKey);
             ps.setString(2, punisherUuid);
@@ -42,7 +42,7 @@ public class PunishmentHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(ps, connection);
         }
     }
 
@@ -58,7 +58,7 @@ public class PunishmentHandler {
         ResultSet rs = null;
 
         try {
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("UPDATE punishments SET (active,removed,remove_reason,remove_admin) WHERE report_id='" + punishmentId + "'");
             ps.setBoolean(1, false);
             ps.setBoolean(2, true);
@@ -69,8 +69,8 @@ public class PunishmentHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(connection);
-            Array.closeComponents(ps);
+            Array.plugin.getDatabaseManager().closeComponents(connection);
+            Array.plugin.getDatabaseManager().closeComponents(ps);
         }
     }
 
@@ -83,7 +83,7 @@ public class PunishmentHandler {
         ResultSet rs = null;
 
         try {
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM punishments WHERE punished_uuid = ?");
             ps.setString(1, targetUuid);
             rs = ps.executeQuery();
@@ -107,7 +107,7 @@ public class PunishmentHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return punishClientToken;
     }

@@ -1,7 +1,6 @@
 package com.fadelands.array.staff.inventory;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.database.SQLUtils;
 import com.fadelands.array.player.User;
 import com.fadelands.array.staff.StaffSettings;
 import com.fadelands.array.utils.ItemBuilder;
@@ -41,7 +40,7 @@ public class StaffInventory implements Listener {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            connection = array.getDatabaseConnection();
+            connection = array.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
             ps.setString(1, uuid);
             rs = ps.executeQuery();
@@ -95,7 +94,7 @@ public class StaffInventory implements Listener {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            array.getDatabaseManager().closeComponents(rs, ps, connection);
         }
     }
 

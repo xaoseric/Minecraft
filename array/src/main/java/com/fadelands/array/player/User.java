@@ -22,7 +22,7 @@ public class User {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, username);
             rs = ps.executeQuery();
@@ -32,7 +32,7 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return "N/A";
     }
@@ -42,7 +42,7 @@ public class User {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, username);
             rs = ps.executeQuery();
@@ -52,7 +52,7 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return "N/A";
     }
@@ -62,7 +62,7 @@ public class User {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?");
             ps.setString(1, UUID);
             rs = ps.executeQuery();
@@ -72,7 +72,7 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return "N/A";
     }
@@ -83,7 +83,7 @@ public class User {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, username);
             rs = ps.executeQuery();
@@ -98,7 +98,7 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return "N/A";
     }
@@ -109,7 +109,7 @@ public class User {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?");
             ps.setString(1, uuid);
             rs = ps.executeQuery();
@@ -124,7 +124,7 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return "N/A";
     }
@@ -134,7 +134,7 @@ public class User {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -142,7 +142,7 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return false;
 
@@ -153,7 +153,7 @@ public class User {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -165,7 +165,7 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return 0;
     }
@@ -175,7 +175,7 @@ public class User {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -187,7 +187,7 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return 0;
     }
@@ -198,7 +198,7 @@ public class User {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?");
             ps.setString(1, new User().getUuid(player));
             rs = ps.executeQuery();
@@ -209,7 +209,7 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return "Unknown";
     }

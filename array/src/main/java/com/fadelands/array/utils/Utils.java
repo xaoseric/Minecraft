@@ -23,8 +23,8 @@ public class Utils {
 
     public static String No_Perm = "§cThis command requires a higher permission group.";
 
-    public static String UpgradeAccount = Prefix + "§cThis feature requires you to be a §e§lDonator §cor §3§lPremium§c member!\n" +
-            "§6You can upgrade your account at §estore.fadelands.com§6.";
+    public static String UpgradeAccount = Alert + "§cThis feature requires you to be a §lDonator §crank.\n" +
+            "§eYou can upgrade your account at §nstore.fadelands.com§e.";
 
     public static String ArrowRight = "»";
     public static String ArrowLeft = "«";

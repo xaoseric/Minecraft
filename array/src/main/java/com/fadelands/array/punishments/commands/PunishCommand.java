@@ -24,10 +24,10 @@ public class PunishCommand implements CommandExecutor {
 
     public final static Map<UUID, String> currentPunishReason = new HashMap<>();
     public final static Map<UUID, String> currentPunishTarget = new HashMap<>();
-    private Array array;
+    private Array plugin;
 
-    public PunishCommand(Array array){
-        this.array = array;
+    public PunishCommand(Array plugin){
+        this.plugin = plugin;
     }
 
     @Override
@@ -64,29 +64,29 @@ public class PunishCommand implements CommandExecutor {
             PreparedStatement ps = null;
             ResultSet rs = null;
             try{
-                connection = Array.getConnection();
+                connection = plugin.getDatabaseManager().getConnection();
                 ps = connection.prepareStatement("SELECT * FROM luckperms_players WHERE uuid=?");
                 ps.setString(1, player.getUniqueId().toString());
                 rs = ps.executeQuery();
                 if(rs.next()){
                     switch (rs.getString("primary_group").toLowerCase()){
                         case "owner":
-                            array.getPunishmentMenu().openAsAdmin(player, targetName, reason);
+                            plugin.getPunishmentMenu().openAsAdmin(player, targetName, reason);
                             break;
                         case "admin":
-                            array.getPunishmentMenu().openAsAdmin(player, targetName, reason);
+                            plugin.getPunishmentMenu().openAsAdmin(player, targetName, reason);
                             break;
                         case "developer":
                             player.sendMessage("Developer is a non-mod rank. You can still apply for mod as a developer.");
                             break;
                         case "senior":
-                            array.getPunishmentMenu().openAsSenior(player, targetName, reason);
+                            plugin.getPunishmentMenu().openAsSenior(player, targetName, reason);
                             break;
                         case "mod":
-                            array.getPunishmentMenu().openAsMod(player, targetName, reason);
+                            plugin.getPunishmentMenu().openAsMod(player, targetName, reason);
                             break;
                         case "trainee":
-                            array.getPunishmentMenu().openAsTrainee(player, targetName, reason);
+                            plugin.getPunishmentMenu().openAsTrainee(player, targetName, reason);
                             break;
                         default:
                             break;
@@ -97,7 +97,7 @@ public class PunishCommand implements CommandExecutor {
             }catch (SQLException e){
                 e.printStackTrace();
             }finally {
-                Array.closeComponents(rs,ps,connection);
+                plugin.getDatabaseManager().closeComponents(rs,ps,connection);
             }
 
 

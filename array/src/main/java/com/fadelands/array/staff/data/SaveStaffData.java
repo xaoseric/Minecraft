@@ -7,16 +7,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import sun.applet.Main;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class SaveStaffData implements Listener {
 
-    public Main plugin;
+    public Array plugin;
 
-    public SaveStaffData(Main plugin) {
+    public SaveStaffData(Array plugin) {
         this.plugin = plugin;
     }
 
@@ -27,7 +26,7 @@ public class SaveStaffData implements Listener {
         if (user.isStaff(player.getName())) {
 
             for (StaffMemberData staffdata : StaffMemberData.getAll()) {
-                try (PreparedStatement statement = Array.getConnection().prepareStatement("UPDATE players_staff SET " +
+                try (PreparedStatement statement = plugin.getDatabaseManager().getConnection().prepareStatement("UPDATE players_staff SET " +
                         "bans=?,kicks=?,mutes=?,reports_handled=?" +
                         " WHERE player_uuid='" + staffdata.getUUID() + "'")){
                      statement.setInt(1, staffdata.getStats().getBans());

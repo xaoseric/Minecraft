@@ -17,10 +17,10 @@ import java.util.List;
 
 public class AltsCommand implements CommandExecutor {
 
-    private Array array;
+    private Array plugin;
 
-    public AltsCommand(Array array){
-        this.array = array;
+    public AltsCommand(Array plugin){
+        this.plugin = plugin;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AltsCommand implements CommandExecutor {
         ResultSet rs = null;
         try{
             String query = "SELECT * FROM players WHERE first_ip = ? OR last_ip LIKE ?";
-            connection = Array.getConnection();
+            connection = plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, ip);
             ps.setString(2, ip);
@@ -71,7 +71,7 @@ public class AltsCommand implements CommandExecutor {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return false;
     }

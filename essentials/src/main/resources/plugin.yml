@@ -1,0 +1,24 @@
+name: EssentialsFL
+version: 1.0
+main: com.fadelands.essentials.Main
+author: FadeLands
+description: FadeLands Essentials Plugin
+
+commands:
+  whois:
+    aliases: [userinfo]
+    description: Receive information about a player.
+  country:
+    description: Get a player country.
+  teleport:
+    aliases: [tp, tpo]
+    description: Tp to a user
+  gamemode:
+    aliases: [gm]
+    description: Admin command
+  sudo:
+    description: Admin command
+  fly:
+    aliases: [flight]
+  heal:
+    description: Heal a player.

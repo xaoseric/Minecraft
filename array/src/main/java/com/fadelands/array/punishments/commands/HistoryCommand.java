@@ -24,13 +24,13 @@ import java.util.HashMap;
 
 public class HistoryCommand implements CommandExecutor {
 
-    private Array array;
+    private Array plugin;
     private HashMap<String, PunishmentClient> punishClients;
     private PunishmentHandler punishmentHandler;
 
 
-    public HistoryCommand(Array array, PunishmentManager punishmentManager){
-        this.array = array;
+    public HistoryCommand(Array plugin, PunishmentManager punishmentManager){
+        this.plugin = plugin;
         punishClients = new HashMap<>();
         this.punishmentHandler = new PunishmentHandler();
 
@@ -62,22 +62,22 @@ public class HistoryCommand implements CommandExecutor {
         User fadeLandsPlayer = new User();
 
         try {
-            connection = Array.getConnection();
+            connection = plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM punishments WHERE punished_uuid = ?");
             ps.setString(1, fadeLandsPlayer.getUuid(targetraw));
             rs = ps.executeQuery();
             if(!(rs.next())){
                 player.sendMessage(Utils.Prefix_Red + "§cCouldn't find any punishment history of that user.");
-            }else{
+            }else {
                 player.sendMessage(Utils.Prefix_Green + "§aFound punishment history of " + targetraw + ".");
 
 
-                Inventory inv = Bukkit.createInventory(null, 9*5, targetraw + "'s Punishments");
+                Inventory inv = Bukkit.createInventory(null, 9 * 5, targetraw + "'s Punishments");
                 String uuid = fadeLandsPlayer.getUuid(targetraw);
 
-                PunishmentManager punishmentManager = new PunishmentManager(array);
+                PunishmentManager punishmentManager = new PunishmentManager(plugin);
                 PunishClientToken token = punishmentHandler.loadPunishClient(uuid);
-                if(token == null) return true;
+                if (token == null) return true;
 
                 punishmentManager.loadClient(uuid);
 
@@ -95,16 +95,11 @@ public class HistoryCommand implements CommandExecutor {
 
                     inv.setItem(2, bans);
                 }
-
-
-
-
-
-                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            Array.closeComponents(rs, ps, connection);
+            plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
 
         return false;

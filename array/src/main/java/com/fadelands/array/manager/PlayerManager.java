@@ -1,8 +1,6 @@
 package com.fadelands.array.manager;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.database.SQLUtils;
-import com.fadelands.array.player.User;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +22,7 @@ public class PlayerManager implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        try (Connection connection = Array.getConnection()) {
+        try (Connection connection = array.getDatabaseManager().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?")) {
                 statement.setString(1, player.getUniqueId().toString());
                 try (ResultSet rs = statement.executeQuery()) {
@@ -40,11 +38,11 @@ public class PlayerManager implements Listener {
     }
 
     private void playerExist(Player player) {
-        SQLUtils.updateTable(player, "players", "player_username", player.getName());
-        SQLUtils.updateTable(player, "players", "last_login", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
-        SQLUtils.updateTable(player, "players", "last_ip", player.getAddress().getAddress().getHostAddress());
-        SQLUtils.updateTable(player, "players", "last_country", "none");
-        SQLUtils.updateTable(player, "players", "last_server", array.getPluginMessage().getServerName(player));
+        array.getDatabaseManager().updateTable(player, "players", "player_username", player.getName());
+        array.getDatabaseManager().updateTable(player, "players", "last_login", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
+        array.getDatabaseManager().updateTable(player, "players", "last_ip", player.getAddress().getAddress().getHostAddress());
+        array.getDatabaseManager().updateTable(player, "players", "last_country", "none");
+        array.getDatabaseManager().updateTable(player, "players", "last_server", array.getPluginMessage().getServerName(player));
     }
 
     private void createPlayer(Player player) {
@@ -54,7 +52,7 @@ public class PlayerManager implements Listener {
         PreparedStatement ps2 = null;
 
         try {
-            connection = Array.getConnection();
+            connection = array.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("INSERT INTO " +
                     "players " +
                     "(" +
@@ -111,16 +109,16 @@ public class PlayerManager implements Listener {
             ps2.setInt(11, 0);
             ps2.executeUpdate();
 
-            SQLUtils.insertTo("players_settings", "player_uuid", player.getUniqueId().toString());
-            SQLUtils.insertTo("players_lobbysettings", "player_uuid", player.getUniqueId().toString());
+            array.getDatabaseManager().insertTo("players_settings", "player_uuid", player.getUniqueId().toString());
+            array.getDatabaseManager().insertTo("players_lobbysettings", "player_uuid", player.getUniqueId().toString());
 
             player.sendMessage("§2✔ §aYour profile has been created.");
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(ps, connection);
-            Array.closeComponents(ps2);
+            array.getDatabaseManager().closeComponents(ps, connection);
+            array.getDatabaseManager().closeComponents(ps2);
         }
     }
 }

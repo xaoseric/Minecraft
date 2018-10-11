@@ -1,9 +1,8 @@
 package com.fadelands.array.manager;
 
 import com.fadelands.array.Array;
-import com.fadelands.array.request.Request;
-import com.fadelands.array.request.RequestBuilder;
-import org.json.JSONObject;
+import com.fadelands.array.httprequest.Request;
+import com.fadelands.array.httprequest.RequestBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class ServerStatistics {
 
     public int getUniquePlayers() {
-        try (Connection connection = Array.getConnection()) {
+        try (Connection connection = Array.plugin.getDatabaseManager().getConnection()) {
             try (PreparedStatement st = connection.prepareStatement("SELECT COUNT(*) FROM players")) {
                 try (ResultSet rs = st.executeQuery()) {
                     if (rs.next()) {
@@ -25,7 +25,7 @@ public class ServerStatistics {
     }
 
     public int getAmountChatMessages() {
-        try (Connection connection = Array.getConnection()) {
+        try (Connection connection = Array.plugin.getDatabaseManager().getConnection()) {
             try (PreparedStatement st = connection.prepareStatement("SELECT COUNT(*) FROM chat_messages")) {
                 try (ResultSet rs = st.executeQuery()) {
                     if (rs.next()) {
@@ -40,7 +40,7 @@ public class ServerStatistics {
     }
 
     public int getCommandsUsed() {
-        try (Connection connection = Array.getConnection()) {
+        try (Connection connection = Array.plugin.getDatabaseManager().getConnection()) {
             try (PreparedStatement st = connection.prepareStatement("SELECT COUNT(*) FROM chat_commands")) {
                 try (ResultSet rs = st.executeQuery()) {
                     if (rs.next()) {
@@ -55,7 +55,7 @@ public class ServerStatistics {
     }
 
     public int getIssuedPunishments() {
-        try (Connection connection = Array.getConnection()) {
+        try (Connection connection = Array.plugin.getDatabaseManager().getConnection()) {
             try (PreparedStatement st = connection.prepareStatement("SELECT COUNT(*) FROM punishments")) {
                 try (ResultSet rs = st.executeQuery()) {
                     if (rs.next()) {

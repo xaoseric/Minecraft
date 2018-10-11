@@ -16,7 +16,7 @@ public class StaffSettings {
         ResultSet rs = null;
         try {
             String query = "SELECT * FROM staff_settings WHERE player_uuid = ?";
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
             rs = ps.executeQuery();
@@ -26,7 +26,7 @@ public class StaffSettings {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return false;
     }
@@ -37,7 +37,7 @@ public class StaffSettings {
         ResultSet rs = null;
         try {
             String query = "SELECT * FROM staff_settings WHERE player_uuid = ?";
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
             rs = ps.executeQuery();
@@ -47,7 +47,7 @@ public class StaffSettings {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return false;
     }
@@ -58,7 +58,7 @@ public class StaffSettings {
         ResultSet rs = null;
         try {
             String query = "SELECT * FROM staff_settings WHERE player_uuid = ?";
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
             rs = ps.executeQuery();
@@ -68,7 +68,7 @@ public class StaffSettings {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return false;
     }
@@ -79,7 +79,7 @@ public class StaffSettings {
         ResultSet rs = null;
         try {
             String query = "SELECT * FROM staff_settings WHERE player_uuid = ?";
-            connection = Array.getConnection();
+            connection = Array.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement(query);
             ps.setString(1, player.getUniqueId().toString());
             rs = ps.executeQuery();
@@ -89,7 +89,7 @@ public class StaffSettings {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Array.closeComponents(rs, ps, connection);
+            Array.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
         return false;
     }

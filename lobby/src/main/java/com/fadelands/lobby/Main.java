@@ -2,8 +2,7 @@ package com.fadelands.lobby;
 
 import com.fadelands.array.Array;
 import com.fadelands.array.utils.Utils;
-import com.fadelands.core.CorePlugin;
-import com.fadelands.core.provider.scoreboard.SimpleboardManager;
+import com.fadelands.array.provider.scoreboard.SimpleboardManager;
 import com.fadelands.lobby.commands.BuildModeCommandExecutor;
 import com.fadelands.lobby.commands.LobbySettingsCommandExecutor;
 import com.fadelands.lobby.commands.SetSpawnLocationCommandExecutor;
@@ -60,7 +59,7 @@ public class Main extends JavaPlugin implements Listener {
         pm.registerEvents(new LobbyEvents(this), this);
         pm.registerEvents(new DoubleJump(this), this);
 
-        SimpleboardManager simpleboardManager = CorePlugin.getInstance().getSimpleboardManager();
+        SimpleboardManager simpleboardManager = Array.plugin.getSimpleboardManager();
         simpleboardManager.setBoardProvider(new LobbyBoardProvider(Array.plugin.getPluginMessage()));
 
         /*
