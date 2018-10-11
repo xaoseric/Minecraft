@@ -1,4 +1,4 @@
-package com.fadelands.sbair.scoreboard;
+package com.fadelands.sbair.provider.scoreboard;
 
 import com.fadelands.array.utils.PluginMessage;
 import com.fadelands.array.provider.scoreboard.SimpleBoardProvider;
@@ -34,17 +34,17 @@ public class SBBoardProvider extends SimpleBoardProvider {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
-            toReturn.add("&7      " + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
+            toReturn.add("§7      " + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
             toReturn.add("&r");
             toReturn.add("&6&lYou");
-            toReturn.add("  &7Rank: " + main.getPermissions().getPrimaryGroup(player));
-            toReturn.add("  &7Money: &f$" + main.getEconomy().getBalance(player.getName() + "k"));
+            toReturn.add("  &fRank: " + main.getPermissions().getPrimaryGroup(player));
+            toReturn.add("  &fMoney: &a$" + main.getEconomy().getBalance(player.getName() + "k"));
             toReturn.add("&r ");
             toReturn.add("&6&lIsland");
-            toReturn.add("  &7Level: &f" + main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId()));
-            toReturn.add("  &7Team: §f" + main.getSkyBlockApi().getTeamMembers(player.getUniqueId()).size());
+            toReturn.add("  &fLevel: &a" + main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId()));
+            toReturn.add("  &fTeam: §a" + main.getSkyBlockApi().getTeamMembers(player.getUniqueId()).size());
             toReturn.add("&r ");
-            toReturn.add("&ewww.fadelands.com");
+            toReturn.add("&e§nwww.fadelands.com");
 
         cal.set(Calendar.DATE,(cal.getTime().getDate()+1));
 

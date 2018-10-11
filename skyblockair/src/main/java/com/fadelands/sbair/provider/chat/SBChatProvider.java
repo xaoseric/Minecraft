@@ -1,4 +1,4 @@
-package com.fadelands.sbair.chat;
+package com.fadelands.sbair.provider.chat;
 
 import com.fadelands.array.utils.Utils;
 import com.fadelands.sbair.Main;

@@ -9,7 +9,7 @@ import com.fadelands.lobby.commands.SetSpawnLocationCommandExecutor;
 import com.fadelands.lobby.events.*;
 import com.fadelands.lobby.guis.ServerSelectorGui;
 import com.fadelands.lobby.guis.SkyblockGui;
-import com.fadelands.lobby.scoreboard.LobbyBoardProvider;
+import com.fadelands.lobby.provider.LobbyBoardProvider;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;

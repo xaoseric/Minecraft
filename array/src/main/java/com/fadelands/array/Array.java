@@ -92,10 +92,9 @@ public class Array extends JavaPlugin {
         initLuckPerms();
 
         registerEvents();
+        registerCommands();
 
         getDatabaseManager().init();
-
-        registerCommands();
 
         Bukkit.getLogger().info("[Array] Plugin has been enabled.");
     }
@@ -123,6 +122,9 @@ public class Array extends JavaPlugin {
     }
 
     private void registerEvents(){
+        this.chatProvider = new SimpleChatProvider(this);
+        this.simpleboardManager = new SimpleboardManager(this, new SimpleBoardProvider());
+        simpleboardManager.runTaskTimerAsynchronously(this, 2L, 2L);
         this.punishmentMenu = new PunishmentMenu(this);
         this.punishmentManager = new PunishmentManager(this);
         this.okHttpClient = new OkHttpClient();
@@ -135,9 +137,6 @@ public class Array extends JavaPlugin {
         this.settings = new Settings();
         this.npcManager = new NPCManager();
         this.serverChat = new com.fadelands.array.provider.chat.Chat(this);
-        this.chatProvider = new SimpleChatProvider(this);
-        this.simpleboardManager = new SimpleboardManager(this, new SimpleBoardProvider());
-        simpleboardManager.runTaskTimerAsynchronously(this, 2L, 2L);
         this.announcements = new Announcements(this, getSettings(), Array.plugin.getPluginMessage());
 
         PluginManager pm = Bukkit.getPluginManager(); //can not be placed above
@@ -172,7 +171,7 @@ public class Array extends JavaPlugin {
         //todo: ^^ above is temporarily disabled
 
         pm.registerEvents(new com.fadelands.array.provider.chat.Chat(this), this);
-        pm.registerEvents(simpleboardManager, this);
+        pm.registerEvents(getSimpleboardManager(), this);
         pm.registerEvents(new AnnouncementListener(this), this);
         pm.registerEvents(new CommandProcess(this), this);
     }
@@ -183,6 +182,9 @@ public class Array extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+        setupChat();
+        setupPermissions();
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + Utils.Core + "Vault API hooked into the plugin.");
     }
 
@@ -205,12 +207,10 @@ public class Array extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
-
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
             return false;
         }
-
         econ = rsp.getProvider();
         return econ != null;
     }

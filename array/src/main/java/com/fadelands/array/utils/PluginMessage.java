@@ -32,7 +32,6 @@ public class PluginMessage implements PluginMessageListener {
         playerCountMap = Maps.newHashMap();
         playerMap = Maps.newHashMap();
         playerListMap = Maps.newHashMap();
-
     }
 
     @Override

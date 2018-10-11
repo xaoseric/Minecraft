@@ -1,10 +1,11 @@
 package com.fadelands.sbair;
 
 import com.fadelands.array.Array;
-import com.fadelands.core.CorePlugin;
 import com.fadelands.array.provider.scoreboard.SimpleboardManager;
-import com.fadelands.sbair.scoreboard.SBBoardProvider;
-import com.fadelands.sbair.chat.SBChatProvider;
+import com.fadelands.sbair.provider.SBBoardProvider;
+import com.fadelands.sbair.provider.SBChatProvider;
+import com.fadelands.sbair.provider.scoreboard.SBBoardProvider;
+import com.fadelands.sbair.provider.chat.SBChatProvider;
 import com.fadelands.sbair.skyblockmanager.IslandManagerCommand;
 import com.fadelands.sbair.skyblockmanager.IslandMenu;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
@@ -41,10 +42,10 @@ public class Main extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new IslandMenu(this), this);
 
-        SimpleboardManager simpleboardManager = CorePlugin.getInstance().getSimpleboardManager();
+        SimpleboardManager simpleboardManager = Array.plugin.getSimpleboardManager();
         simpleboardManager.setBoardProvider(new SBBoardProvider(Array.plugin.getPluginMessage(), this));
 
-        CorePlugin.getInstance().setChatProvider(new SBChatProvider(this));
+        Array.plugin.setChatProvider(new SBChatProvider(this));
 
         // Regc ommands
         getCommand("islandmenu").setExecutor(new IslandManagerCommand(this));
@@ -88,8 +89,6 @@ public class Main extends JavaPlugin {
 
     public void onDisable() {
         getLogger().info("[SkyBlockAir] Plugin has been disabled.");
-
-
     }
 
     public Economy getEconomy() {

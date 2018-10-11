@@ -140,6 +140,7 @@ public class Chat implements Listener {
                 }
             }
         }
+
         ChatProvider chatProvider = plugin.getChatProvider();
 
         ComponentBuilder[] format = chatProvider.getFormat(chatSender);
