@@ -19,7 +19,7 @@ public class VPNCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) {
-            sender.sendMessage("§cThis can only be used ingame.");
+            sender.sendMessage(Utils.No_Console);
             return true;
         }
 
@@ -30,7 +30,7 @@ public class VPNCommand implements CommandExecutor {
         }
 
         if(args.length == 0) {
-            player.sendMessage(Utils.Prefix + "§cInvalid usage. /vpn <add/remove>");
+            player.sendMessage(Utils.Prefix + "§cInvalid usage. /vpn <add/remove/wave>");
             return true;
         }
 
@@ -75,6 +75,17 @@ public class VPNCommand implements CommandExecutor {
             plugin.getVpnManager().unblockIp(ip);
             player.sendMessage(Utils.Prefix + "§aIP removed from database.");
         }
+
+        /*if(args[0].equalsIgnoreCase("wave")) {
+            plugin.getVpnManager().addIps();
+            player.sendMessage("§aAdded: ");
+            System.out.println("§aAdded following ips: ");
+            for(String ips : plugin.getVpnManager().ips) {
+                player.sendMessage(ips);
+                System.out.println(ips);
+                plugin.getVpnManager().blockIp(ips);
+            }
+        }*/
         return false;
     }
 }

@@ -1,5 +1,6 @@
 package com.fadelands.sbair.provider.chat;
 
+import com.fadelands.core.playerdata.PlayerData;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.sbair.Main;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -24,10 +25,15 @@ public class SBChatProvider implements com.fadelands.core.provider.chat.provider
         Chat chat = main.getChat();
         Permission permission = main.getPermissions();
 
-        // Network level
-        ComponentBuilder levelComponent = new ComponentBuilder("§71 ");
+        PlayerData playerData = PlayerData.get(player.getUniqueId());
+        assert playerData != null;
+        PlayerData.Statistics playerStats = playerData.getStats();
+
+        // Network Level
+        ComponentBuilder levelComponent = new ComponentBuilder("§7" +  playerStats.getNetworkLevel() + " ");
         levelComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.NETWORK_LEVEL_MSG
-                .replace("{0}", "1")).create()));
+                .replace("{0}", String.valueOf(playerStats.getNetworkLevel()))).create()));
+
 
         // Island level
         long level = main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId());
@@ -35,23 +41,20 @@ public class SBChatProvider implements com.fadelands.core.provider.chat.provider
         skyblockLevelComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7This user has a SkyBlock\n" +
                 "§7level of §6" + level + "§7.").create()));
 
-        // Rank block
+        // Rank
         ComponentBuilder rankComponent = new ComponentBuilder(chat.getPlayerPrefix(player).replaceAll("&", "\u00a7"));
         rankComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.USER_BLOCK
-                .replace("{0}", permission.getPrimaryGroup(player).toUpperCase()
-                        .replaceAll("&", "§"))
-                .replace("{1}", "1"))
-                .create()));
+                .replace("{0}", permission.getPrimaryGroup(player)
+                        .replaceAll("&", "§"))).create()));
         rankComponent.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/profile " + player.getName()));
 
-        // Username block
+        // Username
         ComponentBuilder userComponent = new ComponentBuilder("§7" + player.getName());
         userComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.USER_BLOCK
-                .replace("{0}", permission.getPrimaryGroup(player).toUpperCase()
-                        .replaceAll("&", "§"))
-                .replace("{1}", "1"))
-                .create()));
+                .replace("{0}", permission.getPrimaryGroup(player)
+                        .replaceAll("&", "§"))).create()));
         userComponent.event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/profile " + player.getName()));
+
 
         return new ComponentBuilder[]{levelComponent, skyblockLevelComponent, rankComponent, userComponent, new ComponentBuilder("\u00a77: \u00a7r")};
     }

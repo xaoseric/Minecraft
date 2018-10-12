@@ -10,8 +10,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VPNManager implements Listener {
+
+    public List<String> ips = new ArrayList<>();
 
     private static String REGEX =
             "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
@@ -101,11 +105,6 @@ public class VPNManager implements Listener {
         return false;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoin(AsyncPlayerPreLoginEvent event){
-        if(Core.plugin.getVpnManager().ipBlocked(event.getAddress().getHostAddress())) {
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "§cWe noticed you have a VPN (Virtual Private Network) running. Please turn it off if you want to join the server.");
-        }
-
+    public void addIps() {
     }
 }

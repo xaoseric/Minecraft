@@ -2,6 +2,7 @@ package com.fadelands.core.provider.chat;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.player.User;
+import com.fadelands.core.playerdata.PlayerData;
 import com.fadelands.core.utils.TimeUtils;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.core.provider.chat.provider.ChatProvider;
@@ -160,6 +161,8 @@ public class Chat implements Listener {
 
             }
             lastChatMessage.put(chatSender.getUniqueId(), new ChatData(event.getMessage()));
+            PlayerData.Statistics playerData = Objects.requireNonNull(PlayerData.get(chatSender.getUniqueId())).getStats();
+            playerData.setMessagesSent(playerData.getMessagesSent() + 1);
         }
     }
 

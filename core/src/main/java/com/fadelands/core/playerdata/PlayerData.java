@@ -38,7 +38,7 @@ public class PlayerData {
         return this.achData;
     }
 
-    static List<PlayerData> getAll() {
+    public static List<PlayerData> getAll() {
         return all;
     }
 
@@ -50,7 +50,23 @@ public class PlayerData {
 
     public final class Statistics {
 
-        private int tokens = 0, messagesSent = 0, commandsUsed = 0, loginCount = 0, blocksPlaced = 0, blocksRemoved = 0, deaths = 0, kills = 0;
+        private int networkLevel = 0, points = 0, tokens = 0, messagesSent = 0, commandsUsed = 0, loginCount = 0, blocksPlaced = 0, blocksRemoved = 0, playtime = 0, deaths = 0, kills = 0;
+
+        public int getNetworkLevel() {
+            return networkLevel;
+        }
+
+        public void setNetworkLevel(int level) {
+            this.networkLevel = level;
+        }
+
+        public int getPoints() {
+            return points;
+        }
+
+        public void setPoints(int points) {
+            this.points = points;
+        }
 
         public int getTokens() {
             return tokens;
@@ -98,6 +114,14 @@ public class PlayerData {
 
         public void setBlocksRemoved(int blocksRemoved) {
             this.blocksRemoved = blocksRemoved;
+        }
+
+        public int getPlaytime() {
+            return playtime;
+        }
+
+        public void setPlaytime(int minutes) {
+            this.playtime = minutes;
         }
 
         public int getDeaths() {

@@ -24,16 +24,17 @@ public class Tables {
 
         String statsglobal = "CREATE TABLE IF NOT EXISTS stats_global " +
                 "(player_uuid VARCHAR(64) PRIMARY KEY, " +
-                "tokens INT," +
-                "messages_sent INT, " +
-                "commands_used INT, " +
-                "login_count INT, " +
-                "blocks_placed_global INT, " +
-                "blocks_removed_global INT, " +
-                "playtime varchar(50), " +
-                "average_playtime varchar(50), " +
-                "deaths_global INT, " +
-                "kills_global INT)";
+                "network_level int default 0, " +
+                "points int default 0, " +
+                "tokens int default 0," +
+                "messages_sent int default 0, " +
+                "commands_used int default 0, " +
+                "login_count int default 0, " +
+                "blocks_placed int default 0, " +
+                "blocks_removed int default 0, " +
+                "playtime int default 0, " +
+                "deaths int default 0, " +
+                "kills int default 0)";
 
         // DATABASE CHAT TABLES
 
