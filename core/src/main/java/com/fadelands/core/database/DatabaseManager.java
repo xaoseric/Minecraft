@@ -1,4 +1,4 @@
-package com.fadelands.core.manager;
+package com.fadelands.core.database;
 
 import com.fadelands.core.database.Tables;
 import com.fadelands.core.player.User;

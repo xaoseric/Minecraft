@@ -1,4 +1,4 @@
-package com.fadelands.core.manager;
+package com.fadelands.core.player;
 
 import com.fadelands.core.Core;
 import org.bukkit.entity.Player;

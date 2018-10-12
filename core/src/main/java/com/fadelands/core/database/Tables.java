@@ -153,6 +153,9 @@ public class Tables {
                 "active boolean, " +
                 "reason text)";
 
+        String vpn_ips = "CREATE TABLE IF NOT EXISTS blocked_ips " +
+                "(ips varchar(15))";
+
         Core.plugin.getDatabaseManager().createTable(players);
         Core.plugin.getDatabaseManager().createTable(statsglobal);
         //Chat
@@ -181,6 +184,7 @@ public class Tables {
 
         // Server
         Core.plugin.getDatabaseManager().createTable(lockdown);
+        Core.plugin.getDatabaseManager().createTable(vpn_ips);
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "[Core] Created/generated database tables.");
         }
