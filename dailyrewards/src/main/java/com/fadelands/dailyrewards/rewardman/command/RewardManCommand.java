@@ -1,7 +1,7 @@
 package com.fadelands.dailyrewards.rewardman.command;
 
-import com.fadelands.array.player.User;
-import com.fadelands.array.utils.Utils;
+import com.fadelands.core.player.User;
+import com.fadelands.core.utils.Utils;
 import com.fadelands.dailyrewards.Main;
 import com.fadelands.dailyrewards.rewardman.RewardMan;
 import org.bukkit.Location;
@@ -9,8 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.io.IOException;
 
 public class RewardManCommand implements CommandExecutor {
 

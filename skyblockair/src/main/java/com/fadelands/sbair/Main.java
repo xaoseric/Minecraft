@@ -1,7 +1,7 @@
 package com.fadelands.sbair;
 
-import com.fadelands.array.Array;
-import com.fadelands.array.provider.scoreboard.SimpleboardManager;
+import com.fadelands.core.Core;
+import com.fadelands.core.provider.scoreboard.SimpleboardManager;
 import com.fadelands.sbair.provider.SBBoardProvider;
 import com.fadelands.sbair.provider.SBChatProvider;
 import com.fadelands.sbair.provider.scoreboard.SBBoardProvider;
@@ -42,10 +42,10 @@ public class Main extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new IslandMenu(this), this);
 
-        SimpleboardManager simpleboardManager = Array.plugin.getSimpleboardManager();
-        simpleboardManager.setBoardProvider(new SBBoardProvider(Array.plugin.getPluginMessage(), this));
+        SimpleboardManager simpleboardManager = Core.plugin.getSimpleboardManager();
+        simpleboardManager.setBoardProvider(new SBBoardProvider(Core.plugin.getPluginMessage(), this));
 
-        Array.plugin.setChatProvider(new SBChatProvider(this));
+        Core.plugin.setChatProvider(new SBChatProvider(this));
 
         // Regc ommands
         getCommand("islandmenu").setExecutor(new IslandManagerCommand(this));

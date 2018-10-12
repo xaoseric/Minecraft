@@ -1,7 +1,7 @@
 package com.fadelands.essentials.commands.admin;
 
-import com.fadelands.array.player.User;
-import com.fadelands.array.utils.Utils;
+import com.fadelands.core.player.User;
+import com.fadelands.core.utils.Utils;
 import com.fadelands.essentials.Main;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;

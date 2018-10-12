@@ -13,7 +13,7 @@
     <description>Parent project for every FadeLands Plugin modules.</description>
 
     <modules>
-        <module>array</module>
+        <module>core</module>
         <module>skyblockair</module>
         <module>lobby</module>
         <module>bungeecore</module>

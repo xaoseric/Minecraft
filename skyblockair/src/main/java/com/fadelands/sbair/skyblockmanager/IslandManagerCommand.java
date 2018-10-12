@@ -1,6 +1,6 @@
 package com.fadelands.sbair.skyblockmanager;
 
-import com.fadelands.array.utils.Utils;
+import com.fadelands.core.utils.Utils;
 import com.fadelands.sbair.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

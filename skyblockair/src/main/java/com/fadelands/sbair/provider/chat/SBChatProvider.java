@@ -1,6 +1,6 @@
 package com.fadelands.sbair.provider.chat;
 
-import com.fadelands.array.utils.Utils;
+import com.fadelands.core.utils.Utils;
 import com.fadelands.sbair.Main;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -10,7 +10,7 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
 
 @SuppressWarnings("Duplicates")
-public class SBChatProvider implements com.fadelands.array.provider.chat.provider.ChatProvider {
+public class SBChatProvider implements com.fadelands.core.provider.chat.provider.ChatProvider {
 
     private Main main;
 

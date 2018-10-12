@@ -1,6 +1,6 @@
 package com.fadelands.lobby.events;
 
-import com.fadelands.array.settings.Settings;
+import com.fadelands.core.settings.Settings;
 import com.fadelands.lobby.Main;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;

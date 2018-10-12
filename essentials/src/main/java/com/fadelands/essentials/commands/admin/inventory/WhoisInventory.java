@@ -1,8 +1,7 @@
 package com.fadelands.essentials.commands.admin.inventory;
 
-import com.fadelands.array.Array;
-import com.fadelands.array.player.User;
-import com.fadelands.array.utils.ItemBuilder;
+import com.fadelands.core.player.User;
+import com.fadelands.core.utils.ItemBuilder;
 import com.fadelands.essentials.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

@@ -1,6 +1,6 @@
 package com.fadelands.essentials;
 
-import com.fadelands.array.Array;
+import com.fadelands.core.Core;
 import com.fadelands.essentials.commands.admin.*;
 import com.fadelands.essentials.commands.admin.inventory.WhoisInventory;
 import com.fadelands.essentials.commands.mod.FlyCommand;
@@ -11,11 +11,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
-    private Array instance;
+    private Core instance;
 
     public void onEnable() {
         Bukkit.getLogger().info("[Essentials] Starting up plugin.");
-        instance = Array.plugin;
+        instance = Core.plugin;
 
         this.saveDefaultConfig();
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -49,7 +49,7 @@ public class Main extends JavaPlugin {
 
     }
 
-    public Array getInstance() {
+    public Core getInstance() {
         return instance;
     }
 }

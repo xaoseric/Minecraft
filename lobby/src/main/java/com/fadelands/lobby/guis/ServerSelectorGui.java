@@ -1,8 +1,8 @@
 package com.fadelands.lobby.guis;
 
-import com.fadelands.array.Array;
-import com.fadelands.array.utils.PluginMessage;
-import com.fadelands.array.utils.Utils;
+import com.fadelands.core.Core;
+import com.fadelands.core.utils.PluginMessage;
+import com.fadelands.core.utils.Utils;
 import com.fadelands.lobby.Main;
 import com.fadelands.lobby.utils.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class ServerSelectorGui implements Listener {
 
-    private static PluginMessage pluginMessage = Array.plugin.getPluginMessage();
+    private static PluginMessage pluginMessage = Core.plugin.getPluginMessage();
 
     public Main plugin;
 

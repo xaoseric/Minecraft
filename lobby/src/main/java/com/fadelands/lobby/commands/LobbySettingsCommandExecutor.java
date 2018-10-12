@@ -1,7 +1,7 @@
 package com.fadelands.lobby.commands;
 
-import com.fadelands.array.Array;
-import com.fadelands.array.settings.inventory.SettingsInventory;
+import com.fadelands.core.Core;
+import com.fadelands.core.settings.inventory.SettingsInventory;
 import com.fadelands.lobby.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +19,7 @@ public class LobbySettingsCommandExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if(!(commandSender instanceof Player)) return true;
         Player player = (Player) commandSender;
-        SettingsInventory settingsInventory = new SettingsInventory(Array.plugin);
+        SettingsInventory settingsInventory = new SettingsInventory(Core.plugin);
         settingsInventory.openLobbySettings(player);
         return false;
     }

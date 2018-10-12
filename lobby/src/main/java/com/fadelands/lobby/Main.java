@@ -1,8 +1,8 @@
 package com.fadelands.lobby;
 
-import com.fadelands.array.Array;
-import com.fadelands.array.utils.Utils;
-import com.fadelands.array.provider.scoreboard.SimpleboardManager;
+import com.fadelands.core.Core;
+import com.fadelands.core.utils.Utils;
+import com.fadelands.core.provider.scoreboard.SimpleboardManager;
 import com.fadelands.lobby.commands.BuildModeCommandExecutor;
 import com.fadelands.lobby.commands.LobbySettingsCommandExecutor;
 import com.fadelands.lobby.commands.SetSpawnLocationCommandExecutor;
@@ -39,9 +39,9 @@ public class Main extends JavaPlugin implements Listener {
         setInstance(this);
         this.saveDefaultConfig();
 
-        Plugin array = Bukkit.getPluginManager().getPlugin("Array");
+        Plugin array = Bukkit.getPluginManager().getPlugin("Core");
         if(array == null){
-            getLogger().warning("Couldn't find Array. Stopping server.");
+            getLogger().warning("Couldn't find Core. Stopping server.");
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "stop");
         }else {
             getLogger().info("Plugin has successfully been enabled.");
@@ -59,8 +59,8 @@ public class Main extends JavaPlugin implements Listener {
         pm.registerEvents(new LobbyEvents(this), this);
         pm.registerEvents(new DoubleJump(this), this);
 
-        SimpleboardManager simpleboardManager = Array.plugin.getSimpleboardManager();
-        simpleboardManager.setBoardProvider(new LobbyBoardProvider(Array.plugin.getPluginMessage()));
+        SimpleboardManager simpleboardManager = Core.plugin.getSimpleboardManager();
+        simpleboardManager.setBoardProvider(new LobbyBoardProvider(Core.plugin.getPluginMessage()));
 
         /*
         Register Commands

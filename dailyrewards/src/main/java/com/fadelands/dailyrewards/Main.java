@@ -1,6 +1,6 @@
 package com.fadelands.dailyrewards;
 
-import com.fadelands.array.utils.Utils;
+import com.fadelands.core.utils.Utils;
 import com.fadelands.dailyrewards.rewardman.RewardManListener;
 import com.fadelands.dailyrewards.rewardman.command.RewardManCommand;
 import com.fadelands.dailyrewards.rewardman.command.RewardsCommand;
@@ -36,16 +36,16 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        Bukkit.getConsoleSender().sendMessage("[DailyRewards] Make sure this server is running core plugin Array. This server does not work without it.");
+        Bukkit.getConsoleSender().sendMessage("[DailyRewards] Make sure this server is running core plugin Core. This server does not work without it.");
 
         //checking if the server has the plugin
-        Bukkit.getConsoleSender().sendMessage("[DailyRewards] Attempting to find core plugin Array.");
-        Plugin array = Bukkit.getServer().getPluginManager().getPlugin("Array");
+        Bukkit.getConsoleSender().sendMessage("[DailyRewards] Attempting to find core plugin Core.");
+        Plugin array = Bukkit.getServer().getPluginManager().getPlugin("Core");
         if (array == null) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[DailyRewards] Couldn't find plugin Array. This server can't run without it. Stopping the server.");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[DailyRewards] Couldn't find plugin Core. This server can't run without it. Stopping the server.");
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "stop");
         }
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + Utils.DailyRewards + "Array found and loaded, yay!");
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + Utils.DailyRewards + "Core found and loaded, yay!");
 
         registerCommands();
         registerEvents();

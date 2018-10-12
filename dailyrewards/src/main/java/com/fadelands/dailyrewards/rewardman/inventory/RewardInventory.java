@@ -1,6 +1,6 @@
 package com.fadelands.dailyrewards.rewardman.inventory;
 
-import com.fadelands.array.utils.ItemBuilder;
+import com.fadelands.core.utils.ItemBuilder;
 import com.fadelands.dailyrewards.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

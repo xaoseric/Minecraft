@@ -1,7 +1,7 @@
 package com.fadelands.lobby.commands;
 
-import com.fadelands.array.player.User;
-import com.fadelands.array.utils.Utils;
+import com.fadelands.core.player.User;
+import com.fadelands.core.utils.Utils;
 import com.fadelands.lobby.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

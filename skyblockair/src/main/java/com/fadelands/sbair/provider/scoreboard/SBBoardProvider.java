@@ -1,9 +1,9 @@
 package com.fadelands.sbair.provider.scoreboard;
 
-import com.fadelands.array.utils.PluginMessage;
-import com.fadelands.array.provider.scoreboard.SimpleBoardProvider;
+import com.fadelands.core.utils.PluginMessage;
+import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
 import com.fadelands.sbair.Main;
-import com.fadelands.array.utils.DateUtils;
+import com.fadelands.core.utils.DateUtils;
 import com.google.common.collect.Lists;
 import org.bukkit.entity.Player;
 

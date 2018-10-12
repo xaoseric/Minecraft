@@ -1,6 +1,6 @@
 package com.fadelands.dailyrewards.rewardman;
 
-import com.fadelands.array.utils.Utils;
+import com.fadelands.core.utils.Utils;
 import com.fadelands.dailyrewards.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
