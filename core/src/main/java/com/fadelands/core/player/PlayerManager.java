@@ -1,6 +1,7 @@
 package com.fadelands.core.player;
 
 import com.fadelands.core.Core;
+import com.fadelands.core.achievements.Achievement;
 import com.fadelands.core.playerdata.PlayerData;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.entity.Player;
@@ -35,7 +36,7 @@ public class PlayerManager implements Listener {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "§cWe noticed you have a VPN (Virtual Private Network) running. Please turn it off if you want to join the server.");
         }
 
-        if(new User().hasPlayedBefore(event.getName())) {
+        if(User.hasPlayedBefore(event.getName())) {
             playerExist(event.getName(), event.getAddress().getHostAddress(), uuid);
             loadPlayerData(uuid);
         } else {
@@ -48,10 +49,20 @@ public class PlayerManager implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
+        if(!(User.hasPlayedBefore(player.getName()))) {
+            core.getAchManager().startAchievement(player, Achievement.FIRST_JOIN);
+        }
+
         PlayerData playerData= PlayerData.get(player.getUniqueId());
         if (playerData != null) {
             playerData.getStats().setLoginCount(playerData.getStats().getLoginCount() + 1);
         }
+
+        core.getAchManager().startAchievement(player, Achievement.LOGINS_I);
+        core.getAchManager().startAchievement(player, Achievement.LOGINS_II);
+        core.getAchManager().startAchievement(player, Achievement.LOGINS_III);
+        core.getAchManager().startAchievement(player, Achievement.LOGINS_IV);
+        core.getDatabaseManager().updateTable(player, "players", "last_server", core.getPluginMessage().getServerName(player));
     }
 
     @EventHandler
@@ -65,7 +76,6 @@ public class PlayerManager implements Listener {
         core.getDatabaseManager().updateTable(username, "players", "last_login", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
         core.getDatabaseManager().updateTable(username, "players", "last_ip", ip);
         core.getDatabaseManager().updateTable(username, "players", "last_country", "None");
-        core.getDatabaseManager().updateTable(username, "players", "last_server", "None");
     }
 
     private void createPlayer(String username, String ip, UUID uuid) {
@@ -97,7 +107,7 @@ public class PlayerManager implements Listener {
             ps.setString(6, null);
             ps.setString(7, null);
             ps.setString(8, null);
-            ps.setString(9, "None");
+            ps.setString(9, null);
             ps.setInt(10, 0);
             ps.executeUpdate();
 
@@ -112,7 +122,7 @@ public class PlayerManager implements Listener {
         }
     }
 
-    public void savePlayerData(UUID uuid) {
+    private void savePlayerData(UUID uuid) {
         Connection connection = null;
         PreparedStatement ps = null;
 
@@ -151,7 +161,9 @@ public class PlayerManager implements Listener {
         }
     }
 
-    public void loadPlayerData(UUID uuid) {
+    private void loadPlayerData(UUID uuid) {
+        PlayerData playerData = new PlayerData(uuid);
+
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -164,7 +176,6 @@ public class PlayerManager implements Listener {
             ps.setString(1, uuid.toString());
             rs = ps.executeQuery();
             if(rs.next()) {
-                PlayerData playerData = new PlayerData(uuid);
                 playerData.getStats().setNetworkLevel(rs.getInt("network_level"));
                 playerData.getStats().setPoints(rs.getInt("points"));
                 playerData.getStats().setTokens(rs.getInt("tokens"));

@@ -28,7 +28,7 @@ public class SetSpawnLocationCommandExecutor implements CommandExecutor {
             return true;
         }
 
-        if(!(new User().isAdmin(sender.getName()))){
+        if(!(User.isAdmin(sender.getName()))){
             sender.sendMessage(Utils.No_Perm);
             return true;
         }

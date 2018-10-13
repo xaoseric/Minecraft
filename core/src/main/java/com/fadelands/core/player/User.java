@@ -9,15 +9,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 @SuppressWarnings("Duplicates")
 public class User {
 
     public User() {
-
     }
 
-    public String getName(String username) {
+    public static String getName(String username) {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -37,7 +39,7 @@ public class User {
         return "N/A";
     }
 
-    public String getUuid(String username) {
+    public static String getUuid(String username) {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -57,7 +59,7 @@ public class User {
         return "N/A";
     }
 
-    public String getNameFromUuid(String UUID) {
+    public static String getNameFromUuid(String UUID) {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -77,7 +79,7 @@ public class User {
         return "N/A";
     }
 
-    public String getIp(String username) {
+    public static String getIp(String username) {
         String ip;
         Connection connection = null;
         PreparedStatement ps = null;
@@ -103,7 +105,7 @@ public class User {
         return "N/A";
     }
 
-    public String getIpFromUuid(String uuid) {
+    public static String getIpFromUuid(String uuid) {
         String ip;
         Connection connection = null;
         PreparedStatement ps = null;
@@ -129,7 +131,7 @@ public class User {
         return "N/A";
     }
 
-    public boolean hasPlayedBefore(String name){
+    public static boolean hasPlayedBefore(String name){
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -148,7 +150,7 @@ public class User {
 
     }
 
-    public long firstJoined(String name){
+    public static long firstJoined(String name){
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -170,7 +172,7 @@ public class User {
         return 0;
     }
 
-    public long lastLogin(String name){
+    public static long lastLogin(String name){
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -192,7 +194,7 @@ public class User {
         return 0;
     }
 
-    public String getLastServer(String player) {
+    public static String getLastServer(String player) {
         String server;
         Connection connection = null;
         PreparedStatement ps = null;
@@ -200,7 +202,7 @@ public class User {
         try{
             connection = Core.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?");
-            ps.setString(1, new User().getUuid(player));
+            ps.setString(1, getUuid(player));
             rs = ps.executeQuery();
             if(rs.next()) {
                 server = rs.getString("last_server");
@@ -214,47 +216,47 @@ public class User {
         return "Unknown";
     }
 
-    public boolean isRedTag(String name) {
+    public static boolean isRedTag(String name) {
         String rank = Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
         return rank.equals("owner") || (rank.equals("admin") || (rank.equals("developer")));
     }
 
-    public boolean isAdmin(String name) {
+    public static boolean isAdmin(String name) {
         String rank = Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
         return rank.equals("owner") || (rank.equals("admin"));
     }
 
-    public boolean isSenior(String name) {
+    public static boolean isSenior(String name) {
         String rank = Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
         return rank.equals("senior") || (rank.equals("owner") || (rank.equals("admin")));
     }
 
-    public boolean isMod(String name) {
+    public static boolean isMod(String name) {
         String rank = Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
         return rank.equals("mod") || (rank.equals("senior") || (rank.equals("owner") || (rank.equals("admin"))));
     }
 
-    public boolean isTrainee(String name) {
+    public static boolean isTrainee(String name) {
         String rank = Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
         return rank.equals("trainee") || (rank.equals("mod") || (rank.equals("senior") || (rank.equals("owner") || (rank.equals("admin")))));
     }
 
-    public boolean isBuilder(String name) {
+    public static boolean isBuilder(String name) {
         String rank = Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
         return rank.equals("builder") || rank.equals("admin") || (rank.equals("owner"));
     }
 
-    public boolean isStaff(String name) {
+    public static boolean isStaff(String name) {
         String rank = Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
         return rank.equals("trainee") || (rank.equals("mod") || (rank.equals("senior") || (rank.equals("developer") || rank.equals("admin") || (rank.equals("owner")))));
     }
 
-    public boolean isDonatorRank(String name) {
+    public static boolean isDonatorRank(String name) {
         String rank = Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(name)).getPrimaryGroup();
         return rank.equals("donator") || (rank.equals("premium") || (rank.equals("platinum") || (rank.equals("contributor"))));
     }
 
-    public Player getOnlineAdmins() {
+    public static Player getOnlineAdmins() {
         for (Player admins : Bukkit.getOnlinePlayers()) {
             if (isAdmin(admins.getName())) {
                 return admins;
@@ -263,8 +265,7 @@ public class User {
         return null;
     }
 
-    public String getRank(String playerName) {
-        //noinspection ConstantConditions
-        return Core.plugin.getLuckPermsApi().getUserManager().getUser(playerName).getPrimaryGroup();
+    public static String getRank(String playerName) {
+        return Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(playerName)).getPrimaryGroup();
     }
 }

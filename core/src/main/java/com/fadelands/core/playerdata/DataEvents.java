@@ -31,12 +31,11 @@ public class DataEvents implements Listener {
 
         playerData.getStats().setBlocksPlaced(playerData.getStats().getBlocksPlaced() + 1);
 
-        playerData.getAhievementData().progress(Achievement.BLOCK_PLACER_I);
-        playerData.getAhievementData().progress(Achievement.BLOCK_PLACER_II);
-        playerData.getAhievementData().progress(Achievement.BLOCK_PLACER_III);
-        playerData.getAhievementData().progress(Achievement.BLOCK_PLACER_IV);
-        playerData.getAhievementData().progress(Achievement.BLOCK_PLACER_V);
-
+        playerData.getAchivementData().progress(Achievement.BLOCK_PLACER_I);
+        playerData.getAchivementData().progress(Achievement.BLOCK_PLACER_II);
+        playerData.getAchivementData().progress(Achievement.BLOCK_PLACER_III);
+        playerData.getAchivementData().progress(Achievement.BLOCK_PLACER_IV);
+        playerData.getAchivementData().progress(Achievement.BLOCK_PLACER_V);
     }
 
     @EventHandler
@@ -50,12 +49,11 @@ public class DataEvents implements Listener {
 
         playerData.getStats().setBlocksRemoved(playerData.getStats().getBlocksRemoved() + 1);
 
-        playerData.getAhievementData().progress(Achievement.GRIEFER_I);
-        playerData.getAhievementData().progress(Achievement.GRIEFER_II);
-        playerData.getAhievementData().progress(Achievement.GRIEFER_III);
-        playerData.getAhievementData().progress(Achievement.GRIEFER_IV);
-        playerData.getAhievementData().progress(Achievement.GRIEFER_V);
-
+        playerData.getAchivementData().progress(Achievement.GRIEFER_I);
+        playerData.getAchivementData().progress(Achievement.GRIEFER_II);
+        playerData.getAchivementData().progress(Achievement.GRIEFER_III);
+        playerData.getAchivementData().progress(Achievement.GRIEFER_IV);
+        playerData.getAchivementData().progress(Achievement.GRIEFER_V);
     }
 
     @EventHandler
@@ -89,12 +87,11 @@ public class DataEvents implements Listener {
 
                 playerData.getStats().setKills(playerData.getStats().getKills() + 1);
 
-                playerData.getAhievementData().progress(Achievement.SERIAL_KILLER_I);
-                playerData.getAhievementData().progress(Achievement.SERIAL_KILLER_II);
-                playerData.getAhievementData().progress(Achievement.SERIAL_KILLER_III);
-                playerData.getAhievementData().progress(Achievement.SERIAL_KILLER_IV);
-                playerData.getAhievementData().progress(Achievement.SERIAL_KILLER_V);
-
+                playerData.getAchivementData().progress(Achievement.SERIAL_KILLER_I);
+                playerData.getAchivementData().progress(Achievement.SERIAL_KILLER_II);
+                playerData.getAchivementData().progress(Achievement.SERIAL_KILLER_III);
+                playerData.getAchivementData().progress(Achievement.SERIAL_KILLER_IV);
+                playerData.getAchivementData().progress(Achievement.SERIAL_KILLER_V);
             }
         }
     }

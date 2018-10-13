@@ -42,7 +42,7 @@ public class SBBoardProvider extends SimpleBoardProvider {
         Economy economy = main.getEconomy();
         ASkyBlockAPI api = main.getSkyBlockApi();
 
-            toReturn.add("§7      " + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
+            toReturn.add("§7     " + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
             toReturn.add("&r");
             toReturn.add("&6&lYou");
             toReturn.add("  &fRank: " + permission.getPrimaryGroup(player));

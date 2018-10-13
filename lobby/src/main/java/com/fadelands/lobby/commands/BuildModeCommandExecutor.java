@@ -13,36 +13,34 @@ import org.bukkit.entity.Player;
 public class BuildModeCommandExecutor implements CommandExecutor {
 
     public Main plugin;
-    public BuildModeCommandExecutor(Main plugin){
+
+    public BuildModeCommandExecutor(Main plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-        if(!(sender instanceof Player)){
+        if (!(sender instanceof Player)) {
             sender.sendMessage("This can only be used ingame.");
             return true;
         }
         Player player = (Player) sender;
 
-        if(command.getName().equalsIgnoreCase("buildmode")){
-            if(!(new User().isAdmin(player.getName()))){
-                player.sendMessage(Utils.No_Perm);
-                return false;
-            }
-            if(plugin.buildMode.contains(player)) {
-                plugin.buildMode.remove(player);
-                player.sendMessage(Utils.Prefix+ "§cYou toggled build mode off.");
-                player.setGameMode(GameMode.SURVIVAL);
-                JoinItems joinItems = new JoinItems(plugin);
-                joinItems.getJoinItems(player);
-            }else{
-                plugin.buildMode.add(player);
-                player.sendMessage(Utils.Prefix + "§aYou toggled build mode on.");
-                player.setGameMode(GameMode.CREATIVE);
-                player.getInventory().clear();
-            }
-
+        if (!(User.isAdmin(player.getName()))) {
+            player.sendMessage(Utils.No_Perm);
+            return false;
+        }
+        if (plugin.buildMode.contains(player)) {
+            plugin.buildMode.remove(player);
+            player.sendMessage(Utils.Prefix + "§cYou toggled build mode off.");
+            player.setGameMode(GameMode.SURVIVAL);
+            JoinItems joinItems = new JoinItems(plugin);
+            joinItems.getJoinItems(player);
+        } else {
+            plugin.buildMode.add(player);
+            player.sendMessage(Utils.Prefix + "§aYou toggled build mode on.");
+            player.setGameMode(GameMode.CREATIVE);
+            player.getInventory().clear();
         }
         return false;
     }

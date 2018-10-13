@@ -4,6 +4,7 @@ import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -66,12 +67,12 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addUnsafeEnchantment(Enchantment ench, int level){
+    public ItemBuilder addUnsafeEnchantment(Enchantment ench, int level) {
         this.itemstack.addUnsafeEnchantment(ench, level);
         return this;
     }
 
-    public ItemBuilder addEnchant(Enchantment ench, int level){
+    public ItemBuilder addEnchant(Enchantment ench, int level) {
         ItemMeta im = this.itemstack.getItemMeta();
         im.addEnchant(ench, level, true);
         this.itemstack.setItemMeta(im);
@@ -79,13 +80,13 @@ public class ItemBuilder {
     }
 
     @SuppressWarnings("deprecation")
-    public ItemBuilder setDyeColor(DyeColor color){
+    public ItemBuilder setDyeColor(DyeColor color) {
         this.itemstack.setDurability(color.getData());
         return this;
     }
 
     @Deprecated
-    public ItemBuilder setWoolColor(DyeColor color){
+    public ItemBuilder setWoolColor(DyeColor color) {
         if(!this.itemstack.getType().equals(Material.WOOL))return this;
         this.itemstack.setDurability(color.getData());
         return this;
@@ -97,6 +98,13 @@ public class ItemBuilder {
             im.setColor(color);
             this.itemstack.setItemMeta(im);
         }catch(ClassCastException ignored){}
+        return this;
+    }
+
+    public ItemBuilder hideAttributes() {
+        ItemMeta meta = this.itemstack.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        this.itemstack.setItemMeta(meta);
         return this;
     }
 

@@ -2,6 +2,7 @@ package com.fadelands.core.profile.inventory;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.player.User;
+import com.fadelands.core.playerdata.PlayerData;
 import com.fadelands.core.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -40,9 +41,8 @@ public class ProfileInventory implements Listener {
     public void updateProfileInventory(Inventory inv, Player executor, String target) {
         inv.clear();
 
-        World world = Bukkit.getWorld("world");
         inv.setItem(4, new ItemBuilder(Material.SKULL_ITEM).setData(3).setSkullOwner(target).setName("§6" + target).setLore(Arrays.asList("" +
-                "§7Rank:§2 " + new User().getRank(target).toUpperCase(),
+                "§7Rank:§2 " + User.getRank(target).toUpperCase(),
                 "§7Network Level:§2 999",
                 "§7Points:§2 999",
                 "§7Tokens:§2 0")

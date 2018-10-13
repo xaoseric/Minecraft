@@ -110,7 +110,7 @@ public class PluginMessage implements PluginMessageListener {
         output.writeUTF("Connect");
         output.writeUTF(server);
 
-        target.sendMessage(Utils.Prefix + "§aSending you to " + server + ".");
+        target.sendMessage(Utils.Prefix + "§2Sending you to §a" + server + "§2.");
         target.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
     }
 
@@ -120,7 +120,7 @@ public class PluginMessage implements PluginMessageListener {
         output.writeUTF("Connect");
         output.writeUTF(server);
 
-        target.sendMessage(Utils.Prefix + "§aYou were sent to " + server + " by " + sender.getName() + ".");
+        target.sendMessage(Utils.Prefix + "§2You were sent to §a" + server + " §2by " + sender.getName() + ".");
         target.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
     }
 

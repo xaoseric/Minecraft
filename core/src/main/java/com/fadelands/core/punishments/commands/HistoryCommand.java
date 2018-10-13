@@ -43,9 +43,8 @@ public class HistoryCommand implements CommandExecutor {
             return true;
         }
 
-        User user = new User();
         Player player = (Player) sender;
-        if(!user.isMod(player.getName()) || !user.isAdmin(player.getName())) {
+        if(!User.isMod(player.getName()) || !User.isAdmin(player.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -59,12 +58,11 @@ public class HistoryCommand implements CommandExecutor {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String targetraw = args[0];
-        User fadeLandsPlayer = new User();
 
         try {
             connection = plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM punishments WHERE punished_uuid = ?");
-            ps.setString(1, fadeLandsPlayer.getUuid(targetraw));
+            ps.setString(1, User.getUuid(targetraw));
             rs = ps.executeQuery();
             if(!(rs.next())){
                 player.sendMessage(Utils.Prefix_Red + "§cCouldn't find any punishment history of that user.");
@@ -73,7 +71,7 @@ public class HistoryCommand implements CommandExecutor {
 
 
                 Inventory inv = Bukkit.createInventory(null, 9 * 5, targetraw + "'s Punishments");
-                String uuid = fadeLandsPlayer.getUuid(targetraw);
+                String uuid = User.getUuid(targetraw);
 
                 PunishmentManager punishmentManager = new PunishmentManager(plugin);
                 PunishClientToken token = punishmentHandler.loadPunishClient(uuid);

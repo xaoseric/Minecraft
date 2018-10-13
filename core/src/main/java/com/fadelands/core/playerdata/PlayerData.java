@@ -8,7 +8,7 @@ import java.util.*;
 
 public class PlayerData {
 
-    private static final List<PlayerData> all = new ArrayList<>();
+    private static final HashMap<UUID, PlayerData> all = new HashMap<>();
 
     private final UUID uuid;
     private final Statistics stats;
@@ -19,11 +19,11 @@ public class PlayerData {
         this.stats = new Statistics();
         this.achData = new AchievementData();
 
-        all.add(this);
+        all.put(uuid, this);
     }
 
-    public void remove() {
-        all.remove(this);
+    public void remove(UUID uuid) {
+        all.remove(uuid, this);
     }
 
     UUID getUUID() {
@@ -34,18 +34,16 @@ public class PlayerData {
         return this.stats;
     }
 
-    AchievementData getAhievementData() {
+    public AchievementData getAchivementData() {
         return this.achData;
     }
 
-    public static List<PlayerData> getAll() {
+    public static HashMap<UUID, PlayerData> getAll() {
         return all;
     }
 
     public static PlayerData get(UUID uuid) {
-        for (int i = 0; i < all.size(); i++)
-            if (all.get(i).getUUID() == uuid) return all.get(i);
-        return null;
+        return all.get(uuid);
     }
 
     public final class Statistics {
@@ -142,7 +140,6 @@ public class PlayerData {
 
     }
 
-
     public final class AchievementData {
 
         private final List<Achievement> achieved = new ArrayList<>();
@@ -150,6 +147,10 @@ public class PlayerData {
 
         public List<Achievement> getAchieved() {
             return achieved;
+        }
+
+        public List<Achievement> getAll() {
+            return Achievement.getAll();
         }
 
         public Map<Achievement, Integer> getProgressData() {
@@ -181,20 +182,32 @@ public class PlayerData {
             player.sendMessage(" §7" + ach.getDisplayName() + " (" + ach.getDifficulty().getDisplay() + "§7)");
             player.sendMessage(" §6§lDescription");
             player.sendMessage(" §7" + ach.getDescription().get(0) + ".");
+            player.sendMessage(" §6§lTokens");
+            player.sendMessage(" §2+" + ach.getDifficulty().getTokens());
             player.sendMessage("§8§l┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
             player.sendMessage("§r");
 
-            //Idk, maybe send some kind of message to the player, like "Achievement Complete!"
+            PlayerData playerData = PlayerData.get(player.getUniqueId());
+            if (playerData != null) {
+                playerData.getStats().setTokens(playerData.getStats().getTokens() + ach.getDifficulty().getTokens()); //add tokens to playerdata <-
+            }
         }
 
         public int getProgress(Achievement ach) {
             if (ach.getRequirement() <= 0) return 0;
             return this.progress.getOrDefault(ach, 0);
         }
-
-        //Osäker ifall detta fungerar korrekt då casts kan fucka ibland
+        /*
         public int getProcentProgress(Achievement ach) {
             return (int)((double)(getProgress(ach)/ach.getRequirement()) * 100);
+        }*/
+
+        public boolean hasCompleted(Achievement ach) {
+            return achieved.contains(ach);
+        }
+
+        public boolean hasStarted(Achievement ach) {
+            return progress.containsKey(ach);
         }
     }
 }

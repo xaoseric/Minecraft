@@ -23,8 +23,7 @@ public class LockdownCommand implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        User user = new User();
-        if(!(user.isAdmin(player.getName()))) {
+        if(!(User.isAdmin(player.getName()))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }

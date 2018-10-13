@@ -18,7 +18,7 @@ public class DatabaseStatusCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-            if(!(new User().isRedTag(sender.getName()))) {
+            if(!(User.isRedTag(sender.getName()))) {
                 sender.sendMessage(Utils.No_Perm);
                 return true;
             }

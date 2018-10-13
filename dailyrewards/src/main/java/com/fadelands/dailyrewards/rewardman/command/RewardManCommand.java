@@ -26,8 +26,7 @@ public class RewardManCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        User user = new User();
-        if (!(user.isAdmin(player.getName()))) {
+        if (!(User.isAdmin(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }

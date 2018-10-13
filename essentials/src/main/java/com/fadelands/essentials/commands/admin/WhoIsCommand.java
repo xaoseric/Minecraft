@@ -24,9 +24,9 @@ public class WhoIsCommand implements CommandExecutor {
             sender.sendMessage(Utils.No_Console);
             return true;
         }
-        User user = new User();
+
         Player player = (Player) sender;
-        if(!(user.isAdmin(player.getName()))) {
+        if(!(User.isAdmin(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -38,13 +38,13 @@ public class WhoIsCommand implements CommandExecutor {
 
         String t = args[0];
 
-        if(!(new User().hasPlayedBefore(t))) {
+        if(!(User.hasPlayedBefore(t))) {
                 player.sendMessage(Utils.Prefix + "§cCouldn't find that user in the database.");
                 return true;
             } else {
-            String target = new User().getName(t);
-            WhoisInventory inv = new WhoisInventory(plugin);
-            inv.whoIs(player, target);
+                String target = User.getName(t);
+                WhoisInventory inv = new WhoisInventory(plugin);
+                inv.whoIs(player, target);
         }
         return false;
     }

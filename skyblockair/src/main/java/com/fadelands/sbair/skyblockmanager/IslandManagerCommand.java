@@ -22,9 +22,9 @@ public class IslandManagerCommand implements CommandExecutor {
             return true;
         }
             Player player = (Player) sender;
-            if(!(plugin.getSkyBlockApi().inTeam(player.getUniqueId()))){
-                player.sendMessage(Utils.Prefix_Red + "§cYou must be in a team or own an island yourself to use this command.");
-            return true;
+            if(!(plugin.getSkyBlockApi().inTeam(player.getUniqueId()) || !(plugin.getSkyBlockApi().hasIsland(player.getUniqueId())))) {
+                player.sendMessage(Utils.Prefix + "§cYou must be in a team or own an island to use the menu.");
+                return true;
             }
 
             IslandMenu menu = new IslandMenu(plugin);

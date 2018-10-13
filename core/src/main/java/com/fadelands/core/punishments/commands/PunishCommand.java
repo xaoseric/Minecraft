@@ -37,9 +37,8 @@ public class PunishCommand implements CommandExecutor {
             return true;
         }
 
-        User user = new User();
         Player player = (Player) sender;
-        if(!user.isStaff(player.getName())) {
+        if(!User.isStaff(player.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }

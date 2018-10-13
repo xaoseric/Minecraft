@@ -19,7 +19,7 @@ public class CountryCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String cmdlabel, String[] args) {
         Player player = (Player) sender;
-        if (!(new User().isAdmin(player.getName()))) {
+        if (!(User.isAdmin(player.getName()))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -29,14 +29,13 @@ public class CountryCommand implements CommandExecutor {
             return true;
         }
 
-        User user = new User();
         String target = args[0];
-        if (!user.hasPlayedBefore(target)) {
+        if (!User.hasPlayedBefore(target)) {
             sender.sendMessage(Utils.Prefix + "§cThat's not a valid player.");
             return true;
         }
 
-        String ip = user.getIp(target);
+        String ip = User.getIp(target);
 
         sender.sendMessage(Utils.Prefix + "§2Country of §a" + target + "§2: " + plugin.getInstance().getGeoManager().getCountry(ip));
 

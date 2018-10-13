@@ -29,9 +29,8 @@ public class BanCommand implements CommandExecutor {
             return true;
         }
 
-        User user = new User();
         Player player = (Player) sender;
-        if(!user.isMod(player.getName())) {
+        if(!User.isMod(player.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -40,10 +39,10 @@ public class BanCommand implements CommandExecutor {
             sender.sendMessage(Utils.Prefix_Red + "§cInvalid usage. /ban <user> [time] <reason>");
             return true;
         }
-        User fadeLandsPlayer = new User();
+
         String playerName = args[0];
-        String playerUuid = fadeLandsPlayer.getUuid(playerName);
-        if(!(fadeLandsPlayer.hasPlayedBefore(playerName))){
+        String playerUuid = User.getUuid(playerName);
+        if(!(User.hasPlayedBefore(playerName))){
             sender.sendMessage(Utils.Prefix_Red + "§cThat's not a valid player.");
             return true;
         }

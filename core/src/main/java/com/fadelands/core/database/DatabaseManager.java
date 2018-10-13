@@ -108,6 +108,7 @@ public class DatabaseManager {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     public void closeComponents(ResultSet rs, PreparedStatement ps, Connection connection) {
         if (rs != null) {
             try {
@@ -243,7 +244,7 @@ public class DatabaseManager {
 
     public void updateTable(String playerName, String table, String columnName, String value) {
         try (Connection connection = getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + new User().getUuid(playerName) + "'";
+            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + User.getUuid(playerName) + "'";
             try (PreparedStatement p = connection.prepareStatement(query)) {
 
                 p.setString(1, value);
@@ -259,7 +260,7 @@ public class DatabaseManager {
 
     public void updateTable(String playerName, String table, String columnName, Boolean value) {
         try (Connection connection = getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + new User().getUuid(playerName) + "'";
+            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + User.getUuid(playerName) + "'";
             try (PreparedStatement p = connection.prepareStatement(query)) {
 
                 p.setBoolean(1, value);
@@ -274,7 +275,7 @@ public class DatabaseManager {
 
     public void updateTable(String playerName, String table, String columnName, Integer value) {
         try (Connection connection = getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + new User().getUuid(playerName) + "'";
+            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + User.getUuid(playerName) + "'";
             try (PreparedStatement p = connection.prepareStatement(query)) {
 
                 p.setInt(1, value);
@@ -289,7 +290,7 @@ public class DatabaseManager {
 
     public void updateTable(String playerName, String table, String columnName, Timestamp value) {
         try (Connection connection = getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + new User().getUuid(playerName) + "'";
+            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + User.getUuid(playerName) + "'";
             try (PreparedStatement p = connection.prepareStatement(query)) {
 
                 p.setTimestamp(1, value);

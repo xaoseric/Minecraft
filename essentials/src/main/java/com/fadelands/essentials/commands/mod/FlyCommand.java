@@ -28,7 +28,7 @@ public class FlyCommand implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        if(!(new User().isMod(player.getName()))){
+        if(!(User.isMod(player.getName()))){
             player.sendMessage(Utils.No_Perm);
             return true;
         }

@@ -23,9 +23,9 @@ public class StaffSettingsCommand implements CommandExecutor {
             sender.sendMessage("§cThis can only be used ingame");
             return true;
         }
-        User user = new User();
+
         Player player = (Player) sender;
-        if(!user.isStaff(player.getName())) {
+        if(!User.isStaff(player.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }

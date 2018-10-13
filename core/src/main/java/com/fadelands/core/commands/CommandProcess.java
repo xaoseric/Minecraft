@@ -1,6 +1,7 @@
 package com.fadelands.core.commands;
 
 import com.fadelands.core.Core;
+import com.fadelands.core.achievements.Achievement;
 import com.fadelands.core.playerdata.PlayerData;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.event.EventHandler;
@@ -39,8 +40,11 @@ public class CommandProcess implements Listener {
             event.setCancelled(true);
         }
 
-       PlayerData.Statistics stats = Objects.requireNonNull(PlayerData.get(event.getPlayer().getUniqueId())).getStats();
-       stats.setCommandsUsed(stats.getCommandsUsed() + 1);
+       PlayerData playerData = PlayerData.get(event.getPlayer().getUniqueId());
+        if (playerData != null) {
+            playerData.getStats().setCommandsUsed(playerData.getStats().getCommandsUsed() + 1);
+        }
+        plugin.getAchManager().startAchievement(event.getPlayer(), Achievement.FIRST_COMMAND);
     }
 
 }

@@ -25,8 +25,7 @@ public class SilenceChatCommandExecutor implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        User user = new User();
-        if(!(user.isSenior(player.getName()))) {
+        if(!(User.isSenior(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -51,7 +50,7 @@ public class SilenceChatCommandExecutor implements CommandExecutor {
     }
 
     @SuppressWarnings("Duplicates")
-    public long getSilenceTime(String[] args, CommandSender sender) {
+    private long getSilenceTime(String[] args, CommandSender sender) {
         if (args[0].substring(0, 1).matches("[0-9]")) {
             try {
                 char timeLength = args[0].charAt(args[0].length() - 1);

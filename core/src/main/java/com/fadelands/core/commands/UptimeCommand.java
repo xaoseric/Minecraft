@@ -18,9 +18,8 @@ public class UptimeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        User user = new User();
         Player player = (Player) sender;
-        if(!(user.isRedTag(player.getName()))) {
+        if(!(User.isRedTag(player.getName()))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
 

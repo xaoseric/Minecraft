@@ -30,7 +30,7 @@ public class VanishCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!(new User().isStaff(player.getName()))) {
+        if(!(User.isStaff(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }
