@@ -1,7 +1,9 @@
 package com.fadelands.core.provider.chat;
 
 import com.fadelands.core.Core;
+import com.fadelands.core.achievements.Achievement;
 import com.fadelands.core.player.User;
+import com.fadelands.core.playerdata.PlayerData;
 import com.fadelands.core.utils.TimeUtils;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.core.provider.chat.provider.ChatProvider;
@@ -78,7 +80,7 @@ public class Chat implements Listener {
 
         if (silenced == 0)
             return false;
-        if (new User().isStaff(player.getName()))
+        if (User.isStaff(player.getName()))
             return false;
         if(silenced == -1)
             player.sendMessage(Utils.Alert + "§cChat is silenced permanently.");
@@ -88,7 +90,7 @@ public class Chat implements Listener {
     }
 
     public boolean chatDelayCheck(Player player) {
-        if (new User().isStaff(player.getName()))
+        if (User.isStaff(player.getName()))
             return false;
         if(silenced == -1)
             player.sendMessage(Utils.Alert + "§cChat is silenced permanently.");
@@ -106,7 +108,6 @@ public class Chat implements Listener {
         Player chatSender = event.getPlayer();
 
         Settings settings = new Settings();
-        User user = new User();
 
         if (!settings.publicChat(chatSender)) {
             chatSender.sendMessage(Utils.Prefix + "§cYou have toggled public chat off! To chat with others, change your settings with /settings.");
@@ -127,7 +128,7 @@ public class Chat implements Listener {
 
             long chatSlowTime = 1000L * chatSlow;
             long timeDiff = System.currentTimeMillis() - lastMessage.getTimeSent();
-            if (timeDiff < chatSlowTime && !user.isStaff(chatSender.getName())) {
+            if (timeDiff < chatSlowTime && !User.isStaff(chatSender.getName())) {
                 chatSender.sendMessage(Utils.Alert + "§2Chat Slow is currently enabled, please wait " + TimeUtils.toRelative(chatSlowTime - timeDiff) + ".");
                 return;
             }
@@ -160,6 +161,11 @@ public class Chat implements Listener {
 
             }
             lastChatMessage.put(chatSender.getUniqueId(), new ChatData(event.getMessage()));
+            PlayerData playerData = PlayerData.get(chatSender.getUniqueId());
+            if (playerData != null) {
+                playerData.getStats().setMessagesSent(playerData.getStats().getMessagesSent() + 1);
+            }
+            plugin.getAchManager().startAchievement(chatSender, Achievement.FIRST_WORDS);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.fadelands.core.profile.command;
 
 import com.fadelands.core.Core;
+import com.fadelands.core.player.User;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.core.profile.inventory.ProfileInventory;
 import org.bukkit.command.Command;
@@ -38,27 +39,12 @@ public class ProfileCommand implements CommandExecutor {
             }
 
             String targetStr = args[0];
-            Connection connection = null;
-            PreparedStatement ps = null;
-            ResultSet rs = null;
 
-            //noinspection Duplicates
-            try {
-                connection = plugin.getDatabaseManager().getConnection();
-                ps = connection.prepareStatement("SELECT * FROM players WHERE player_username='" + targetStr + "'");
-                rs = ps.executeQuery();
-                if (!rs.next()) {
-                    player.sendMessage(Utils.Prefix + "§cI couldn't find that player.");
-                } else {
-                    targetStr = rs.getString("player_username");
-                    new ProfileInventory(plugin).openProfileInventory(player, targetStr);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                player.sendMessage(Utils.Prefix + "§cAn error occurred while loading " + targetStr + "'s profile. If this error keeps persisting, please contact an administrator.");
-            }finally {
-                plugin.getDatabaseManager().closeComponents(rs, ps, connection);
-            }
+           if(!(User.hasPlayedBefore(targetStr))) {
+               player.sendMessage(Utils.Prefix + "§cCouldn't find that player.");
+               return true;
+           }
+           new ProfileInventory(plugin).openProfileInventory(player, targetStr);
         return false;
     }
 }

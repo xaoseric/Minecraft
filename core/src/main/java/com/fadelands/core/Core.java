@@ -1,6 +1,7 @@
 package com.fadelands.core;
 
-import com.fadelands.core.achievements.AchievementCommand;
+import com.fadelands.core.achievements.AchievementManager;
+import com.fadelands.core.achievements.command.AchievementCommand;
 import com.fadelands.core.commands.*;
 import com.fadelands.core.commands.help.command.GuidesCommandExecutor;
 import com.fadelands.core.commands.help.command.HelpCommandExecutor;
@@ -17,6 +18,7 @@ import com.fadelands.core.manager.ServerManager;
 import com.fadelands.core.monitor.PerformanceManager;
 import com.fadelands.core.monitor.command.MonitorCommand;
 import com.fadelands.core.npc.NPCManager;
+import com.fadelands.core.playerdata.DataEvents;
 import com.fadelands.core.profile.command.ProfileCommand;
 import com.fadelands.core.profile.inventory.ProfileInventory;
 import com.fadelands.core.provider.chat.SimpleChatProvider;
@@ -72,6 +74,7 @@ public class Core extends JavaPlugin {
     private NPCManager npcManager;
     private PerformanceManager performanceManager;
     private VPNManager vpnManager;
+    private AchievementManager achievementManager;
     private ServerStatistics serverStats;
     private StaffSettings staffSettings;
     private LuckPermsApi luckPerms;
@@ -141,11 +144,12 @@ public class Core extends JavaPlugin {
         this.playerManager = new PlayerManager(this);
         this.databaseManager = new DatabaseManager();
         this.performanceManager = new PerformanceManager();
+        this.npcManager = new NPCManager();
         this.vpnManager = new VPNManager();
+        this.achievementManager = new AchievementManager();
         this.serverStats = new ServerStatistics();
         this.staffSettings = new StaffSettings();
         this.settings = new Settings();
-        this.npcManager = new NPCManager();
         this.serverChat = new com.fadelands.core.provider.chat.Chat(this);
         this.announcements = new Announcements(this, getSettings(), Core.plugin.getPluginMessage());
 
@@ -167,23 +171,11 @@ public class Core extends JavaPlugin {
         pm.registerEvents(new GuideMenu(this), this);
         pm.registerEvents(new DiscordLinkGuide(this), this);
         pm.registerEvents(new TablistText(this), this);
-        /*
-        pm.registerEvents(new CountMessages(this), this);
-        pm.registerEvents(new CountLogins(this), this);
-        pm.registerEvents(new CountBlocksPlaced(this), this);
-        pm.registerEvents(new CountBlocksRemoved(this), this);
-        pm.registerEvents(new CountKills(this), this);
-        pm.registerEvents(new SaveOnQuit(this), this);
-        pm.registerEvents(new LoadPlayerData(), this);
-        pm.registerEvents(new CountDeaths(this), this);
-        new AutoSaveDb().runTaskTimer(this, 2 * 60 * 20, 2 * 60 * 20);
-        */
-        //todo: ^^ above is temporarily disabled
-
         pm.registerEvents(new com.fadelands.core.provider.chat.Chat(this), this);
         pm.registerEvents(getSimpleboardManager(), this);
         pm.registerEvents(getVpnManager(), this);
         pm.registerEvents(new AnnouncementListener(this), this);
+        pm.registerEvents(new DataEvents(this), this); // <- PlayerData Events
         pm.registerEvents(new CommandProcess(this), this);
     }
 
@@ -312,6 +304,10 @@ public class Core extends JavaPlugin {
 
     public VPNManager getVpnManager() {
         return vpnManager;
+    }
+
+    public AchievementManager getAchManager() {
+        return achievementManager;
     }
 
     public com.fadelands.core.provider.chat.Chat getServerChat() {

@@ -32,7 +32,7 @@ public class WhoisInventory implements Listener {
     }
 
     public void updateInventory(Inventory inventory, String targetName) {
-        String uuid = new User().getUuid(targetName);
+        String uuid = User.getUuid(targetName);
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -76,7 +76,7 @@ public class WhoisInventory implements Listener {
                 inventory.setItem(13, new ItemBuilder(Material.PAPER)
                         .setName("§6§lIP Address")
                         .setLore(Arrays.asList("§7Users IP address is",
-                                "§2" + new User().getIp(targetName) + "§7."))
+                                "§2" + User.getIp(targetName) + "§7."))
                         .toItemStack());
 
                 inventory.setItem(14, new ItemBuilder(Material.PAPER)
@@ -94,18 +94,18 @@ public class WhoisInventory implements Listener {
                 inventory.setItem(21, new ItemBuilder(Material.PAPER)
                         .setName("§6§lRank")
                         .setLore(Arrays.asList("§7User has group",
-                                "§2" + new User().getRank(targetName).toUpperCase() + "§7."))
+                                "§2" + User.getRank(targetName).toUpperCase() + "§7."))
                         .toItemStack());
 
                 inventory.setItem(22, new ItemBuilder(Material.PAPER)
                         .setName("§6§lUUID")
                         .setLore(Arrays.asList("§7Users UUID is",
-                                "§2" + new User().getUuid(targetName) + "§7."))
+                                "§2" + User.getUuid(targetName) + "§7."))
                         .toItemStack());
 
                 inventory.setItem(23, new ItemBuilder(Material.PAPER)
                         .setName("§6§lLast Server")
-                        .setLore("§2" + new User().getLastServer(targetName)).toItemStack());
+                        .setLore("§2" + User.getLastServer(targetName)).toItemStack());
             }
         } catch (SQLException e) {
             e.printStackTrace();

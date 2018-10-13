@@ -24,7 +24,7 @@ public class GameModeCommand implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        if(!(new User().isAdmin(player.getName()))){
+        if(!(User.isAdmin(player.getName()))){
             player.sendMessage(Utils.No_Perm);
             return true;
         }

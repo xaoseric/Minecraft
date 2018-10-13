@@ -41,7 +41,7 @@ public class LobbyBoardProvider extends SimpleBoardProvider {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
-        toReturn.add("§7      " + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
+        toReturn.add("§7     " + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
         toReturn.add("§r");
         toReturn.add("§6§l\u00bb " + player.getName());
         toReturn.add("  §fRank: " + Main.getPermissions().getPrimaryGroup(player));

@@ -1,14 +1,21 @@
 package com.fadelands.core.player;
 
 import com.fadelands.core.Core;
+import com.fadelands.core.achievements.Achievement;
+import com.fadelands.core.playerdata.PlayerData;
+import com.fadelands.core.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.sql.*;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PlayerManager implements Listener {
@@ -19,37 +26,61 @@ public class PlayerManager implements Listener {
         this.core = core;
     }
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        try (Connection connection = core.getDatabaseManager().getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?")) {
-                statement.setString(1, player.getUniqueId().toString());
-                try (ResultSet rs = statement.executeQuery()) {
-                    boolean exists = rs.next();
-                    if (!exists) createPlayer(player);
-                    else playerExist(player);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            event.getPlayer().kickPlayer("§cCouldn't load your profile. Please contact a staff member if this issue persists.");
+
+    // Check if player have vpn before they log in. If they don't, a playerdata and profile is is created/loaded for them.
+    @EventHandler(priority =  EventPriority.HIGH)
+    public void onPlayerJoin(AsyncPlayerPreLoginEvent event) {
+        final UUID uuid = event.getUniqueId();
+
+        if(Core.plugin.getVpnManager().ipBlocked(event.getAddress().getHostAddress())) {
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "§cWe noticed you have a VPN (Virtual Private Network) running. Please turn it off if you want to join the server.");
+        }
+
+        if(User.hasPlayedBefore(event.getName())) {
+            playerExist(event.getName(), event.getAddress().getHostAddress(), uuid);
+            loadPlayerData(uuid);
+        } else {
+            createPlayer(event.getName(), event.getAddress().getHostAddress(), uuid);
+            loadPlayerData(uuid);
         }
     }
 
-    private void playerExist(Player player) {
-        core.getDatabaseManager().updateTable(player, "players", "player_username", player.getName());
-        core.getDatabaseManager().updateTable(player, "players", "last_login", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
-        core.getDatabaseManager().updateTable(player, "players", "last_ip", player.getAddress().getAddress().getHostAddress());
-        core.getDatabaseManager().updateTable(player, "players", "last_country", "none");
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+
+        if(!(User.hasPlayedBefore(player.getName()))) {
+            core.getAchManager().startAchievement(player, Achievement.FIRST_JOIN);
+        }
+
+        PlayerData playerData= PlayerData.get(player.getUniqueId());
+        if (playerData != null) {
+            playerData.getStats().setLoginCount(playerData.getStats().getLoginCount() + 1);
+        }
+
+        core.getAchManager().startAchievement(player, Achievement.LOGINS_I);
+        core.getAchManager().startAchievement(player, Achievement.LOGINS_II);
+        core.getAchManager().startAchievement(player, Achievement.LOGINS_III);
+        core.getAchManager().startAchievement(player, Achievement.LOGINS_IV);
         core.getDatabaseManager().updateTable(player, "players", "last_server", core.getPluginMessage().getServerName(player));
     }
 
-    private void createPlayer(Player player) {
-        final UUID uuid = player.getUniqueId();
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        savePlayerData(player.getUniqueId());
+    }
+
+    private void playerExist(String username, String ip, UUID uuid) {
+        core.getDatabaseManager().updateTable(username, "players", "player_username", username);
+        core.getDatabaseManager().updateTable(username, "players", "last_login", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
+        core.getDatabaseManager().updateTable(username, "players", "last_ip", ip);
+        core.getDatabaseManager().updateTable(username, "players", "last_country", "None");
+    }
+
+    private void createPlayer(String username, String ip, UUID uuid) {
         Connection connection = null;
         PreparedStatement ps = null;
-        PreparedStatement ps2 = null;
 
         try {
             connection = core.getDatabaseManager().getConnection();
@@ -69,56 +100,98 @@ public class PlayerManager implements Listener {
                     ") " +
                     "VALUE (?,?,?,?,?,?,?,?,?,?)");
             ps.setString(1, uuid.toString());
-            ps.setString(2, player.getName());
+            ps.setString(2, username);
             ps.setTimestamp(3, new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
             ps.setString(4, null);
-            ps.setString(5, player.getAddress().getAddress().getHostAddress());
+            ps.setString(5, ip);
             ps.setString(6, null);
             ps.setString(7, null);
             ps.setString(8, null);
-            ps.setString(9, core.getPluginMessage().getServerName(player));
+            ps.setString(9, null);
             ps.setInt(10, 0);
             ps.executeUpdate();
 
-            ps2 = connection.prepareStatement("INSERT INTO " +
-                    "stats_global " +
-                    "(" +
-                    "player_uuid," +
-                    "tokens," +
-                    "messages_sent," +
-                    "commands_used," +
-                    "login_count," +
-                    "blocks_placed_global," +
-                    "blocks_removed_global," +
-                    "playtime, " +
-                    "average_playtime, " +
-                    "deaths_global," +
-                    "kills_global" +
-                    ") " +
-                    "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-            ps2.setString(1, uuid.toString());
-            ps2.setInt(2, 0);
-            ps2.setInt(3, 0);
-            ps2.setInt(4, 0);
-            ps2.setInt(5, 0);
-            ps2.setInt(6, 0);
-            ps2.setInt(7, 0);
-            ps2.setString(8, null);
-            ps2.setString(9, null);
-            ps2.setInt(10, 0);
-            ps2.setInt(11, 0);
-            ps2.executeUpdate();
-
-            core.getDatabaseManager().insertTo("players_settings", "player_uuid", player.getUniqueId().toString());
-            core.getDatabaseManager().insertTo("players_lobbysettings", "player_uuid", player.getUniqueId().toString());
-
-            player.sendMessage("§2✔ §aYour profile has been created.");
+            core.getDatabaseManager().insertTo("stats_global", "player_uuid", uuid.toString());
+            core.getDatabaseManager().insertTo("players_settings", "player_uuid", uuid.toString());
+            core.getDatabaseManager().insertTo("players_lobbysettings", "player_uuid", uuid.toString());
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             core.getDatabaseManager().closeComponents(ps, connection);
-            core.getDatabaseManager().closeComponents(ps2);
+        }
+    }
+
+    private void savePlayerData(UUID uuid) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        String query = "UPDATE stats_global SET network_level=?," +
+                "points=?,tokens=?,messages_sent=?,commands_used=?," +
+                "login_count=?,blocks_placed=?,blocks_removed=?,playtime=?," +
+                "deaths=?,kills=? WHERE player_uuid = ?";
+
+        try{
+            connection = core.getDatabaseManager().getConnection();
+            ps = connection.prepareStatement(query);
+
+            PlayerData playerData = PlayerData.get(uuid);
+
+            if (playerData != null) {
+                ps.setInt(1, playerData.getStats().getNetworkLevel());
+                ps.setInt(2, playerData.getStats().getPoints());
+                ps.setInt(3, playerData.getStats().getTokens());
+                ps.setInt(4, playerData.getStats().getMessagesSent());
+                ps.setInt(5, playerData.getStats().getCommandsUsed());
+                ps.setInt(6, playerData.getStats().getLoginCount());
+                ps.setInt(7, playerData.getStats().getBlocksPlaced());
+                ps.setInt(8, playerData.getStats().getBlocksRemoved());
+                ps.setInt(9, playerData.getStats().getPlaytime());
+                ps.setInt(10, playerData.getStats().getDeaths());
+                ps.setInt(11, playerData.getStats().getKills());
+                ps.setString(12, uuid.toString());
+
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            core.getDatabaseManager().closeComponents(ps, connection);
+        }
+    }
+
+    private void loadPlayerData(UUID uuid) {
+        PlayerData playerData = new PlayerData(uuid);
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM stats_global WHERE player_uuid = ?";
+
+        try{
+            connection = core.getDatabaseManager().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, uuid.toString());
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                playerData.getStats().setNetworkLevel(rs.getInt("network_level"));
+                playerData.getStats().setPoints(rs.getInt("points"));
+                playerData.getStats().setTokens(rs.getInt("tokens"));
+                playerData.getStats().setMessagesSent(rs.getInt("messages_sent"));
+                playerData.getStats().setCommandsUsed(rs.getInt("commands_used"));
+                playerData.getStats().setLoginCount(rs.getInt("login_count"));
+                playerData.getStats().setBlocksPlaced(rs.getInt("blocks_placed"));
+                playerData.getStats().setBlocksRemoved(rs.getInt("blocks_removed"));
+                playerData.getStats().setPlaytime(rs.getInt("playtime"));
+                playerData.getStats().setDeaths(rs.getInt("deaths"));
+                playerData.getStats().setKills(rs.getInt("kills"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            core.getDatabaseManager().closeComponents(rs, ps, connection);
         }
     }
 }

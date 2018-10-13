@@ -29,9 +29,9 @@ public class ListCommand implements CommandExecutor {
         return false;
     }
 
-    public String[] getStaffOnline() {
+    private String[] getStaffOnline() {
         for (Player staff : Bukkit.getOnlinePlayers()) {
-            if (new User().isStaff(staff.getName())) {
+            if (User.isStaff(staff.getName())) {
                 if (!(new StaffSettings().vanishOn(staff))) {
                     return staff.getName().split(", ");
                 }
@@ -40,7 +40,7 @@ public class ListCommand implements CommandExecutor {
         return new String[]{"None."};
     }
 
-    public int getGlobalPlayers() {
-        return Core.plugin.getPluginMessage().getPlayers("ALL");
+    private int getGlobalPlayers() {
+        return plugin.getPluginMessage().getPlayers("ALL");
     }
 }

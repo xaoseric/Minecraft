@@ -32,7 +32,7 @@ public class MonitorCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!(new User().isRedTag(player.getName()))) {
+        if(!(User.isRedTag(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }

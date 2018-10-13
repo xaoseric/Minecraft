@@ -30,7 +30,7 @@ public class AltsCommand implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        if(!(new User().isSenior(player.getName()))) {
+        if(!(User.isSenior(player.getName()))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -41,13 +41,12 @@ public class AltsCommand implements CommandExecutor {
         }
 
         String targetRaw = args[0];
-        User user = new User();
-        if(!(user.hasPlayedBefore(targetRaw))){
+        if(!(User.hasPlayedBefore(targetRaw))){
             sender.sendMessage(Utils.Prefix_Red + "§cI couldn't find that user.");
             return true;
         }
 
-        String ip = user.getIp(targetRaw);
+        String ip = User.getIp(targetRaw);
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;

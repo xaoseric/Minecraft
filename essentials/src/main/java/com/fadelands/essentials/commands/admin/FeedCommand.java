@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class HealCommand implements CommandExecutor {
+public class FeedCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -22,20 +22,16 @@ public class HealCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            player.setHealth(20);
             player.setFoodLevel(20);
-            player.setFireTicks(0);
-            player.sendMessage(Utils.Prefix + "§aYou have been healed.");
+            player.sendMessage(Utils.Prefix + "§aYou have been fed.");
 
         } else if (args.length == 1) {
 
             if (player.getServer().getPlayer(args[0]) != null) {
                 Player target = player.getServer().getPlayer(args[0]);
-                target.setHealth(20);
                 target.setFoodLevel(20);
-                target.setFireTicks(0);
-                player.sendMessage(Utils.Prefix + "§aYou have healed " + target.getName() + ".");
-                target.sendMessage(Utils.Prefix + "§aYou have been healed by " + player.getName() + ".");
+                player.sendMessage(Utils.Prefix + "§aYou have fed " + target.getName() + ".");
+                target.sendMessage(Utils.Prefix + "§aYou have been fed by " + player.getName() + ".");
             } else {
                 player.sendMessage(Utils.Prefix + "§cThat player is not online.");
             }

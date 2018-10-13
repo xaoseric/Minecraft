@@ -17,7 +17,7 @@ public class Events implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        if(new User().isDonatorRank(event.getPlayer().getName())) {
+        if(User.isDonatorRank(event.getPlayer().getName())) {
             event.setJoinMessage("§8[§2+§8] §a" + event.getPlayer().getName());
         }else{
             event.setJoinMessage("");
@@ -26,7 +26,7 @@ public class Events implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
-        if (new User().isDonatorRank(event.getPlayer().getName())) {
+        if (User.isDonatorRank(event.getPlayer().getName())) {
             event.setQuitMessage("§8[§4-§8] §c" + event.getPlayer().getName());
         } else {
             event.setQuitMessage("");

@@ -22,8 +22,7 @@ public class SaveStaffData implements Listener {
     @EventHandler
     public void disconnect(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        User user = new User();
-        if (user.isStaff(player.getName())) {
+        if (User.isStaff(player.getName())) {
 
             for (StaffMemberData staffdata : StaffMemberData.getAll()) {
                 try (PreparedStatement statement = plugin.getDatabaseManager().getConnection().prepareStatement("UPDATE players_staff SET " +
@@ -35,7 +34,7 @@ public class SaveStaffData implements Listener {
                      statement.setInt(4, staffdata.getStats().getServerReports());
                      statement.execute();
 
-                     new User().getOnlineAdmins().sendMessage(Utils.AdminAlert + "§cStaff data has been saved in the database.");
+                     User.getOnlineAdmins().sendMessage(Utils.AdminAlert + "§cStaff data has been saved in the database.");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

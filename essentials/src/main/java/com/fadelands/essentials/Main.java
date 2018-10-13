@@ -11,11 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
-    private Core instance;
-
     public void onEnable() {
         Bukkit.getLogger().info("[Essentials] Starting up plugin.");
-        instance = Core.plugin;
 
         this.saveDefaultConfig();
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -34,6 +31,8 @@ public class Main extends JavaPlugin {
         getCommand("gamemode").setExecutor(new GameModeCommand(this));
         getCommand("sudo").setExecutor(new SudoCommand(this));
         getCommand("heal").setExecutor(new HealCommand());
+        getCommand("feed").setExecutor(new FeedCommand());
+        getCommand("toggledownfall").setExecutor(new ToggledownfallCommand());
 
     }
 
@@ -50,6 +49,6 @@ public class Main extends JavaPlugin {
     }
 
     public Core getInstance() {
-        return instance;
+        return Core.plugin;
     }
 }

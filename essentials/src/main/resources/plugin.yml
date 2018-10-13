@@ -22,3 +22,7 @@ commands:
     aliases: [flight]
   heal:
     description: Heal a player.
+  feed:
+    description: Feed a player.
+  toggledownfall:
+    description: Toggle the storm.

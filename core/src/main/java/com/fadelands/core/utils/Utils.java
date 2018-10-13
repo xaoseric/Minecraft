@@ -18,6 +18,7 @@ public class Utils {
     public static String AdminAlert = "§8│ §cAlert§7 »§r ";
 
     public static String No_Perm = "§cThis command requires a higher permission group.";
+    public static String No_Console = "§cThis command can not be used from the console.";
 
     public static String UpgradeAccount = Alert + "§cThis feature requires you to be a §lDonator §crank.\n" +
             "§eYou can upgrade your account at §nstore.fadelands.com§e.";
@@ -31,9 +32,7 @@ public class Utils {
     public static String USER_BLOCK = "§2Click to view profile." +
             " \n" +
             "§r" +
-            "§7Rank§f: {0} " + "\n" +
-            "§7Level§f: {1} " +
-            "";
+            "§7Rank§f: {0} ";
     public static String NETWORK_LEVEL_MSG = "§7This user has a network \n" +
             "§7level of §6{0}§7.";
 

@@ -8,8 +8,7 @@ public class Achievement {
 
     private static final List<Achievement> registered = new ArrayList<>();
 
-
-    //Chat Achievements
+    // Chat Achievements
     public static final Achievement FIRST_WORDS = new Achievement("first-words", "First Words", DifficultLevel.EASY, "Talk in the chat for the first time");
     public static final Achievement FIRST_COMMAND = new Achievement("first-command", "What does this do?", DifficultLevel.EASY, "Use a command for the first time");
 
@@ -38,13 +37,15 @@ public class Achievement {
     public static final Achievement HELP = new Achievement("help", "Help!", DifficultLevel.EASY, "Search for help with /help");
     public static final Achievement FIRST_FRIEND = new Achievement("first-friend", "Your very first friend", DifficultLevel.EASY, "Add a friend to you friendlist using the /friend command");
 
-    //Login Achievements
+    // Login Achievements
     public static final Achievement FIRST_JOIN = new Achievement("first-join", "Welcome!", DifficultLevel.EASY, "Join the server for the first time!");
     public static final Achievement LOGINS_I = new Achievement("logins-I", "Logins I", DifficultLevel.NORMAL, 100, "Login to the server a total of 100 times");
     public static final Achievement LOGINS_II = new Achievement("logins-II", "Logins II", DifficultLevel.HARD, 500, "Login to the server a total of 500 times");
     public static final Achievement LOGINS_III = new Achievement("logins-III", "Logins III", DifficultLevel.HARD, 1000, "Login to the server a total of 1000 times");
     public static final Achievement LOGINS_IV = new Achievement("logins-IV", "Logins IV", DifficultLevel.HARD, 10000, "Login to the server a total of 10 000 times");
 
+    // Skyblock Achievements
+    public static final Achievement FIRST_ISLAND = new Achievement("first-island", "First Island", DifficultLevel.EASY, "Create an island for the first time.");
 
     private final List<String> desc; //Description, requirements etc
     private final String display; //What will be displayed in-game
@@ -100,28 +101,34 @@ public class Achievement {
     }
 
     public enum DifficultLevel {
-        EASY("§a§l", 5),
-        NORMAL("§e§l", 15),
-        HARD("§c§l", 30),
-        INSANE("§4§l", 50);
+        EASY("§a", "Easy", 5),
+        NORMAL("§e", "Normal", 15),
+        HARD("§c", "Hard", 30),
+        INSANE("§4", "Insane", 50);
 
         private final int worth;
         private final String prefix;
+        private final String name;
 
-        private DifficultLevel(String prefix, int points) {
-            this.worth = points;
+        private DifficultLevel(String prefix, String name, int tokens) {
+            this.worth = tokens;
             this.prefix = prefix;
+            this.name = name;
         }
 
         public String getPrefix() {
             return this.prefix;
         }
 
-        public String getDisplay() {
-            return this.prefix + this.name();
+        public String getName() {
+            return this.name;
         }
 
-        public int getPoints() {
+        public String getDisplay() {
+            return this.prefix + this.name;
+        }
+
+        public int getTokens() {
             return this.worth;
         }
     }

@@ -33,7 +33,7 @@ public class StaffInventory implements Listener {
     }
 
     public void updateInventory(Inventory inventory, String targetName) {
-        String uuid = new User().getUuid(targetName);
+        String uuid = User.getUuid(targetName);
 
         Connection connection = null;
         PreparedStatement ps = null;

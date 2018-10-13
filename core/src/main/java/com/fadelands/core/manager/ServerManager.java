@@ -67,8 +67,7 @@ public class ServerManager implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void playerLogin(AsyncPlayerPreLoginEvent event) {
         if (lockdownActive()) {
-            User user = new User();
-            if(user.isRedTag(event.getName())) {
+            if(User.isRedTag(event.getName())) {
                 event.allow();
                 return;
             }

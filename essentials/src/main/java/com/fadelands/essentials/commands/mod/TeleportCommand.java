@@ -27,7 +27,7 @@ public class TeleportCommand implements CommandExecutor {
         }
 
         Player player = (Player)sender;
-            if ((new User().isMod(player.getName())) && (args.length == 2)) {
+            if ((User.isMod(player.getName())) && (args.length == 2)) {
                 if (Bukkit.getPlayerExact(args[0]) != null && Bukkit.getPlayerExact(args[1]) != null)
                 {
                     Player targetPlayer = player.getServer().getPlayer(args[0]);
@@ -44,7 +44,7 @@ public class TeleportCommand implements CommandExecutor {
                 player.sendMessage(Utils.No_Perm);
             }
             if ((args.length == 1) || (args.length == 0)) {
-                if (new User().isMod(player.getName()))
+                if (User.isMod(player.getName()))
                 {
                     if (args.length == 0)
                     {

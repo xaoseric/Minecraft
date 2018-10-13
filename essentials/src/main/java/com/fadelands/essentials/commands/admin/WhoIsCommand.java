@@ -21,12 +21,12 @@ public class WhoIsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
         if(!(sender instanceof Player)) {
-            sender.sendMessage("§cno console");
+            sender.sendMessage(Utils.No_Console);
             return true;
         }
-        User user = new User();
+
         Player player = (Player) sender;
-        if(!(user.isAdmin(player.getName()))) {
+        if(!(User.isAdmin(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -35,33 +35,17 @@ public class WhoIsCommand implements CommandExecutor {
             player.sendMessage(Utils.Prefix + "§cYou have to enter a username.");
             return true;
         }
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
 
         String t = args[0];
 
-        try {
-            connection = plugin.getInstance().getDatabaseManager().getConnection();
-            ps = connection.prepareStatement("SELECT * FROM players WHERE player_username = ?");
-            ps.setString(1, t);
-            rs = ps.executeQuery();
-            if (!rs.next()) {
-                player.sendMessage(Utils.Prefix + "§cCouldn't find that user in the database!");
+        if(!(User.hasPlayedBefore(t))) {
+                player.sendMessage(Utils.Prefix + "§cCouldn't find that user in the database.");
                 return true;
             } else {
-                String target = new User().getName(t);
+                String target = User.getName(t);
                 WhoisInventory inv = new WhoisInventory(plugin);
                 inv.whoIs(player, target);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            plugin.getInstance().getDatabaseManager().closeComponents(rs, ps, connection);
         }
-
-
         return false;
     }
 }

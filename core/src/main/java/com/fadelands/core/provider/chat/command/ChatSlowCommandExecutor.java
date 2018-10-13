@@ -24,8 +24,8 @@ public class ChatSlowCommandExecutor implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        User user = new User();
-        if(!(user.isMod(player.getName()))) {
+
+        if(!(User.isMod(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }
