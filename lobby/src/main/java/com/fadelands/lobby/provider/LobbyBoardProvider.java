@@ -50,6 +50,7 @@ public class LobbyBoardProvider extends SimpleBoardProvider {
         toReturn.add("§6§l┏━ Players");
         toReturn.add("§6§l┣ &fSkyBlock: §a§l" + (pluginMessage.getPlayers("SB-AIR") + pluginMessage.getPlayers("SB-WATER")));
         toReturn.add("§6§l┣ &fSurvival: §a§l" + (pluginMessage.getPlayers("SV-EARTH")));
+        toReturn.add("§6§l┣ &fLobbies: §a§l" + (pluginMessage.getPlayers("LOBBY")));
         toReturn.add("§6§l┗━ ");
         toReturn.add("§e§nwww.fadelands.com");
 
