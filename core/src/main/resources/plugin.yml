@@ -1,6 +1,6 @@
 name: Core
 main: com.fadelands.core.Core
-version: ARRAY-1.0
+version: CORE-1.0
 author: arrayofc
 
 commands:
@@ -53,3 +53,8 @@ commands:
     description: Slow down the chat.
   silencechat:
     description: Silence the chat.
+  monitor:
+    description: Check the server performance
+    aliases: [performance, lag]
+  vpn:
+    description: Handle the Anti-VPN database

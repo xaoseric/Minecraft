@@ -10,10 +10,12 @@ import com.fadelands.core.commands.help.inventory.ApplyGui;
 import com.fadelands.core.commands.help.inventory.HelpInventory;
 import com.fadelands.core.commands.help.inventory.ServerStatsInventory;
 import com.fadelands.core.events.Events;
-import com.fadelands.core.manager.DatabaseManager;
+import com.fadelands.core.database.DatabaseManager;
 import com.fadelands.core.manager.GeoManager;
-import com.fadelands.core.manager.PlayerManager;
+import com.fadelands.core.player.PlayerManager;
 import com.fadelands.core.manager.ServerManager;
+import com.fadelands.core.monitor.PerformanceManager;
+import com.fadelands.core.monitor.command.MonitorCommand;
 import com.fadelands.core.npc.NPCManager;
 import com.fadelands.core.profile.command.ProfileCommand;
 import com.fadelands.core.profile.inventory.ProfileInventory;
@@ -41,6 +43,8 @@ import com.fadelands.core.staff.inventory.StaffInventory;
 import com.fadelands.core.utils.PluginMessage;
 import com.fadelands.core.utils.ServerStatistics;
 import com.fadelands.core.utils.Utils;
+import com.fadelands.core.vpn.VPNManager;
+import com.fadelands.core.vpn.command.VPNCommand;
 import me.lucko.luckperms.api.LuckPermsApi;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
@@ -55,7 +59,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 @SuppressWarnings("ALL")
 public class Core extends JavaPlugin {
 
-    private long serverStartTime = System.currentTimeMillis();
+    public long serverStartTime = System.currentTimeMillis();
 
     private OkHttpClient okHttpClient;
     private PluginMessage pluginMessage;
@@ -66,6 +70,8 @@ public class Core extends JavaPlugin {
     private PlayerManager playerManager;
     private DatabaseManager databaseManager;
     private NPCManager npcManager;
+    private PerformanceManager performanceManager;
+    private VPNManager vpnManager;
     private ServerStatistics serverStats;
     private StaffSettings staffSettings;
     private LuckPermsApi luckPerms;
@@ -119,6 +125,8 @@ public class Core extends JavaPlugin {
         getCommand("guides").setExecutor(new GuidesCommandExecutor(this));
         getCommand("settings").setExecutor(new SettingsCommandExecutor(this));
         getCommand("list").setExecutor(new ListCommand(this));
+        getCommand("monitor").setExecutor(new MonitorCommand(this));
+        getCommand("vpn").setExecutor(new VPNCommand(this));
     }
 
     private void registerEvents(){
@@ -132,6 +140,8 @@ public class Core extends JavaPlugin {
         this.serverManager = new ServerManager(this);
         this.playerManager = new PlayerManager(this);
         this.databaseManager = new DatabaseManager();
+        this.performanceManager = new PerformanceManager();
+        this.vpnManager = new VPNManager();
         this.serverStats = new ServerStatistics();
         this.staffSettings = new StaffSettings();
         this.settings = new Settings();
@@ -172,6 +182,7 @@ public class Core extends JavaPlugin {
 
         pm.registerEvents(new com.fadelands.core.provider.chat.Chat(this), this);
         pm.registerEvents(getSimpleboardManager(), this);
+        pm.registerEvents(getVpnManager(), this);
         pm.registerEvents(new AnnouncementListener(this), this);
         pm.registerEvents(new CommandProcess(this), this);
     }
@@ -293,6 +304,14 @@ public class Core extends JavaPlugin {
 
     public NPCManager getNpcManager() {
         return npcManager;
+    }
+
+    public PerformanceManager getPerformanceManager() {
+        return performanceManager;
+    }
+
+    public VPNManager getVpnManager() {
+        return vpnManager;
     }
 
     public com.fadelands.core.provider.chat.Chat getServerChat() {

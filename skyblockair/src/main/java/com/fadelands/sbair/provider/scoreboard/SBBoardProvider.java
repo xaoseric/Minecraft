@@ -5,6 +5,10 @@ import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
 import com.fadelands.sbair.Main;
 import com.fadelands.core.utils.DateUtils;
 import com.google.common.collect.Lists;
+import com.wasteofplastic.askyblock.ASkyBlockAPI;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Calendar;
@@ -34,15 +38,19 @@ public class SBBoardProvider extends SimpleBoardProvider {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
+        Permission permission = main.getPermissions();
+        Economy economy = main.getEconomy();
+        ASkyBlockAPI api = main.getSkyBlockApi();
+
             toReturn.add("§7      " + getMonthName(cal.get(Calendar.MONTH)) + " " + DateUtils.getFormattedDayDate(cal.getTime()));
             toReturn.add("&r");
             toReturn.add("&6&lYou");
-            toReturn.add("  &fRank: " + main.getPermissions().getPrimaryGroup(player));
-            toReturn.add("  &fMoney: &a$" + main.getEconomy().getBalance(player.getName() + "k"));
+            toReturn.add("  &fRank: " + permission.getPrimaryGroup(player));
+            toReturn.add("  &fMoney: &a" + economy.format(economy.getBalance(player)));
             toReturn.add("&r ");
             toReturn.add("&6&lIsland");
-            toReturn.add("  &fLevel: &a" + main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId()));
-            toReturn.add("  &fTeam: §a" + main.getSkyBlockApi().getTeamMembers(player.getUniqueId()).size());
+            toReturn.add("  &fLevel: &a" + api.getLongIslandLevel(player.getUniqueId()));
+            toReturn.add("  &fTeam: §a" + api.getTeamMembers(player.getUniqueId()).size());
             toReturn.add("&r ");
             toReturn.add("&e§nwww.fadelands.com");
 

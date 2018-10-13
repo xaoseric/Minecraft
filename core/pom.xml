@@ -36,7 +36,7 @@
 
     <build>
         <defaultGoal>clean package install</defaultGoal>
-        <finalName>array-${project.version}</finalName>
+        <finalName>core-${project.version}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
