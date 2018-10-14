@@ -1,12 +1,14 @@
 package com.fadelands.core.punishments;
 
+import java.util.UUID;
+
 public class Punishment {
 
     private String appealkey;
-    private int type;
-    private String punisherUuid;
+    private PunishmentType type;
+    private UUID punisherUuid;
     private String reason;
-    private String punishedUuid;
+    private UUID punishedUuid;
     private long date;
     private long until;
     private boolean active;
@@ -14,7 +16,7 @@ public class Punishment {
     private String removeReason;
     private String removeAdmin;
 
-    Punishment(String appealkey, String punisherUuid, int type, String reason, String punishedUuid, long date, long until, boolean active, boolean removed, String removeReason, String removeAdmin) {
+    Punishment(String appealkey, UUID punisherUuid, PunishmentType type, String reason, UUID punishedUuid, long date, long until, boolean active, boolean removed, String removeReason, String removeAdmin) {
         this.appealkey = appealkey;
         this.punisherUuid = punisherUuid;
         this.type = type;
@@ -28,23 +30,19 @@ public class Punishment {
         this.removeAdmin = removeAdmin;
     }
 
-    public void build(){}
-
     public String getAppealKey() {
         return appealkey;
     }
 
-    public int getPunishmentType()
-    {
+    public PunishmentType getPunishmentType() {
         return type;
     }
 
-    public String getPunishedUuid()
-    {
+    public UUID getPunishedUuid() {
         return this.punishedUuid;
     }
 
-    public String getPunisherUUID()
+    public UUID getPunisherUuid()
     {
         return this.punisherUuid;
     }
@@ -54,19 +52,19 @@ public class Punishment {
         return this.reason;
     }
 
-    public long getPunishDate() {
+    public long getPunishTime() {
         return date;
     }
 
-    public long getUntil() {
+    public long getExpirationTime() {
         return until;
     }
 
-    public boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public boolean getRemoved() {
+    public boolean isRemoved() {
         return removed;
     }
 
@@ -82,15 +80,15 @@ public class Punishment {
     }
 
     public boolean isBanned() {
-        return type == 0 && active;
+        return type == PunishmentType.Ban && active;
     }
 
     public boolean isMuted() {
-        return type == 1 && active;
+        return type == PunishmentType.Mute && active;
     }
 
     public long getRemaining() {
-        return System.currentTimeMillis() - until;
+        return (date + until) - System.currentTimeMillis();
     }
 
     public String getRemoveAdmin() {

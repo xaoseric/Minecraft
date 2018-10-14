@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class MuteCommand implements CommandExecutor {
 
@@ -41,7 +42,7 @@ public class MuteCommand implements CommandExecutor {
         }
 
         String playerName = args[0];
-        String playerUuid = User.getUuid(playerName);
+        UUID playerUuid = UUID.fromString(User.getUuid(playerName));
         if(!(User.hasPlayedBefore(playerName))){
             sender.sendMessage(Utils.Prefix_Red + "§cThat's not a valid player.");
             return true;
@@ -54,10 +55,10 @@ public class MuteCommand implements CommandExecutor {
             reason = Joiner.on(" ").skipNulls().join(Arrays.copyOfRange(args, 2, args.length));
         }
         if (!(sender instanceof Player)) {
-            punishmentManager.addPunishment(sender, playerName, playerUuid, reason, "Console", false, punishmentManager.getTimeToPunish(args, sender));
+            punishmentManager.addPunishment(sender, playerName, playerUuid, reason, UUID.fromString("Console"), false, punishmentManager.getTimeToPunish(args, sender));
         } else {
             Player caller = (Player) sender;
-            punishmentManager.addPunishment(sender, playerName, playerUuid, reason, caller.getUniqueId().toString(), false, punishmentManager.getTimeToPunish(args, sender));
+            punishmentManager.addPunishment(sender, playerName, playerUuid, reason, caller.getUniqueId(), false, punishmentManager.getTimeToPunish(args, sender));
         }
         return false;
     }

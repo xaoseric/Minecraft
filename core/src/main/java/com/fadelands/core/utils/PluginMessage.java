@@ -10,17 +10,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PluginMessage implements PluginMessageListener {
 
     private Map<UUID, String> playerServerMap;
     private Map<String, Integer> playerCountMap;
-    private Map<String, String[]> playerMap;
-    private Map<String, String[]> playerListMap;
+    private List<String[]> playerNamesMap;
+    private Map<String, String[]> serverPlayerNamesMap;
 
     public JavaPlugin plugin;
 
@@ -28,8 +26,8 @@ public class PluginMessage implements PluginMessageListener {
         this.plugin = plugin;
         playerServerMap = Maps.newHashMap();
         playerCountMap = Maps.newHashMap();
-        playerMap = Maps.newHashMap();
-        playerListMap = Maps.newHashMap();
+        playerNamesMap = new ArrayList<>();
+        serverPlayerNamesMap = Maps.newHashMap();
     }
 
     @Override
@@ -44,30 +42,26 @@ public class PluginMessage implements PluginMessageListener {
                 String server = in.readUTF();
                 playerCountMap.put(server, in.readInt());
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         try {
             if (subChannel.equals("GetServer")) {
                 String server = in.readUTF();
                 playerServerMap.put(player.getUniqueId(), server);
             }
-        } catch (Exception ignored) {}
-
-        try {
-            if (subChannel.equals("PlayList")) {
-                String server = in.readUTF();
-                String[] playerList = in.readUTF().split(", ");
-                playerMap.put(server, playerList);
-            }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         try {
             if (subChannel.equals("PlayerList")) {
                 String server = in.readUTF();
-                String[] players = in.readUTF().split(", ");
-                playerListMap.put(server, players);
+                String[] playerList = in.readUTF().split(", ");
+                System.out.println("playerlist: " + Arrays.toString(playerList));
+                serverPlayerNamesMap.put(server, playerList);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     public Integer getPlayers(String server) {
@@ -89,19 +83,16 @@ public class PluginMessage implements PluginMessageListener {
     }
 
     public String[] getPlayerNames(String server) {
-        ping(server);
         try {
-            return ImmutableMap.copyOf(playerMap).get(server);
+            ByteArrayDataOutput output = ByteStreams.newDataOutput();
+            output.writeUTF("PlayerList");
+            output.writeUTF(server);
+
+            Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+
+            return ImmutableMap.copyOf(serverPlayerNamesMap).get(server);
         } catch (Exception ignored) {}
         return null;
-    }
-
-    private void ping(String server) {
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("PlayerList");
-        out.writeUTF(server);
-
-        Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
     }
 
     public void sendToServer(Player target, String server) {
@@ -155,17 +146,20 @@ public class PluginMessage implements PluginMessageListener {
     }
 
     public boolean isOnline(String username) {
-        return Arrays.stream(getPlayerList()).collect(Collectors.toList()).contains(username);
+        String[] players = getPlayerNames("ALL");
 
+
+        List<String> names = Arrays.stream(players).filter(Objects::nonNull).collect(Collectors.toList());
+        return names.contains(username);
     }
 
-    public String[] getPlayerList() {
+    public String[] getProxiedPlayerNames() {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("PlayerList");
         out.writeUTF("ALL");
 
         Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
-        return playerListMap.get("ALL");
+        return playerNamesMap.get(0);
 
     }
 }

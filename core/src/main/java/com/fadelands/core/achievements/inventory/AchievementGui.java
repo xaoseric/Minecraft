@@ -33,7 +33,6 @@ public class AchievementGui implements Listener {
 
     public void updateInventory(Inventory inv, Player player, String target) {
         UUID uuid = UUID.fromString(User.getUuid(target));
-        System.out.println(uuid);
         PlayerData playerData = PlayerData.get(uuid);
 
         if(playerData == null) {

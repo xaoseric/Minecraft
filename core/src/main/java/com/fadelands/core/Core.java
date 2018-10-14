@@ -32,7 +32,7 @@ import com.fadelands.core.provider.scoreboard.SimpleboardManager;
 import com.fadelands.core.provider.tablist.TablistText;
 import com.fadelands.core.punishments.PunishmentManager;
 import com.fadelands.core.punishments.commands.*;
-import com.fadelands.core.punishments.PunishmentMenu;
+import com.fadelands.core.punishments.inventory.PunishmentMenu;
 import com.fadelands.core.settings.Settings;
 import com.fadelands.core.settings.SettingsCommandExecutor;
 import com.fadelands.core.staff.StaffMode;

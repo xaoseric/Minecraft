@@ -1,5 +1,4 @@
 package com.fadelands.core.utils;
-
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,9 +21,9 @@ public class TimeUtils {
     public static String toRelative(long duration, int maxLevel) {
         StringBuilder res = new StringBuilder();
         int level = 0;
-        for (Map.Entry<String, Long> time : times.entrySet()){
+        for (Map.Entry<String, Long> time : times.entrySet()) {
             long timeDelta = duration / time.getValue();
-            if (timeDelta > 0){
+            if (timeDelta > 0) {
                 res.append(timeDelta)
                         .append(" ")
                         .append(time.getKey())
@@ -33,7 +32,7 @@ public class TimeUtils {
                 duration -= time.getValue() * timeDelta;
                 level++;
             }
-            if (level == maxLevel){
+            if (level == maxLevel) {
                 break;
             }
         }
@@ -49,14 +48,13 @@ public class TimeUtils {
         return toRelative(duration, times.size());
     }
 
-    public static String toRelative(Date start, Date end){
+    public static String toRelative(Date start, Date end) {
         assert start.after(end);
         return toRelative(end.getTime() - start.getTime());
     }
 
-    public static String toRelative(Date start, Date end, int level){
+    public static String toRelative(Date start, Date end, int level) {
         assert start.after(end);
         return toRelative(end.getTime() - start.getTime(), level);
     }
 }
-

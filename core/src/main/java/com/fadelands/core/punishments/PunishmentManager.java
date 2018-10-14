@@ -1,9 +1,8 @@
 package com.fadelands.core.punishments;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.punishments.tokens.PunishClientToken;
-import com.fadelands.core.punishments.tokens.PunishmentToken;
 import com.fadelands.core.utils.TimeUtils;
+import com.fadelands.core.utils.UtilTime;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.core.utils.keygenerators.AppealKeyGenerator;
 import org.bukkit.Bukkit;
@@ -15,55 +14,62 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class PunishmentManager implements Listener {
 
-    private Core core;
+    private Core plugin;
     private PunishmentHandler punishmentHandler;
-    public HashMap<String, PunishmentClient> punishClients;
 
-    public PunishmentManager(Core core) {
-        this.core = core;
+    public PunishmentManager(Core plugin) {
+        this.plugin = plugin;
         this.punishmentHandler = new PunishmentHandler();
-
-        punishClients = new HashMap<>();
     }
+
+    public HashMap<UUID, PunishmentData> punishData = new HashMap<>();
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event){
-        punishClients.remove(event.getPlayer().getUniqueId().toString().toLowerCase());
+        punishData.remove(event.getPlayer().getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void PunishPlayerJoinEvent(AsyncPlayerPreLoginEvent event){
-        if (!punishClients.containsKey(event.getUniqueId().toString().toLowerCase())){
-            punishClients.put(event.getUniqueId().toString().toLowerCase(), new PunishmentClient());
-        }
+    public void PunishPlayerJoinEvent(AsyncPlayerPreLoginEvent event) {
+        UUID uuid = event.getUniqueId();
 
-        String uuid = event.getUniqueId().toString().toLowerCase();
+        loadPunishments(event.getUniqueId());
 
-        PunishClientToken token = punishmentHandler.loadPunishClient(uuid);
-        if(token == null) return;
+        PunishmentData data = punishData.get(uuid);
 
-        loadClient(uuid);
-        PunishmentClient client = punishClients.get(uuid.toLowerCase());
+        if (data.isBanned()) {
+            Punishment punishment = data.getPunishment(PunishmentType.Ban);
 
-        if (client.isBanned(uuid)) {
-            Punishment punishment = client.getPunishment(uuid, PunishmentType.Ban);
+            if (punishment == null) {
+                return;
+            }
 
-                String appeal = "§cYour Appeal Key: §f" + punishment.getAppealKey() + "\n" +
+            if(punishment.getRemaining() < 0) { //expired?
+                punishmentHandler.unpunish(punishment.getAppealKey());
+                return;
+            }
+
+            String appeal = "§cYour Appeal Key: §f" + punishment.getAppealKey() + "\n" +
                     "§7§o(Do not share this key with anyone, or it might affect the process of your appeal)\n\n" +
                     "§6If you believe you were unfairly punished,\n" +
                     "§6please dispute your punishment at www.fadelands.com/appeal.";
 
-                String banMessage = "§c§lYour account has been suspended from the FadeLands Network." + "\n" +
+            String banMessage = "§c§lYour account has been suspended from the FadeLands Network." + "\n" +
                     "\n" + "§r" + punishment.getReason() + "\n\n";
 
-            if(punishment.getUntil() == 0) {
+            if (punishment.getExpirationTime() == 1) {
                 banMessage += "§cThis punishment is permanent and will not expire.\n\n" + appeal;
-            }else{
-                banMessage += "§cYour punishment expires in " + TimeUtils.toRelative(punishment.getRemaining()) + ".\n\n" + appeal;
+            } else {
+                banMessage += "§cYour punishment expires in " + UtilTime.MakeStr(punishment.getRemaining()) + ".\n\n" + appeal;
             }
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, banMessage);
         }
@@ -71,66 +77,67 @@ public class PunishmentManager implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void PunishChatEvent(AsyncPlayerChatEvent event) {
-        if (!punishClients.containsKey(event.getPlayer().getUniqueId().toString().toLowerCase())){
-            punishClients.put(event.getPlayer().getUniqueId().toString().toLowerCase(), new PunishmentClient());
-        }
+        UUID uuid = event.getPlayer().getUniqueId();
 
-        String uuid = event.getPlayer().getUniqueId().toString().toLowerCase();
+        PunishmentData data = punishData.get(uuid);
 
-        PunishClientToken token = punishmentHandler.loadPunishClient(uuid);
-        if(token == null) return;
+        if (data.isMuted()) {
+            Punishment punishment = data.getPunishment(PunishmentType.Mute);
 
-        loadClient(uuid);
-        PunishmentClient client = punishClients.get(uuid.toLowerCase());
+            if (punishment == null) {
+                return;
+            }
 
-        if (client.isMuted(uuid)) {
-            Punishment punishment = client.getPunishment(uuid, PunishmentType.Mute);
-            event.getPlayer().sendMessage("§r\n§cYou are currently muted for §l" + punishment.getReason() + "§c for §l" + TimeUtils.toRelative(punishment.getUntil()) + "§c.\n" +
+            if(punishment.getRemaining() < 0) { //expired?
+                punishmentHandler.unpunish(punishment.getAppealKey());
+                return;
+            }
+
+            event.getPlayer().sendMessage("§r\n§cYou are currently muted for §l" + punishment.getReason() + "§c for §l" + (punishment.getRemaining() == 1 ? "forever" : UtilTime.MakeStr(punishment.getRemaining())) + "§c.\n" +
                     "§6§nYour Appeal Key: " + punishment.getAppealKey() + "§6.\n§r");
             event.setCancelled(true);
         }
     }
 
-    public void addPunishment(CommandSender sender, final String playerName, String playerUuid, final String reason, final String callerUuid, boolean ban, long duration) {
-        if (!punishClients.containsKey(playerUuid.toLowerCase())) {
-            punishClients.put(playerUuid.toLowerCase(), new PunishmentClient());
+    public void addPunishment(CommandSender sender, final String playerName, UUID playerUuid, final String reason, final UUID callerUuid, boolean ban, long duration) {
+        if (!punishData.containsKey(playerUuid)) {
+            punishData.put(playerUuid, new PunishmentData(playerUuid));
         }
 
-        PunishClientToken token = punishmentHandler.loadPunishClient(playerUuid);
+        loadPunishments(playerUuid); //if player is offline, we need to load their punishments again to check if they're already punished
 
-        if (token != null) {
-            loadClient(playerUuid);
-            PunishmentClient client = punishClients.get(playerUuid);
-            Punishment banPunishment = client.getPunishment(playerUuid, PunishmentType.Ban);
-            if (ban && banPunishment != null && banPunishment.isBanned()) {
-                sender.sendMessage(Utils.Prefix_Red + "§cThis player is already banned.");
-                return;
-            }
+        PunishmentData data = punishData.get(playerUuid);
 
-            Punishment mutePunishment = client.getPunishment(playerUuid, PunishmentType.Mute);
-            if (!ban && mutePunishment != null && mutePunishment.isMuted()) {
-                sender.sendMessage(Utils.Prefix_Red + "§cThis player is already muted.");
-                return;
-            }
+        Punishment banPunishment = data.getPunishment(PunishmentType.Ban);
+        System.out.println(banPunishment);
+        if (banPunishment != null && banPunishment.getPunishmentType() == PunishmentType.Ban && banPunishment.isBanned()) {
+            sender.sendMessage(Utils.Prefix_Red + "§cThis player is already banned.");
+            return;
         }
 
-        long date = System.currentTimeMillis();
-        final long durationTime = date + duration;
+        Punishment mutePunishment = data.getPunishment(PunishmentType.Mute);
+        System.out.println(mutePunishment);
+        if (mutePunishment != null && mutePunishment.getPunishmentType() == PunishmentType.Mute && mutePunishment.isMuted()) {
+            sender.sendMessage(Utils.Prefix_Red + "§cThis player is already muted.");
+            return;
+        }
+
+        final long now = System.currentTimeMillis();
         final PunishmentType type = !ban ? PunishmentType.Mute : PunishmentType.Ban;
 
-        String appealKey = new AppealKeyGenerator().nextKey();
+        final String appealKey = new AppealKeyGenerator().nextKey();
 
-        if(duration == 0) {
-            Punishment punishment = new Punishment(appealKey, callerUuid, type.ordinal(), reason, playerUuid, date, 0, true, false, null, null);
-            getClient(playerUuid).addPunishment(playerUuid, punishment);
-            punishmentHandler.punish(appealKey, callerUuid, type, reason, playerUuid, date, 0);
-        }else{
-            Punishment punishment = new Punishment(appealKey, callerUuid, type.ordinal(), reason, playerUuid, date, durationTime, true, false, null, null);
-            getClient(playerUuid).addPunishment(playerUuid, punishment);
-            punishmentHandler.punish(appealKey, callerUuid, type, reason, playerUuid, date, durationTime);
+        if (duration == 1) { // perm
+            Punishment punishment = new Punishment(appealKey, callerUuid, type, reason, playerUuid, now, 1, true, false, null, null);
+            data.addPunishment(punishment);
+            punishmentHandler.punish(appealKey, callerUuid, type, reason, playerUuid, now, 1);
+        } else {
+            Punishment punishment = new Punishment(appealKey, callerUuid, type, reason, playerUuid, now, duration, true, false, null, null);
+            data.addPunishment(punishment);
+            punishmentHandler.punish(appealKey, callerUuid, type, reason, playerUuid, now, duration);
         }
 
-        if (type == PunishmentType.Ban) {
+        if (ban) {
             String appeal = "§cYour Appeal Key: §f" + appealKey + "\n" +
                     "§7(Do not share this key with anyone, or it might affect the process of your appeal)\n\n" +
                     "§6If you believe you were unfairly punished,\n" +
@@ -139,75 +146,82 @@ public class PunishmentManager implements Listener {
             String kickMessage = "§c§lYour account has been suspended from the FadeLands Network." + "\n" +
                     "\n" + "§r" + reason + "\n\n";
 
-            if(duration == 0) {
+            if(duration == 1) { // perm
                 kickMessage += "§cThis punishment is permanent and will not expire.\n\n" + appeal;
             } else {
-                kickMessage += "§cYour punishment expires in " + TimeUtils.toRelative(duration) + ".\n\n" + appeal;
+                kickMessage += "§cYour punishment expires in " + UtilTime.MakeStr(duration) + ".\n\n" + appeal;
             }
 
-            sender.sendMessage(Utils.Prefix_Green + "§a" + playerName + " has been banned successfully for \"" + reason + "\". for a period of " + TimeUtils.toRelative(duration) + ".");
+            sender.sendMessage(Utils.Prefix + "§a" + playerName + " has been banned for \"" + reason + "\" for a period of " + (duration == 1 ? "forever" : UtilTime.MakeStr(duration)) + ".");
 
-            if (core.getPluginMessage().isOnline(playerName)) {
-                core.getPluginMessage().kickPlayer(playerName, kickMessage);
+            if (Bukkit.getPlayer(playerUuid).isOnline()) {
+                Bukkit.getPlayer(playerUuid).kickPlayer(kickMessage);
 
-                Bukkit.broadcastMessage("§7§l" + Utils.ArrowRight + " §c§lA player in this server has been removed for breaking the rules. §eThank you for reporting.");
+                Bukkit.broadcastMessage(Utils.Alert + "§c§lA player in this server has been removed for breaking the rules. §6Thank you for reporting!");
             }
             // add load player here if not working
         }
 
-        if (type == PunishmentType.Mute) {
-            String appeal = "§6§nYour Appeal Key: " + appealKey;
+        if (!ban) {
+            String appeal = "§6§nYour Appeal Key: " + appealKey + "\n §r";
 
-            String muteMessage = "§r\n§c§l(!) You have been muted!" + "\n" +
+            String muteMessage = "§r \n" +
+                    "§c§l(!) You have been muted!" + "\n" +
                     "§c" + "You have been muted for " + reason + ". \n";
-            if(duration == 0) {
+            if(duration == 1) { // perm
                 muteMessage += "§cThis mute is permanent and will not expire.\n§r" + appeal + "\n§r";
             } else {
-                muteMessage += "§cYour punishment expires in §l" + TimeUtils.toRelative(duration) + "§c.\n§r" + appeal + "\n§r";
+                muteMessage += "§cYour punishment expires in §l" + UtilTime.MakeStr(duration) + "§c.\n§r" + appeal + "\n§r";
             }
 
-            sender.sendMessage(Utils.Prefix_Green + "§a" + playerName + " has been muted successfully for \"" + reason + "\".");
+            sender.sendMessage(Utils.Prefix_Green + "§a" + playerName + " has been muted successfully for \"" + reason + "\" for a period of " + (duration == 1 ? "forever" : UtilTime.MakeStr(duration)) + ".");
 
-            if (core.getPluginMessage().isOnline(playerName)) {
-                core.getPluginMessage().sendMessage(playerName, muteMessage);
-            }else{
-                sender.sendMessage(Utils.Prefix + "§cCouldn't alert user due to not being online.");
+            if (Bukkit.getPlayer(playerUuid).isOnline()) {
+                Bukkit.getPlayer(playerUuid).sendMessage(muteMessage);
             }
         }
     }
 
-    public void loadClient(String uuid) {
-        PunishmentClient client = new PunishmentClient();
+    public void loadPunishments(UUID uuid) {
 
-        PunishClientToken token = punishmentHandler.loadPunishClient(uuid);
-        PunishmentToken pToken = new PunishmentToken();
+        PunishmentData data = new PunishmentData(uuid);
 
-        pToken.appealKey = token.appealKey;
-        pToken.punisherUuid = token.punisherUuid;
-        pToken.punishType = token.punishType;
-        pToken.reason = token.reason;
-        pToken.punishedUuid = token.punishedUuid;
-        pToken.date = token.date;
-        pToken.until = token.until;
-        pToken.active = token.active;
-        pToken.removed = token.removed;
-        pToken.removeReason = token.removeReason;
-        pToken.removeAdmin = token.removeAdmin;
-        client.addPunishment(uuid.toLowerCase(), new Punishment(pToken.appealKey, pToken.punishedUuid, pToken.punishType, pToken.reason,
-                pToken.punishedUuid, pToken.date, pToken.until, pToken.active, pToken.removed, pToken.removeReason, pToken.removeAdmin));
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-        punishClients.put(uuid.toLowerCase(), client);
-    }
+        String query = "SELECT * FROM punishments WHERE punished_uuid = ?";
 
-    private PunishmentClient getClient(String uuid){
-        synchronized (this) {
-            return punishClients.get(uuid.toLowerCase());
+        try {
+            connection = plugin.getDatabaseManager().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, uuid.toString());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Punishment punishment = new Punishment(rs.getString("appeal_key"),
+                        UUID.fromString(rs.getString("punisher_uuid")),
+                        PunishmentType.getById(rs.getInt("punish_type")),
+                        rs.getString("reason"),
+                        UUID.fromString(rs.getString("punished_uuid")),
+                        rs.getLong("date"),
+                        rs.getLong("until"),
+                        rs.getBoolean("active"),
+                        rs.getBoolean("removed"),
+                        rs.getString("remove_reason"),
+                        rs.getString("remove_admin"));
+                data.addPunishment(punishment);
+            }
+            punishData.put(uuid, data);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
     }
 
     public long getTimeToPunish(String[] args, CommandSender sender) {
-        if (args.length < 2) { // if no time is given (permanent)
-            return 0;
+        if (args.length < 2) { // if no time is given, time is permanent
+            return -1;
         }
         if (args[1].substring(0, 1).matches("[0-9]")) {
             try {
@@ -230,14 +244,15 @@ public class PunishmentManager implements Listener {
                     time = time * 1000 * 60 * 60 * 24 * 365;
                 } else {
                     sender.sendMessage(Utils.Prefix_Red + "§cNot a valid date format. (#s/m/h/d/w/n)");
-                    return -1000000000;
+                    return -30;
                 }
                 return time;
             } catch (Exception e) {
                 sender.sendMessage(Utils.Prefix_Red + "§c" + args[1] + " is an invalid date format.");
-                return -30;
+                return -20;
             }
         }
-        return 0;
+        return -1;
     }
+
 }
