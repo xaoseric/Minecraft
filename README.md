@@ -3,9 +3,9 @@ All the FadeLands Minecraft Plugins
 
 These are the official Minecraft plugins developed for the server.
 
-The project contains 5 separate plugins, all in one project.
+The project contains 6 separate plugins, all in one project.
 
-FadeLands uses Maven to handle dependencies. A module can be built with: clean install `-pl "modulename" -am`.
+FadeLands uses Maven to handle dependencies. A module can be built with: `clean install -pl "modulename"`.
 
 ## Compiling from source
 ```
@@ -28,8 +28,7 @@ You will find the output jars in the target directories.
 * arrayofc (Leo)
 
 ### Contributors
-* spacetrain31 (Eric)
-* RealPurox (Daniel)
+* Strqfe_ (Chris)
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
