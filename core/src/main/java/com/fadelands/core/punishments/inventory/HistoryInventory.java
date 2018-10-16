@@ -4,8 +4,8 @@ import com.fadelands.core.Core;
 import com.fadelands.core.player.User;
 import com.fadelands.core.punishments.Punishment;
 import com.fadelands.core.punishments.PunishmentData;
+import com.fadelands.core.punishments.PunishmentType;
 import com.fadelands.core.utils.ItemBuilder;
-import com.fadelands.core.utils.TimeUtils;
 import com.fadelands.core.utils.UtilTime;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,7 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
@@ -27,86 +26,68 @@ public class HistoryInventory implements Listener {
         this.plugin = plugin;
     }
 
-    private final String InvName = "History";
+    private final String InvName = "Punishment History";
 
     public void openInventory(Player player, String target) {
         Inventory inv = Bukkit.createInventory(null,  9*5, InvName);
 
-        updateInventory(inv, player, target);
+        updateInventory(inv, target);
 
         player.openInventory(inv);
     }
 
-    public void updateInventory(Inventory inv, Player player, String target) {
-
+    public void updateInventory(Inventory inv, String target) {
         UUID uuid = UUID.fromString(User.getUuid(target));
 
-        plugin.getPunishmentManager().loadPunishments(uuid);
+        PunishmentData.load(uuid, (data) -> {
+            if (data == null) return;
 
-        PunishmentData data = plugin.getPunishmentManager().punishData.get(uuid);
+            List<Punishment> punishments = data.getPunishments();
 
-        if (data.getPunishments().get(uuid) == null) {
-            inv.setItem(22, new ItemBuilder(Material.REDSTONE_BLOCK).setName("§c§lNo Punishments").setLore("§7Yay! No punishments were found for this user.").toItemStack());
-            return;
-        }
-        for (int slot = 0; slot < inv.getSize() && slot < data.getPunishments().size(); slot++) {
-            inv.setItem(slot, getPunishmentsDisplay(uuid, data));
-        }
+            if (punishments.size() == 0) {
+                inv.setItem(22, new ItemBuilder(Material.REDSTONE_BLOCK).setName("§c§lNo Punishments").setLore("§7Yay! No punishments were found for this user.").toItemStack());
+                return;
+            }
+
+            for (int slot = 0; slot < inv.getSize() && slot < punishments.size(); slot++) {
+                inv.setItem(slot, getPunishmentsDisplay(punishments.get(slot)));
+            }
+        });
+
     }
 
     @SuppressWarnings("Duplicates")
-    private ItemStack getPunishmentsDisplay(UUID uuid, PunishmentData data) {
-        for(Punishment punishment : data.getPunishments().get(uuid)) {
-            System.out.println(punishment);
+    private ItemStack getPunishmentsDisplay(Punishment punishment) {
+        ItemBuilder builder = new ItemBuilder((punishment.isActive() ? Material.EMERALD_BLOCK : Material.REDSTONE_BLOCK)).setName((punishment.getExpirationTime() == 1 ? "§6Permanent " : "§6Temporary ") + (punishment.getType() == PunishmentType.Ban ? "Ban" : "Mute"));
+        List<String> lore = new ArrayList<>();
 
-            if(punishment.isActive()) {
-                ItemStack itemStack = new ItemStack(Material.EMERALD_BLOCK);
-                ItemMeta itemMeta = itemStack.getItemMeta();
-
-                itemMeta.setDisplayName(punishment.getExpirationTime() == 1 ? "§6Permanent Punishment" : "§6Temporary Punishment");
-
-                ArrayList<String> lore = new ArrayList<>();
-                lore.add("§fPunishment Type: §a" + punishment.getPunishmentType().name());
-                lore.add("§fPunished On: §a" + UtilTime.when(punishment.getPunishTime()));
-                lore.add("§fExpires In: §a" + (punishment.getExpirationTime() == -1 ? "Never (Permanent)" : UtilTime.MakeStr(punishment.getRemaining())));
-                lore.add("§fPunished By: §a" + User.getNameFromUuid(String.valueOf(punishment.getPunisherUuid())));
-                lore.add("§r ");
-                lore.add("§fReason: §a" + punishment.getReason());
-                lore.add("§r ");
-                lore.add("§2This punishment is still active.");
-
-                itemMeta.setLore(lore);
-                itemStack.setItemMeta(itemMeta);
-                return itemStack;
-            }
-
-            if (!punishment.isActive()) {
-                ItemStack itemStack = new ItemStack(Material.REDSTONE_BLOCK);
-                ItemMeta itemMeta = itemStack.getItemMeta();
-
-                itemMeta.setDisplayName(punishment.getExpirationTime() == 1 ? "§6Permanent Punishment" : "§6Temporary Punishment");
-
-                ArrayList<String> lore = new ArrayList<>();
-                lore.add("§fPunishment Type: §a" + punishment.getPunishmentType().name());
-                lore.add("§fPunished On: §a" + UtilTime.when(punishment.getPunishTime()));
-                lore.add("§fLength: §a" + (punishment.getExpirationTime() == -1 ? "Permanent" : UtilTime.MakeStr(punishment.getExpirationTime())));
-                lore.add("§fPunished By: §a" + User.getNameFromUuid(String.valueOf(punishment.getPunisherUuid())));
-                lore.add("§r ");
-                lore.add("§fReason: §a" + punishment.getReason());
-
-                if(punishment.isRemoved()) {
-                    lore.add("§r");
-                    lore.add("§fRemoved Reason: §a" + punishment.getRemoveReason());
-                    lore.add("§fRemoved By: §a" + punishment.getRemoveAdmin());
-                }
-
-                itemMeta.setLore(lore);
-                itemStack.setItemMeta(itemMeta);
-                return itemStack;
-            }
-
+        if (punishment.isActive()) {
+            lore.add("§fPunishment Type: §a" + punishment.getType().name());
+            lore.add("§fPunished On: §a" + UtilTime.when(punishment.getPunishTime()));
+            lore.add("§fExpires In: §a" + (punishment.isPermanent() ? "Never (Permanent)" : UtilTime.MakeStr(punishment.getRemaining())));
+            lore.add("§fPunished By: §a" + User.getNameFromUuid(String.valueOf(punishment.getPunisherUuid())));
+            lore.add("§r ");
+            lore.add("§fReason: §a" + punishment.getReason());
+            lore.add("§r ");
+            lore.add("§2This punishment is still active.");
         }
-        return new ItemBuilder(Material.BOOK).setName("Error.").setLore("§7Well, this is awkward, hehe...", "§7Something went wrong. Come back later.").toItemStack();
+
+        if (!punishment.isActive()) {
+            lore.add("§fPunishment Type: §a" + punishment.getType().name());
+            lore.add("§fPunished On: §a" + UtilTime.when(punishment.getPunishTime()));
+            lore.add("§fLength: §a" + (punishment.isPermanent() ? "Permanent" : UtilTime.MakeStr(punishment.getExpirationTime())));
+            lore.add("§fPunished By: §a" + User.getNameFromUuid(String.valueOf(punishment.getPunisherUuid())));
+            lore.add("§r ");
+            lore.add("§fReason: §a" + punishment.getReason());
+        }
+
+        if (punishment.isRemoved()) {
+            lore.add("§r");
+            lore.add("§fRemoved By: §a" + User.getNameFromUuid(String.valueOf(punishment.getRemoveAdmin())));
+            lore.add("§fRemove Reason: §a" + punishment.getRemoveReason());
+        }
+        builder.setLore(lore);
+        return builder.toItemStack();
     }
 
     @EventHandler

@@ -1,65 +1,54 @@
 package com.fadelands.core.punishments;
 
-import javax.annotation.Nullable;
+import com.fadelands.core.Core;
+import com.fadelands.core.utils.Callback;
+
 import java.util.*;
 
 public class PunishmentData {
 
-    private UUID uuid;
+    private List<Punishment> punishments = new ArrayList<>();
+    private final UUID uuid;
 
     public PunishmentData(UUID uuid) {
         this.uuid = uuid;
     }
 
-    private HashMap<UUID, List<Punishment>> punishments = new HashMap<>();
-
-    public HashMap<UUID, List<Punishment>> getPunishments() {
-        return punishments;
+    public UUID getUniqueId() {
+        return uuid;
     }
 
     public void addPunishment(Punishment punishment) {
-        if(!(punishments.containsKey(uuid))) {
-            punishments.put(uuid, new ArrayList<>());
-        }
-
-        punishments.get(uuid).add(punishment);
+        punishments.add(punishment);
     }
 
-    @Nullable
-    public Punishment getPunishment(PunishmentType type) {
-        if(!(punishments.containsKey(uuid))) {
-            return null;
-        }
-        if(punishments.get(uuid) == null) return null;
-
-        for(Punishment punishment : punishments.get(uuid)) {
-            if (type == PunishmentType.Ban && punishment.isBanned()) {
-                return punishment;
-            } else if (type == PunishmentType.Mute && punishment.isMuted()) {
-                return punishment;
-            }
-        }
-        return null;
+    public List<Punishment> getPunishments() {
+        return punishments;
     }
 
-    public boolean isBanned() {
-        if(punishments.get(uuid) == null) return false;
-        for(Punishment punishments : punishments.get(uuid)) {
-            if (punishments.isBanned()) {
-                return true;
-            }
+    public List<Punishment> getPunishments(PunishmentType type) {
+        List<Punishment> list = new ArrayList<>();
+
+        for(Punishment punishment : punishments) {
+            if (punishment.getType() == type) list.add(punishment);
         }
-        return false;
+        return list;
     }
 
-    public boolean isMuted() {
-        if(punishments.get(uuid) == null) return false;
-        for(Punishment punishments : punishments.get(uuid)) {
-            if (punishments.isMuted()) {
-                return true;
-            }
+    public List<Punishment> getActivePunishments(PunishmentType type) {
+        List<Punishment> list = new ArrayList<>();
+
+        for(Punishment punishment : punishments) {
+            if (punishment.getType() == type && punishment.isActive()) list.add(punishment);
         }
-        return false;
+        return list;
     }
 
+    public boolean hasActive(PunishmentType type) {
+        return getActivePunishments(type).size() > 0;
+    }
+
+    public static void load(UUID uuid, Callback<PunishmentData> callback) {
+        Core.plugin.getPunishmentManager().loadPunishments(uuid, callback);
+    }
 }

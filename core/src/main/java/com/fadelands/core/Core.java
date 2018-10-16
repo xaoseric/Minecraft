@@ -30,6 +30,7 @@ import com.fadelands.core.provider.chat.provider.ChatProvider;
 import com.fadelands.core.provider.scoreboard.SimpleBoardProvider;
 import com.fadelands.core.provider.scoreboard.SimpleboardManager;
 import com.fadelands.core.provider.tablist.TablistText;
+import com.fadelands.core.punishments.PunishmentHandler;
 import com.fadelands.core.punishments.PunishmentManager;
 import com.fadelands.core.punishments.commands.*;
 import com.fadelands.core.punishments.inventory.PunishmentMenu;
@@ -67,6 +68,7 @@ public class Core extends JavaPlugin {
     private PluginMessage pluginMessage;
     private PunishmentMenu punishmentMenu;
     private PunishmentManager punishmentManager;
+    private PunishmentHandler punishmentHandler;
     private GeoManager geoManager;
     private ServerManager serverManager;
     private PlayerManager playerManager;
@@ -116,6 +118,12 @@ public class Core extends JavaPlugin {
         getCommand("mute").setExecutor(new MuteCommand(this, getPunishmentManager()));
         getCommand("history").setExecutor(new HistoryCommand(this, getPunishmentManager()));
         getCommand("alts").setExecutor(new AltsCommand(this));
+        getCommand("removepunish").setExecutor(new RemoveCommand(this, getPunishmentHandler()));
+        getCommand("checkban").setExecutor(new CheckBanCommand());
+        getCommand("checkmute").setExecutor(new CheckMuteCommand());
+        getCommand("unban").setExecutor(new UnbanCommand(this));
+        getCommand("unmute").setExecutor(new UnmuteCommand(this));
+
         getCommand("lockdown").setExecutor(new LockdownCommand(this));
         getCommand("staffsettings").setExecutor(new StaffSettingsCommand(this));
         getCommand("staff").setExecutor(new StaffCommand(this));
@@ -138,6 +146,7 @@ public class Core extends JavaPlugin {
         simpleboardManager.runTaskTimerAsynchronously(this, 2L, 2L);
         this.punishmentMenu = new PunishmentMenu(this);
         this.punishmentManager = new PunishmentManager(this);
+        this.punishmentHandler = new PunishmentHandler();
         this.okHttpClient = new OkHttpClient();
         this.geoManager = new GeoManager(this);
         this.serverManager = new ServerManager(this);
@@ -272,6 +281,10 @@ public class Core extends JavaPlugin {
 
     public PunishmentManager getPunishmentManager() {
         return punishmentManager;
+    }
+
+    public PunishmentHandler getPunishmentHandler() {
+        return punishmentHandler;
     }
 
     public OkHttpClient getOkHttpClient() {

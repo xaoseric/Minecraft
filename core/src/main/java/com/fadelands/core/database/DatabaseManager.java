@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class DatabaseManager {
@@ -359,5 +360,49 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean punishmentIdMatches(int id) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String query = "SELECT * FROM punishments WHERE punish_id = ?";
+
+        try {
+            connection = getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeComponents(rs, ps, connection);
+        }
+        return false;
+    }
+
+    public boolean appealKeyMatches(String key) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String query = "SELECT * FROM punishments WHERE appeal_key = ?";
+
+        try {
+            connection = getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, key);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeComponents(rs, ps, connection);
+        }
+        return false;
     }
 }

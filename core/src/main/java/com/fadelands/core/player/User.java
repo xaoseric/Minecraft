@@ -265,6 +265,15 @@ public class User {
         return null;
     }
 
+    public static Player getOnlineStaff() {
+        for (Player staff : Bukkit.getOnlinePlayers()) {
+            if (isMod(staff.getName())) {
+                return staff;
+            }
+        }
+        return null;
+    }
+
     public static String getRank(String playerName) {
         return Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(playerName)).getPrimaryGroup();
     }

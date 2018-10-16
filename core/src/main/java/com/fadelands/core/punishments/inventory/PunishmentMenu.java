@@ -298,7 +298,6 @@ public class PunishmentMenu implements Listener {
             event.setCancelled(true);
 
             if (event.getCurrentItem().isSimilar(getHistory)) {
-                player.closeInventory();
                 String command = "/history " + target;
                 player.chat(command);
 

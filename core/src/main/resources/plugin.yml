@@ -23,6 +23,12 @@ commands:
     description: Check a player punishment history.
   alts:
     description: Check a users alt accounts.
+  removepunish:
+    description: Remove a punishment from a user.
+  checkban:
+    description: Check a users ban.
+  checkmute:
+    description: Check a users mute.
   lockdown:
     description: Lock the network for public player.
   staffsettings:

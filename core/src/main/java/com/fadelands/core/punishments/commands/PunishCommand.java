@@ -50,9 +50,8 @@ public class PunishCommand implements CommandExecutor {
 
         final String targetName = args[0];
         //noinspection deprecation
-        OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
 
-        if(target == null){
+        if(!User.hasPlayedBefore(targetName)){
             sender.sendMessage(Utils.Prefix_Red + "§cThat's not a valid player.");
             return true;
         }
@@ -76,7 +75,7 @@ public class PunishCommand implements CommandExecutor {
                             plugin.getPunishmentMenu().openAsAdmin(player, targetName, reason);
                             break;
                         case "developer":
-                            player.sendMessage("Developer is a non-mod rank. You can still apply for mod as a developer.");
+                            player.sendMessage("Developer is a non-mod rank and can therefore not use the punishment menu.");
                             break;
                         case "senior":
                             plugin.getPunishmentMenu().openAsSenior(player, targetName, reason);

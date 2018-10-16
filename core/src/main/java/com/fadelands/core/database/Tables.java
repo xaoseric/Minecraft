@@ -144,9 +144,10 @@ public class Tables {
                 "date bigint NOT NULL, " +
                 "until bigint NOT NULL, " +
                 "active boolean default TRUE, " +
+                "permanent boolean NOT NULL, " +
                 "removed boolean default FALSE, " +
                 "remove_reason text NULL, " +
-                "remove_admin varchar(40))";
+                "remove_admin varchar(64))";
 
         //Server
         String lockdown = "CREATE TABLE IF NOT EXISTS server_lockdown " +

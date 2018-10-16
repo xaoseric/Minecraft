@@ -5,35 +5,19 @@ import com.fadelands.core.punishments.*;
 import com.fadelands.core.player.User;
 import com.fadelands.core.punishments.inventory.HistoryInventory;
 import com.fadelands.core.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 public class HistoryCommand implements CommandExecutor {
 
     private Core plugin;
-    private HashMap<String, PunishmentData> punishData;
-    private PunishmentManager punishmentManager;
-
 
     public HistoryCommand(Core plugin, PunishmentManager punishmentManager){
         this.plugin = plugin;
-        this.punishmentManager = punishmentManager;
 
     }
 

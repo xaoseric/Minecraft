@@ -4,7 +4,11 @@ import com.fadelands.core.Core;
 import com.fadelands.core.achievements.Achievement;
 import com.fadelands.core.player.User;
 import com.fadelands.core.playerdata.PlayerData;
+import com.fadelands.core.punishments.Punishment;
+import com.fadelands.core.punishments.PunishmentData;
+import com.fadelands.core.punishments.PunishmentType;
 import com.fadelands.core.utils.TimeUtils;
+import com.fadelands.core.utils.UtilTime;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.core.provider.chat.provider.ChatProvider;
 import com.fadelands.core.settings.Settings;
@@ -14,6 +18,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -37,80 +42,99 @@ public class Chat implements Listener {
     }
 
     public void setChatSlow(int seconds, boolean inform) {
-        if (seconds < 0)
+        if (seconds < 0) {
             seconds = 0;
+        }
 
         chatSlow = seconds;
 
         if (inform) {
-            if (seconds == 0)
+            if (seconds == 0) {
                 plugin.getServer().broadcastMessage(Utils.Alert + "§2Chat Slow has been disabled.");
-            else
+            } else {
                 plugin.getServer().broadcastMessage(Utils.Alert + "§cChat Slow has been enabled with a " + seconds + " seconds cooldown.");
+            }
         }
     }
 
     public void setSilence(long duration, boolean inform) {
-        if (duration > 0)
+        if (duration > 0) {
             silenced = System.currentTimeMillis() + duration;
-        else
+        } else {
             silenced = duration;
 
-        if(!inform)
-            return;
+            if (!inform) {
+                return;
+            }
 
-        if (duration == -1)
-            plugin.getServer().broadcastMessage(Utils.Alert + "§cThe Chat has been permanently silenced.");
-        else if (duration == 0)
-            plugin.getServer().broadcastMessage(Utils.Alert + "§2The Chat is no longer silenced.");
-        else
-            plugin.getServer().broadcastMessage(Utils.Alert + "§cThe Chat has been silenced for " + TimeUtils.toRelative(duration) + ".");
+            if (duration == -1) {
+                plugin.getServer().broadcastMessage(Utils.Alert + "§cThe Chat has been permanently silenced.");
+            } else if (duration == 0) {
+                plugin.getServer().broadcastMessage(Utils.Alert + "§2The Chat is no longer silenced.");
+            } else {
+                plugin.getServer().broadcastMessage(Utils.Alert + "§cThe Chat has been silenced for " + TimeUtils.toRelative(duration) + ".");
+            }
+        }
     }
 
     public void silenceEnd() {
-        if(silenced <= 0)
+        if (silenced <= 0) {
             return;
-        if (System.currentTimeMillis() > silenced)
+        }
+
+        if (System.currentTimeMillis() > silenced) {
             setSilence(0, true);
+        }
     }
 
     private boolean checkSilenced(Player player) {
 
         silenceEnd();
 
-        if (silenced == 0)
+        if (silenced == 0) {
             return false;
-        if (User.isStaff(player.getName()))
+        }
+
+        if (User.isStaff(player.getName())) {
             return false;
-        if(silenced == -1)
+        }
+
+        if (silenced == -1) {
             player.sendMessage(Utils.Alert + "§cChat is silenced permanently.");
-        else
+            return true;
+        } else {
             player.sendMessage(Utils.Alert + "§cChat is silenced for " + TimeUtils.toRelative(silenced) + ".");
-        return true;
+            return true;
+        }
     }
 
     public boolean chatDelayCheck(Player player) {
-        if (User.isStaff(player.getName()))
+        if (User.isStaff(player.getName())) {
             return false;
-        if(silenced == -1)
+        }
+
+        if(silenced == -1) {
             player.sendMessage(Utils.Alert + "§cChat is silenced permanently.");
-        else
+        } else {
             player.sendMessage(Utils.Alert + "§cChat is silenced for " + TimeUtils.toRelative(silenced) + ".");
+        }
         return true;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void handleChat(AsyncPlayerChatEvent event) {
-        if (event.isCancelled())
+        if(event.isCancelled()) {
             return;
+        }
 
         event.setCancelled(true);
-        Player chatSender = event.getPlayer();
 
         Settings settings = new Settings();
 
+        Player chatSender = event.getPlayer();
+
         if (!settings.publicChat(chatSender)) {
-            chatSender.sendMessage(Utils.Prefix + "§cYou have toggled public chat off! To chat with others, change your settings with /settings.");
+            chatSender.sendMessage(Utils.Alert + "§cYou have toggled public chat off! To chat with others, change your settings with /settings.");
             return;
         }
 

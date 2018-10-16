@@ -12,11 +12,12 @@ public class Punishment {
     private long date;
     private long until;
     private boolean active;
+    private boolean permanent;
     private boolean removed;
     private String removeReason;
-    private String removeAdmin;
+    private UUID removeAdmin;
 
-    Punishment(String appealkey, UUID punisherUuid, PunishmentType type, String reason, UUID punishedUuid, long date, long until, boolean active, boolean removed, String removeReason, String removeAdmin) {
+    public Punishment(String appealkey, UUID punisherUuid, PunishmentType type, String reason, UUID punishedUuid, long date, long until, boolean active, boolean permanent, boolean removed, String removeReason, UUID removeAdmin) {
         this.appealkey = appealkey;
         this.punisherUuid = punisherUuid;
         this.type = type;
@@ -25,6 +26,7 @@ public class Punishment {
         this.date = date;
         this.until = until;
         this.active = active;
+        this.permanent = permanent;
         this.removed = removed;
         this.removeReason = removeReason;
         this.removeAdmin = removeAdmin;
@@ -32,10 +34,6 @@ public class Punishment {
 
     public String getAppealKey() {
         return appealkey;
-    }
-
-    public PunishmentType getPunishmentType() {
-        return type;
     }
 
     public UUID getPunishedUuid() {
@@ -64,11 +62,15 @@ public class Punishment {
         return active;
     }
 
+    public boolean isPermanent() {
+        return permanent;
+    }
+
     public boolean isRemoved() {
         return removed;
     }
 
-    public void remove(String admin, String reason) {
+    public void remove(UUID admin, String reason) {
         removed = true;
         removeAdmin = admin;
         removeReason = reason;
@@ -76,22 +78,22 @@ public class Punishment {
 
     public String getRemoveReason()
     {
-        return  removeReason;
+        return removeReason;
     }
 
-    public boolean isBanned() {
-        return type == PunishmentType.Ban && active;
-    }
-
-    public boolean isMuted() {
-        return type == PunishmentType.Mute && active;
+    public PunishmentType getType() {
+        return type;
     }
 
     public long getRemaining() {
         return (date + until) - System.currentTimeMillis();
     }
 
-    public String getRemoveAdmin() {
+    public UUID getRemoveAdmin() {
         return removeAdmin;
+    }
+
+    public boolean hasExpired() {
+        return getRemaining() < 0;
     }
 }
