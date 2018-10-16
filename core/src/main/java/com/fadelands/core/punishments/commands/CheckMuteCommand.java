@@ -43,12 +43,11 @@ public class CheckMuteCommand implements CommandExecutor {
         UUID uuid = UUID.fromString(User.getUuid(user));
 
         PunishmentData.load(uuid, (data) -> {
-            for(Punishment punishment : data.getPunishments(PunishmentType.Mute)) {
-                if(!(punishment.isActive())) {
-                    player.sendMessage(Utils.Prefix + "§cThat user has no active mute.");
-                    return;
-                }
-
+            if(!data.hasActive(PunishmentType.Mute)) {
+                player.sendMessage(Utils.Prefix + "§cThat user has no active mute.");
+                return;
+            }
+            for(Punishment punishment : data.getActivePunishments(PunishmentType.Mute)) {
                 player.sendMessage("§6Found an active mute of user " + User.getName(user) + ". \n" +
                         "§fIssued On: §a" + UtilTime.when(punishment.getPunishTime()) + "\n" +
                         "§fExpires in: §a" + (punishment.isPermanent() ? "Never (Permanent)" : UtilTime.MakeStr(punishment.getExpirationTime())) + "\n" +

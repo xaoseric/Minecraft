@@ -43,12 +43,12 @@ public class CheckBanCommand implements CommandExecutor {
         UUID uuid = UUID.fromString(User.getUuid(user));
 
         PunishmentData.load(uuid, (data) -> {
-            for(Punishment punishment : data.getPunishments(PunishmentType.Ban)) {
-                if(!(punishment.isActive())) {
-                    player.sendMessage(Utils.Prefix + "§cThat user has no active ban.");
-                    return;
-                }
+            if(!data.hasActive(PunishmentType.Ban)) {
+                player.sendMessage(Utils.Prefix + "§cThat user has no active ban.");
+                return;
+            }
 
+            for(Punishment punishment : data.getPunishments(PunishmentType.Ban)) {
                 player.sendMessage("§6Found an active ban of user " + User.getName(user) + ". \n" +
                         "§fIssued On: §a" + UtilTime.when(punishment.getPunishTime()) + "\n" +
                         "§fExpires in: §a" + (punishment.isPermanent() ? "Never (Permanent)" : UtilTime.MakeStr(punishment.getExpirationTime())) + "\n" +
