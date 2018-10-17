@@ -2,14 +2,12 @@ package com.fadelands.essentials.commands.admin;
 
 import com.fadelands.essentials.Main;
 import com.fadelands.essentials.commands.admin.inventory.WhoisInventory;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.sql.*;
 
 public class WhoIsCommand implements CommandExecutor {
 
@@ -26,7 +24,7 @@ public class WhoIsCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!(User.isAdmin(player.getName()))) {
+        if(!(UserUtil.isAdmin(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -38,11 +36,11 @@ public class WhoIsCommand implements CommandExecutor {
 
         String t = args[0];
 
-        if(!(User.hasPlayedBefore(t))) {
+        if(!(UserUtil.hasPlayedBefore(t))) {
                 player.sendMessage(Utils.Prefix + "§cCouldn't find that user in the database.");
                 return true;
             } else {
-                String target = User.getName(t);
+                String target = UserUtil.getName(t);
                 WhoisInventory inv = new WhoisInventory(plugin);
                 inv.whoIs(player, target);
         }

@@ -2,7 +2,7 @@ package com.fadelands.core.achievements.command;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.achievements.inventory.AchievementGui;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,7 +35,7 @@ public class AchievementCommand implements CommandExecutor {
 
             String targetStr = args[0];
 
-            if (!(User.hasPlayedBefore(targetStr))) {
+            if (!(UserUtil.hasPlayedBefore(targetStr))) {
                 player.sendMessage(Utils.Prefix + "§cI couldn't find that player.");
             } else {
                 new AchievementGui().openAchievements(player, targetStr);

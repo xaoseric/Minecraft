@@ -2,7 +2,7 @@ package com.fadelands.core.commands;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.database.DatabasePerformance;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,7 +18,7 @@ public class DatabaseStatusCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-            if(!(User.isRedTag(sender.getName()))) {
+            if(!(UserUtil.isRedTag(sender.getName()))) {
                 sender.sendMessage(Utils.No_Perm);
                 return true;
             }

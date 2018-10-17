@@ -1,6 +1,6 @@
 package com.fadelands.lobby.commands;
 
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.lobby.Main;
 import com.fadelands.lobby.events.JoinItems;
@@ -26,7 +26,7 @@ public class BuildModeCommandExecutor implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        if (!(User.isAdmin(player.getName()))) {
+        if (!(UserUtil.isAdmin(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return false;
         }

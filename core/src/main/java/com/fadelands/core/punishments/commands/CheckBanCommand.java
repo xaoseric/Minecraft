@@ -1,6 +1,6 @@
 package com.fadelands.core.punishments.commands;
 
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.punishments.Punishment;
 import com.fadelands.core.punishments.PunishmentData;
 import com.fadelands.core.punishments.PunishmentType;
@@ -23,7 +23,7 @@ public class CheckBanCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!(User.isMod(player.getName()))) {
+        if(!(UserUtil.isMod(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -35,12 +35,12 @@ public class CheckBanCommand implements CommandExecutor {
 
         String user = args[0];
 
-        if(!(User.hasPlayedBefore(user))) {
+        if(!(UserUtil.hasPlayedBefore(user))) {
             player.sendMessage(Utils.Prefix + "§cI couldn't find that player.");
             return true;
         }
 
-        UUID uuid = UUID.fromString(User.getUuid(user));
+        UUID uuid = UUID.fromString(UserUtil.getUuid(user));
 
         PunishmentData.load(uuid, (data) -> {
             if(!data.hasActive(PunishmentType.Ban)) {
@@ -49,10 +49,10 @@ public class CheckBanCommand implements CommandExecutor {
             }
 
             for(Punishment punishment : data.getPunishments(PunishmentType.Ban)) {
-                player.sendMessage("§6Found an active ban of user " + User.getName(user) + ". \n" +
+                player.sendMessage("§6Found an active ban of user " + UserUtil.getName(user) + ". \n" +
                         "§fIssued On: §a" + UtilTime.when(punishment.getPunishTime()) + "\n" +
                         "§fExpires in: §a" + (punishment.isPermanent() ? "Never (Permanent)" : UtilTime.MakeStr(punishment.getExpirationTime())) + "\n" +
-                        "§fPunisher: §a" + User.getNameFromUuid(String.valueOf(punishment.getPunisherUuid())) + "\n" +
+                        "§fPunisher: §a" + UserUtil.getNameFromUuid(String.valueOf(punishment.getPunisherUuid())) + "\n" +
                         "§fReason: §a" + punishment.getReason() + "\n" +
                         "§fAppeal Key: §a" + punishment.getAppealKey());
             }

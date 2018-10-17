@@ -1,6 +1,6 @@
 package com.fadelands.essentials.commands.mod;
 
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.essentials.Main;
 import org.bukkit.command.Command;
@@ -28,7 +28,7 @@ public class FlyCommand implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        if(!(User.isMod(player.getName()))){
+        if(!(UserUtil.isMod(player.getName()))){
             player.sendMessage(Utils.No_Perm);
             return true;
         }

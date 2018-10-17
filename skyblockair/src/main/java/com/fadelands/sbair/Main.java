@@ -2,6 +2,8 @@ package com.fadelands.sbair;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.provider.scoreboard.SimpleboardManager;
+import com.fadelands.sbair.commands.WarpCommand;
+import com.fadelands.sbair.inventories.WarpInventory;
 import com.fadelands.sbair.provider.scoreboard.SBBoardProvider;
 import com.fadelands.sbair.provider.chat.SBChatProvider;
 import com.fadelands.sbair.skyblockmanager.IslandManagerCommand;
@@ -33,20 +35,8 @@ public class Main extends JavaPlugin {
             Bukkit.getLogger().info("[SkyBlockAir] Hooked into aSkyBlock!");
         }
 
-        /*
-        Register Events
-         */
-
-        PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new IslandMenu(this), this);
-
-        SimpleboardManager simpleboardManager = Core.plugin.getSimpleboardManager();
-        simpleboardManager.setBoardProvider(new SBBoardProvider(Core.plugin.getPluginMessage(), this));
-
-        Core.plugin.setChatProvider(new SBChatProvider(this));
-
-        // Regc ommands
-        getCommand("islandmenu").setExecutor(new IslandManagerCommand(this));
+        registerEvents();
+        registerCommands();
 
         // Vault
         if (!setupEconomy()) {
@@ -54,10 +44,28 @@ public class Main extends JavaPlugin {
             Bukkit.getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
         setupPermissions();
         setupChat();
+
         Bukkit.getLogger().info("[SkyBlockAir] Vault API loaded successfully.");
         getLogger().info("[SkyBlockAir] Plugin has successfully been enabled.");
+    }
+
+    private void registerCommands() {
+        getCommand("islandmenu").setExecutor(new IslandManagerCommand(this));
+        getCommand("warp").setExecutor(new WarpCommand());
+    }
+
+    private void registerEvents() {
+        Core.plugin.setChatProvider(new SBChatProvider(this));
+
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new IslandMenu(this), this);
+        pm.registerEvents(new WarpInventory(), this);
+
+        SimpleboardManager simpleboardManager = Core.plugin.getSimpleboardManager();
+        simpleboardManager.setBoardProvider(new SBBoardProvider(Core.plugin.getPluginMessage(), this));
     }
 
     @SuppressWarnings("Duplicates")

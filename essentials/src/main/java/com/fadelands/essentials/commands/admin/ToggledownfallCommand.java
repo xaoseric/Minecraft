@@ -1,6 +1,6 @@
 package com.fadelands.essentials.commands.admin;
 
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -19,7 +19,7 @@ public class ToggledownfallCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!(User.isRedTag(player.getName()))) {
+        if(!(UserUtil.isRedTag(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }

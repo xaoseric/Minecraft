@@ -1,10 +1,8 @@
 package com.fadelands.core.punishments.commands;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,7 +36,7 @@ public class PunishCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!User.isStaff(player.getName())) {
+        if(!UserUtil.isStaff(player.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -51,7 +49,7 @@ public class PunishCommand implements CommandExecutor {
         final String targetName = args[0];
         //noinspection deprecation
 
-        if(!User.hasPlayedBefore(targetName)){
+        if(!UserUtil.hasPlayedBefore(targetName)){
             sender.sendMessage(Utils.Prefix_Red + "§cThat's not a valid player.");
             return true;
         }

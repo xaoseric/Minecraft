@@ -1,7 +1,7 @@
 package com.fadelands.core.achievements.inventory;
 
 import com.fadelands.core.achievements.Achievement;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.playerdata.PlayerData;
 import com.fadelands.core.utils.ItemBuilder;
 import com.fadelands.core.utils.Utils;
@@ -20,7 +20,7 @@ public class AchievementGui implements Listener {
     private final static String inventoryName = "Achievements";
 
     public void openAchievements(Player player, String target) {
-        if(!(User.hasPlayedBefore(target))) {
+        if(!(UserUtil.hasPlayedBefore(target))) {
             player.sendMessage(Utils.Prefix + "§cCouldn't find that player.");
         } else{
             Inventory inv = Bukkit.createInventory(null, 9 * 6, inventoryName);
@@ -32,7 +32,7 @@ public class AchievementGui implements Listener {
     }
 
     public void updateInventory(Inventory inv, Player player, String target) {
-        UUID uuid = UUID.fromString(User.getUuid(target));
+        UUID uuid = UUID.fromString(UserUtil.getUuid(target));
         PlayerData playerData = PlayerData.get(uuid);
 
         if(playerData == null) {

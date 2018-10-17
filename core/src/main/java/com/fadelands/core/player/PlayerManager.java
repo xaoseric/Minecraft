@@ -3,7 +3,7 @@ package com.fadelands.core.player;
 import com.fadelands.core.Core;
 import com.fadelands.core.achievements.Achievement;
 import com.fadelands.core.playerdata.PlayerData;
-import com.fadelands.core.utils.Utils;
+import com.fadelands.core.staff.data.StaffData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,7 +15,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.sql.*;
-import java.util.Objects;
 import java.util.UUID;
 
 public class PlayerManager implements Listener {
@@ -28,28 +27,35 @@ public class PlayerManager implements Listener {
 
 
     // Check if player have vpn before they log in. If they don't, a playerdata and profile is is created/loaded for them.
-    @EventHandler(priority =  EventPriority.HIGH)
-    public void onPlayerJoin(AsyncPlayerPreLoginEvent event) {
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onAsyncPlayerPreJoin(AsyncPlayerPreLoginEvent event) {
         final UUID uuid = event.getUniqueId();
 
-        if(Core.plugin.getVpnManager().ipBlocked(event.getAddress().getHostAddress())) {
+        if (Core.plugin.getVpnManager().ipBlocked(event.getAddress().getHostAddress())) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "§cWe noticed you have a VPN (Virtual Private Network) running. Please turn it off if you want to join the server.");
         }
 
-        if(User.hasPlayedBefore(event.getName())) {
+        if (!UserUtil.hasPlayedBefore(event.getName())) {
+            createPlayer(event.getName(), event.getAddress().getHostAddress(), uuid);
             playerExist(event.getName(), event.getAddress().getHostAddress(), uuid);
             loadPlayerData(uuid);
-        } else {
-            createPlayer(event.getName(), event.getAddress().getHostAddress(), uuid);
-            loadPlayerData(uuid);
+        }
+
+        playerExist(event.getName(), event.getAddress().getHostAddress(), uuid);
+        loadPlayerData(uuid);
+
+        if(UserUtil.isStaff(event.getName())) {
+            if(UserUtil.existsInStaffDatabase(uuid)) {
+                loadStaffData(uuid);
+            }
         }
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        if(!(User.hasPlayedBefore(player.getName()))) {
+        if(!(UserUtil.hasPlayedBefore(player.getName()))) {
             core.getAchManager().startAchievement(player, Achievement.FIRST_JOIN);
         }
 
@@ -69,13 +75,19 @@ public class PlayerManager implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         savePlayerData(player.getUniqueId());
+
+        if(UserUtil.isStaff(player.getName())) {
+            if (UserUtil.existsInStaffDatabase(player.getUniqueId())) {
+                saveStaffData(player.getUniqueId());
+            }
+        }
     }
 
     private void playerExist(String username, String ip, UUID uuid) {
         core.getDatabaseManager().updateTable(username, "players", "player_username", username);
         core.getDatabaseManager().updateTable(username, "players", "last_login", new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
         core.getDatabaseManager().updateTable(username, "players", "last_ip", ip);
-        core.getDatabaseManager().updateTable(username, "players", "last_country", "None");
+        core.getDatabaseManager().updateTable(username, "players", "last_country", Core.plugin.getGeoManager().getCountry(ip));
     }
 
     private void createPlayer(String username, String ip, UUID uuid) {
@@ -105,7 +117,7 @@ public class PlayerManager implements Listener {
             ps.setString(4, null);
             ps.setString(5, ip);
             ps.setString(6, null);
-            ps.setString(7, null);
+            ps.setString(7, Core.plugin.getGeoManager().getCountry(ip));
             ps.setString(8, null);
             ps.setString(9, null);
             ps.setInt(10, 0);
@@ -187,6 +199,60 @@ public class PlayerManager implements Listener {
                 playerData.getStats().setPlaytime(rs.getInt("playtime"));
                 playerData.getStats().setDeaths(rs.getInt("deaths"));
                 playerData.getStats().setKills(rs.getInt("kills"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            core.getDatabaseManager().closeComponents(rs, ps, connection);
+        }
+    }
+
+    private void saveStaffData(UUID uuid) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        String query = "UPDATE staff_members SET bans=?," +
+                "mutes=?,reports_handled=? WHERE player_uuid = ?";
+
+        try{
+            connection = core.getDatabaseManager().getConnection();
+            ps = connection.prepareStatement(query);
+
+            StaffData staffData = StaffData.get(uuid);
+
+            if (staffData != null) {
+                ps.setInt(1, staffData.getStats().getBans());
+                ps.setInt(2, staffData.getStats().getMutes());
+                ps.setInt(3, staffData.getStats().getReportsHandled());
+                ps.setString(4, uuid.toString());
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            core.getDatabaseManager().closeComponents(ps, connection);
+        }
+    }
+
+    private void loadStaffData(UUID uuid) {
+        StaffData staffData = new StaffData(uuid);
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM staff_members WHERE player_uuid = ?";
+
+        try{
+            connection = core.getDatabaseManager().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, uuid.toString());
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                staffData.getStats().setBans(rs.getInt("bans"));
+                staffData.getStats().setMutes(rs.getInt("mutes"));
+                staffData.getStats().setReportsHandled(rs.getInt("reports_handled"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

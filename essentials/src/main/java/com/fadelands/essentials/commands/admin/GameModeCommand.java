@@ -1,6 +1,6 @@
 package com.fadelands.essentials.commands.admin;
 
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.essentials.Main;
 import org.bukkit.GameMode;
@@ -24,7 +24,7 @@ public class GameModeCommand implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        if(!(User.isAdmin(player.getName()))){
+        if(!(UserUtil.isAdmin(player.getName()))){
             player.sendMessage(Utils.No_Perm);
             return true;
         }

@@ -14,9 +14,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 @SuppressWarnings("Duplicates")
-public class User {
+public class UserUtil {
 
-    public User() {
+    public UserUtil() {
     }
 
     public static String getName(String username) {
@@ -276,5 +276,26 @@ public class User {
 
     public static String getRank(String playerName) {
         return Objects.requireNonNull(Core.plugin.getLuckPermsApi().getUser(playerName)).getPrimaryGroup();
+    }
+
+    public static boolean existsInStaffDatabase(UUID uuid) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM staff_members WHERE player_uuid = ?";
+
+        try {
+            connection = Core.plugin.getDatabaseManager().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, uuid.toString());
+            rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Core.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
+        }
+        return false;
     }
 }

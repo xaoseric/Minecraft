@@ -33,7 +33,7 @@ public class GeoManager {
                     System.out.println(name);
 
                 });
-        return name.toString();
+        return String.valueOf(name);
     }
 
     public String getCountryCode(String ip) {

@@ -1,18 +1,13 @@
 package com.fadelands.core.profile.command;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.core.profile.inventory.ProfileInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class ProfileCommand implements CommandExecutor {
 
@@ -40,7 +35,7 @@ public class ProfileCommand implements CommandExecutor {
 
             String targetStr = args[0];
 
-           if(!(User.hasPlayedBefore(targetStr))) {
+           if(!(UserUtil.hasPlayedBefore(targetStr))) {
                player.sendMessage(Utils.Prefix + "§cCouldn't find that player.");
                return true;
            }

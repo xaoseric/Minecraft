@@ -2,14 +2,13 @@ package com.fadelands.core.punishments.commands;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.punishments.PunishmentManager;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.punishments.PunishmentType;
 import com.fadelands.core.utils.Utils;
 import com.google.common.base.Joiner;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -25,7 +24,7 @@ public class BanCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if(!User.isMod(sender.getName())) {
+        if(!UserUtil.isMod(sender.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -36,8 +35,8 @@ public class BanCommand implements CommandExecutor {
         }
 
         String playerName = args[0];
-        UUID playerUuid = UUID.fromString(User.getUuid(playerName));
-        if(!(User.hasPlayedBefore(playerName))){
+        UUID playerUuid = UUID.fromString(UserUtil.getUuid(playerName));
+        if(!(UserUtil.hasPlayedBefore(playerName))){
             sender.sendMessage(Utils.Prefix_Red + "§cThat's not a valid player.");
             return true;
         }

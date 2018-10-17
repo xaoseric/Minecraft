@@ -1,7 +1,7 @@
 package com.fadelands.core.staff.command;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.staff.inventory.SettingsInventory;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
@@ -25,7 +25,7 @@ public class StaffSettingsCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!User.isStaff(player.getName())) {
+        if(!UserUtil.isStaff(player.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }

@@ -1,7 +1,7 @@
 package com.fadelands.core.provider.chat.command;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,7 +25,7 @@ public class ChatSlowCommandExecutor implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if(!(User.isMod(player.getName()))) {
+        if(!(UserUtil.isMod(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }

@@ -1,7 +1,7 @@
 package com.fadelands.core.punishments.inventory;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.punishments.Punishment;
 import com.fadelands.core.punishments.PunishmentData;
 import com.fadelands.core.punishments.PunishmentType;
@@ -37,7 +37,7 @@ public class HistoryInventory implements Listener {
     }
 
     public void updateInventory(Inventory inv, String target) {
-        UUID uuid = UUID.fromString(User.getUuid(target));
+        UUID uuid = UUID.fromString(UserUtil.getUuid(target));
 
         PunishmentData.load(uuid, (data) -> {
             if (data == null) return;
@@ -65,7 +65,7 @@ public class HistoryInventory implements Listener {
             lore.add("§fPunishment Type: §a" + punishment.getType().name());
             lore.add("§fPunished On: §a" + UtilTime.when(punishment.getPunishTime()));
             lore.add("§fExpires In: §a" + (punishment.isPermanent() ? "Never (Permanent)" : UtilTime.MakeStr(punishment.getRemaining())));
-            lore.add("§fPunished By: §a" + User.getNameFromUuid(String.valueOf(punishment.getPunisherUuid())));
+            lore.add("§fPunished By: §a" + UserUtil.getNameFromUuid(String.valueOf(punishment.getPunisherUuid())));
             lore.add("§r ");
             lore.add("§fReason: §a" + punishment.getReason());
             lore.add("§r ");
@@ -76,16 +76,17 @@ public class HistoryInventory implements Listener {
             lore.add("§fPunishment Type: §a" + punishment.getType().name());
             lore.add("§fPunished On: §a" + UtilTime.when(punishment.getPunishTime()));
             lore.add("§fLength: §a" + (punishment.isPermanent() ? "Permanent" : UtilTime.MakeStr(punishment.getExpirationTime())));
-            lore.add("§fPunished By: §a" + User.getNameFromUuid(String.valueOf(punishment.getPunisherUuid())));
+            lore.add("§fPunished By: §a" + UserUtil.getNameFromUuid(String.valueOf(punishment.getPunisherUuid())));
             lore.add("§r ");
             lore.add("§fReason: §a" + punishment.getReason());
         }
 
         if (punishment.isRemoved()) {
             lore.add("§r");
-            lore.add("§fRemoved By: §a" + User.getNameFromUuid(String.valueOf(punishment.getRemoveAdmin())));
-            lore.add("§fRemove Reason: §a" + punishment.getRemoveReason());
+            lore.add("§fRemoved By: §a" + UserUtil.getNameFromUuid(String.valueOf(punishment.getRemoveAdmin())));
+            lore.add("§fRemove Reason: §a" + (punishment.getRemoveReason().contains("") ? "None." : punishment.getRemoveReason()));
         }
+
         builder.setLore(lore);
         return builder.toItemStack();
     }

@@ -81,8 +81,8 @@ public class Tables {
         String staff = "CREATE TABLE IF NOT EXISTS staff_members " +
                 "(player_uuid VARCHAR(64) PRIMARY KEY, " +
                 "date_hired timestamp null, " +
-                "bans BIGINT null, " +
-                "mutes BIGINT null, " +
+                "bans BIGINT default 0, " +
+                "mutes BIGINT default 0, " +
                 "reports_handled BIGINT null, " +
                 "resignation_date timestamp null)";
 

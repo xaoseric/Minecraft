@@ -1,7 +1,7 @@
 package com.fadelands.core.staff.command;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.staff.StaffMode;
 import com.fadelands.core.staff.StaffSettings;
 import com.fadelands.core.utils.Utils;
@@ -30,7 +30,7 @@ public class VanishCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!(User.isStaff(player.getName()))) {
+        if(!(UserUtil.isStaff(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }

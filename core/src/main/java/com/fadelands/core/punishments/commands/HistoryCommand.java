@@ -2,15 +2,13 @@ package com.fadelands.core.punishments.commands;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.punishments.*;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.punishments.inventory.HistoryInventory;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
 
 public class HistoryCommand implements CommandExecutor {
 
@@ -35,13 +33,13 @@ public class HistoryCommand implements CommandExecutor {
             return true;
         }
 
-        if (!User.isMod(player.getName())) {
+        if (!UserUtil.isMod(player.getName())) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
 
         String target = args[0];
-        if (!(User.hasPlayedBefore(target))) {
+        if (!(UserUtil.hasPlayedBefore(target))) {
             player.sendMessage(Utils.Prefix + "§cCouldn't find that user.");
             return true;
         }

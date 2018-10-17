@@ -1,7 +1,7 @@
 package com.fadelands.core.punishments.commands;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,11 +26,11 @@ public class AltsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if(!(sender instanceof Player)) {
-            sender.sendMessage("§cOnly ingame.");
+            sender.sendMessage(Utils.No_Console);
             return true;
         }
         Player player = (Player) sender;
-        if(!(User.isSenior(player.getName()))) {
+        if(!(UserUtil.isSenior(player.getName()))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -41,12 +41,12 @@ public class AltsCommand implements CommandExecutor {
         }
 
         String targetRaw = args[0];
-        if(!(User.hasPlayedBefore(targetRaw))){
+        if(!(UserUtil.hasPlayedBefore(targetRaw))){
             sender.sendMessage(Utils.Prefix_Red + "§cI couldn't find that user.");
             return true;
         }
 
-        String ip = User.getIp(targetRaw);
+        String ip = UserUtil.getIp(targetRaw);
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -58,7 +58,7 @@ public class AltsCommand implements CommandExecutor {
             ps.setString(2, ip);
             rs = ps.executeQuery();
             if(!rs.next()){
-                sender.sendMessage(Utils.Prefix_Red + "Couldn't get the IP address of that user in the database.");
+                sender.sendMessage(Utils.Prefix + "Couldn't get the IP address of that user in the database.");
             }else{
                 List<String> usernames = new LinkedList<>();
                 do {

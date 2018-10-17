@@ -1,7 +1,7 @@
 package com.fadelands.core.vpn.command;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +24,7 @@ public class VPNCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!(User.isAdmin(player.getName()))) {
+        if(!(UserUtil.isAdmin(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }

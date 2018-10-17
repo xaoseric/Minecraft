@@ -1,6 +1,6 @@
 package com.fadelands.dailyrewards.rewardman.command;
 
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.dailyrewards.Main;
 import com.fadelands.dailyrewards.rewardman.RewardMan;
@@ -26,7 +26,7 @@ public class RewardManCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if (!(User.isAdmin(player.getName()))) {
+        if (!(UserUtil.isAdmin(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }

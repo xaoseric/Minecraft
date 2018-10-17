@@ -1,9 +1,8 @@
 package com.fadelands.core.punishments;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Callback;
-import com.fadelands.core.utils.TimeUtils;
 import com.fadelands.core.utils.UtilTime;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.core.utils.keygenerators.AppealKeyGenerator;
@@ -144,7 +143,7 @@ public class PunishmentManager implements Listener {
                         Bukkit.broadcastMessage(Utils.Alert + "§c§lA player on this server has been removed for breaking the rules. §6Thank you for reporting!");
                     }
 
-                    Objects.requireNonNull(User.getOnlineStaff()).sendMessage(Utils.Alert + "§a" + playerName + " has been banned for \"" + reason + "\" for a period of " + (permanent ? "forever" : UtilTime.MakeStr(duration)) + " by " +  sender.getName() + ".");
+                    Objects.requireNonNull(UserUtil.getOnlineStaff()).sendMessage(Utils.Alert + "§a" + playerName + " has been banned for \"" + reason + "\" for a period of " + (permanent ? "forever" : UtilTime.MakeStr(duration)) + " by " +  sender.getName() + ".");
                     break;
                 case Mute:
                     if (target != null) {
@@ -157,7 +156,7 @@ public class PunishmentManager implements Listener {
                         Bukkit.getPlayer(playerUuid).sendMessage(muteMessage);
                     }
 
-                    Objects.requireNonNull(User.getOnlineStaff()).sendMessage(Utils.Alert + "§a" + playerName + " has been muted for \"" + reason + "\" for a period of " + (permanent ? "forever" : UtilTime.MakeStr(duration)) + " by " + sender.getName() + ".");
+                    Objects.requireNonNull(UserUtil.getOnlineStaff()).sendMessage(Utils.Alert + "§a" + playerName + " has been muted for \"" + reason + "\" for a period of " + (permanent ? "forever" : UtilTime.MakeStr(duration)) + " by " + sender.getName() + ".");
                     break;
                 default:
                     break;

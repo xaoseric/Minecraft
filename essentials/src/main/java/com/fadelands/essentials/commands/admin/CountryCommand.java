@@ -1,6 +1,6 @@
 package com.fadelands.essentials.commands.admin;
 
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.essentials.Main;
 import org.bukkit.command.Command;
@@ -19,7 +19,7 @@ public class CountryCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String cmdlabel, String[] args) {
         Player player = (Player) sender;
-        if (!(User.isAdmin(player.getName()))) {
+        if (!(UserUtil.isAdmin(player.getName()))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -30,12 +30,12 @@ public class CountryCommand implements CommandExecutor {
         }
 
         String target = args[0];
-        if (!User.hasPlayedBefore(target)) {
+        if (!UserUtil.hasPlayedBefore(target)) {
             sender.sendMessage(Utils.Prefix + "§cThat's not a valid player.");
             return true;
         }
 
-        String ip = User.getIp(target);
+        String ip = UserUtil.getIp(target);
 
         sender.sendMessage(Utils.Prefix + "§2Country of §a" + target + "§2: " + plugin.getInstance().getGeoManager().getCountry(ip));
 

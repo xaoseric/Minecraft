@@ -5,7 +5,6 @@ import com.fadelands.bungeecore.commands.reports.ReportInfoCommand;
 import com.fadelands.bungeecore.commands.reports.ReportsCommand;
 import com.fadelands.bungeecore.commands.servers.*;
 import com.fadelands.bungeecore.discord.BuildBot;
-import com.fadelands.bungeecore.players.ChatLogging;
 import com.fadelands.bungeecore.pm.PrivateMessageCommand;
 import com.fadelands.bungeecore.utils.Utils;
 import com.zaxxer.hikari.HikariConfig;
@@ -101,7 +100,6 @@ public class Main extends Plugin {
     }
     private void registerEvents() {
         getProxy().getPluginManager().registerListener(this, new BungeeCommandsLogging(this));
-        getProxy().getPluginManager().registerListener(this, new ChatLogging(this));
     }
 
     private void registerCommands() {

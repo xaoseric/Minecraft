@@ -6,10 +6,16 @@ import com.fadelands.essentials.commands.admin.inventory.WhoisInventory;
 import com.fadelands.essentials.commands.mod.FlyCommand;
 import com.fadelands.essentials.commands.mod.TeleportCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public class Main extends JavaPlugin {
+
+    private File warpsFile;
+    private FileConfiguration warpsConfig;
 
     public void onEnable() {
         Bukkit.getLogger().info("[Essentials] Starting up plugin.");

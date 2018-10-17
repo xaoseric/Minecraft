@@ -2,11 +2,8 @@ package com.fadelands.core.provider.chat;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.achievements.Achievement;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.playerdata.PlayerData;
-import com.fadelands.core.punishments.Punishment;
-import com.fadelands.core.punishments.PunishmentData;
-import com.fadelands.core.punishments.PunishmentType;
 import com.fadelands.core.utils.TimeUtils;
 import com.fadelands.core.utils.UtilTime;
 import com.fadelands.core.utils.Utils;
@@ -22,7 +19,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 @SuppressWarnings("Duplicates")
@@ -95,7 +98,7 @@ public class Chat implements Listener {
             return false;
         }
 
-        if (User.isStaff(player.getName())) {
+        if (UserUtil.isStaff(player.getName())) {
             return false;
         }
 
@@ -109,7 +112,7 @@ public class Chat implements Listener {
     }
 
     public boolean chatDelayCheck(Player player) {
-        if (User.isStaff(player.getName())) {
+        if (UserUtil.isStaff(player.getName())) {
             return false;
         }
 
@@ -129,6 +132,8 @@ public class Chat implements Listener {
 
         event.setCancelled(true);
 
+        String message = event.getMessage();
+
         Settings settings = new Settings();
 
         Player chatSender = event.getPlayer();
@@ -141,24 +146,26 @@ public class Chat implements Listener {
         if (checkSilenced(chatSender)) {
             return;
 
-        } else if (lastChatMessage.containsKey(chatSender.getUniqueId())) {
+        }
+
+        if (lastChatMessage.containsKey(chatSender.getUniqueId())) {
             ChatData lastMessage = lastChatMessage.get(chatSender.getUniqueId());
 
-            /*long remaining = chatDelay - lastMessage.getTimeSent();
-            if (remaining > 0 && !user.isStaff(chatSender.getName())) {
+            long remaining = chatDelay - lastMessage.getTimeSent();
+            if (remaining > 0 && !UserUtil.isStaff(chatSender.getName())) {
                 chatSender.sendMessage(Utils.Alert + "§2Please wait " + (remaining / 1000) + " seconds before each message.");
                 return;
-            }*/
+            }
 
             long chatSlowTime = 1000L * chatSlow;
             long timeDiff = System.currentTimeMillis() - lastMessage.getTimeSent();
-            if (timeDiff < chatSlowTime && !User.isStaff(chatSender.getName())) {
-                chatSender.sendMessage(Utils.Alert + "§2Chat Slow is currently enabled, please wait " + TimeUtils.toRelative(chatSlowTime - timeDiff) + ".");
+            if (timeDiff < chatSlowTime && !UserUtil.isStaff(chatSender.getName())) {
+                chatSender.sendMessage(Utils.Alert + "§2Chat Slow is currently enabled, please wait " + UtilTime.MakeStr(chatSlowTime - timeDiff) + ".");
                 return;
             }
 
             for (String s : getHackusations()) {
-                if (event.getMessage().contains(s)) {
+                if (message.contains(s)) {
                     chatSender.sendMessage(Utils.Alert + "§aInstead of hackusating in chat, please report the user with /report." +
                             " Hackusating another player can make them turn off their hacks before a staff member can punish them.");
                     return;
@@ -176,7 +183,7 @@ public class Chat implements Listener {
             components.addAll(Arrays.asList(format[i].create()));
         }
 
-        components.add(new TextComponent(event.getMessage()));
+        components.add(new TextComponent(message));
 
         for (Player online : Bukkit.getOnlinePlayers()) {
             if (settings.publicChat(online)) {
@@ -184,12 +191,28 @@ public class Chat implements Listener {
                 online.spigot().sendMessage(components.toArray(new BaseComponent[components.size()]));
 
             }
+
             lastChatMessage.put(chatSender.getUniqueId(), new ChatData(event.getMessage()));
             PlayerData playerData = PlayerData.get(chatSender.getUniqueId());
             if (playerData != null) {
                 playerData.getStats().setMessagesSent(playerData.getStats().getMessagesSent() + 1);
             }
             plugin.getAchManager().startAchievement(chatSender, Achievement.FIRST_WORDS);
+
+            try(Connection connection = plugin.getDatabaseManager().getConnection()){
+                try(PreparedStatement insert = connection
+                        .prepareStatement("INSERT INTO chat_messages (player_uuid,player_username,server,date,messages) VALUE (?,?,?,?,?)")) {
+
+                    insert.setString(1, chatSender.getUniqueId().toString());
+                    insert.setString(2, chatSender.getName());
+                    insert.setString(3, plugin.getPluginMessage().getServerName(chatSender));
+                    insert.setTimestamp(4, new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
+                    insert.setString(5, message);
+                    insert.executeUpdate();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

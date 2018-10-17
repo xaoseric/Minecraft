@@ -1,6 +1,6 @@
 package com.fadelands.core.staff;
 
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.ItemBuilder;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.GameMode;
@@ -35,7 +35,7 @@ public class StaffMode implements Listener {
     }
 
     public void toggleOn(Player player) {
-        if (User.isStaff(player.getName())) {
+        if (UserUtil.isStaff(player.getName())) {
             PlayerInventory playerInventory = player.getInventory();
             Location location = player.getLocation();
 
@@ -187,7 +187,7 @@ public class StaffMode implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if(User.isStaff(event.getPlayer().getName())) {
+        if(UserUtil.isStaff(event.getPlayer().getName())) {
             if (inventoryArmorHashMap.containsKey(event.getPlayer().getUniqueId()) || inventoryItemsHashMap.containsKey(event.getPlayer().getUniqueId()) || playerLocation.containsKey(event.getPlayer().getUniqueId())) {
                 inventoryItemsHashMap.remove(event.getPlayer().getUniqueId());
                 inventoryArmorHashMap.remove(event.getPlayer().getUniqueId());
@@ -198,7 +198,7 @@ public class StaffMode implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if(User.isStaff(event.getPlayer().getName())) {
+        if(UserUtil.isStaff(event.getPlayer().getName())) {
             if (settings.vanishOn(event.getPlayer())) {
                 toggleOn(event.getPlayer());
                 event.getPlayer().sendMessage(Utils.Prefix + "§aLast time you left, you were in vanish. You have been put in vanish again. You can toggle off with /vanish.");

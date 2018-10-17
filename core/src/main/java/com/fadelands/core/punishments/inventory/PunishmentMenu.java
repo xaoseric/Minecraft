@@ -323,7 +323,7 @@ public class PunishmentMenu implements Listener {
 
             } else if (event.getCurrentItem().isSimilar(chatOffenseSevFour)) {
                 player.closeInventory();
-                String command = "/mute " + target + " 30d " + reason;
+                String command = "/mute " + target + " 1n " + reason;
                 player.chat(command);
 
             } else if (event.getCurrentItem().isSimilar(gameplayOffenseSevOne)) {
@@ -338,7 +338,7 @@ public class PunishmentMenu implements Listener {
 
             } else if (event.getCurrentItem().isSimilar(clientOffenseSevTwo)) {
                 player.closeInventory();
-                String command = "/ban " + target + " 30d " + reason;
+                String command = "/ban " + target + " 1n " + reason;
                 player.chat(command);
 
             } else if (event.getCurrentItem().isSimilar(clientOffenseSevThree)) {

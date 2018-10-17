@@ -1,12 +1,10 @@
 package com.fadelands.core.punishments.commands;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
-import com.fadelands.core.playerdata.DataEvents;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.punishments.Punishment;
 import com.fadelands.core.punishments.PunishmentData;
 import com.fadelands.core.punishments.PunishmentHandler;
-import com.fadelands.core.punishments.PunishmentManager;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,7 +33,7 @@ public class RemoveCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!User.isAdmin(player.getName())) {
+        if(!UserUtil.isAdmin(player.getName())) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -46,14 +44,14 @@ public class RemoveCommand implements CommandExecutor {
         }
 
         String user = args[0];
-        if(!User.hasPlayedBefore(user)) {
+        if(!UserUtil.hasPlayedBefore(user)) {
             player.sendMessage(Utils.Prefix + "§cCouldn't find that player.");
             return true;
         }
 
         String input = args[1];
 
-        UUID uuid = UUID.fromString(User.getUuid(user));
+        UUID uuid = UUID.fromString(UserUtil.getUuid(user));
 
         PunishmentData.load(uuid, (data) -> {
 

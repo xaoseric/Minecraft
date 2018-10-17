@@ -12,7 +12,7 @@ public class AdminUUIDs {
         AdminUUIDs.uuids.add(UUID.fromString("06f14eb1-8f8f-45cb-9e13-eb9d65f16650")); // Strqfe_
         AdminUUIDs.uuids.add(UUID.fromString("d8bbc199-1e1a-4192-8d41-bb05fd2210c7")); // spacetrain31
         AdminUUIDs.uuids.add(UUID.fromString("4b2dc909-cdad-4530-a03b-612bcabbcecd")); // Robskiy
-        AdminUUIDs.uuids.add(UUID.fromString("a2422e58-5c5d-4751-a45d-802e51ebba55")); // hataglass (xenyor)
+        AdminUUIDs.uuids.add(UUID.fromString("20d09221-cee7-42a7-9a3b-26dd87849cad")); // xenyor
 
         //devs
         AdminUUIDs.uuids.add(UUID.fromString("7cd493a1-1214-4da3-9ac1-a0bfef50b75c")); // stevyb0t

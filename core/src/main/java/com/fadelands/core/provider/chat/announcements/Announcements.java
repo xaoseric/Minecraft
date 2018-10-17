@@ -27,9 +27,9 @@ public class Announcements {
     }
 
     public void startAnnouncements(Player player) {
-        announcements.add(Utils.Announcement + "§7We are searching for new staff members to join our team! Apply today at §6https://fadelands.com/mod/§7.");
+        announcements.add(Utils.Announcement + "§7We are searching for new staff members to join our team! Apply today @ §6https://fadelands.com/mod/§7.");
 
-        announcements.add(Utils.Announcement + "§7We currently have §6§l40% OFF §7on our products. Check them out at §2https://store.fadelands.com/§7.");
+        announcements.add(Utils.Announcement + "§7We currently have §6§l40% OFF §7on our products. Check them out @ §2https://store.fadelands.com/§7.");
 
         announcements.add(Utils.Announcement + "§7Join our public Discord! We host giveaways, post announcements and a lot more, §6discord.fadelands.com§7.");
 

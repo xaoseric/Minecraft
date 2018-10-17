@@ -2,7 +2,7 @@ package com.fadelands.core.monitor.command;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.monitor.PerformanceManager;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.TimeUtils;
 import com.fadelands.core.utils.Utils;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
@@ -32,7 +32,7 @@ public class MonitorCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if(!(User.isRedTag(player.getName()))) {
+        if(!(UserUtil.isRedTag(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }

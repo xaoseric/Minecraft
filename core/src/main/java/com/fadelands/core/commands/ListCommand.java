@@ -1,7 +1,7 @@
 package com.fadelands.core.commands;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.staff.StaffSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -31,7 +31,7 @@ public class ListCommand implements CommandExecutor {
 
     private String[] getStaffOnline() {
         for (Player staff : Bukkit.getOnlinePlayers()) {
-            if (User.isStaff(staff.getName())) {
+            if (UserUtil.isStaff(staff.getName())) {
                 if (!(new StaffSettings().vanishOn(staff))) {
                     return staff.getName().split(", ");
                 }

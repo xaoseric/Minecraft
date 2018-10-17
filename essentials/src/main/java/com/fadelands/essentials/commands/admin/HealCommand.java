@@ -1,6 +1,6 @@
 package com.fadelands.essentials.commands.admin;
 
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,7 +16,7 @@ public class HealCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if (!(User.isStaff(player.getName()))) {
+        if (!(UserUtil.isStaff(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }

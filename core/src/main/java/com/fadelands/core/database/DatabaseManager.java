@@ -1,14 +1,12 @@
 package com.fadelands.core.database;
 
-import com.fadelands.core.database.Tables;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class DatabaseManager {
@@ -245,7 +243,7 @@ public class DatabaseManager {
 
     public void updateTable(String playerName, String table, String columnName, String value) {
         try (Connection connection = getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + User.getUuid(playerName) + "'";
+            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + UserUtil.getUuid(playerName) + "'";
             try (PreparedStatement p = connection.prepareStatement(query)) {
 
                 p.setString(1, value);
@@ -261,7 +259,7 @@ public class DatabaseManager {
 
     public void updateTable(String playerName, String table, String columnName, Boolean value) {
         try (Connection connection = getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + User.getUuid(playerName) + "'";
+            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + UserUtil.getUuid(playerName) + "'";
             try (PreparedStatement p = connection.prepareStatement(query)) {
 
                 p.setBoolean(1, value);
@@ -276,7 +274,7 @@ public class DatabaseManager {
 
     public void updateTable(String playerName, String table, String columnName, Integer value) {
         try (Connection connection = getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + User.getUuid(playerName) + "'";
+            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + UserUtil.getUuid(playerName) + "'";
             try (PreparedStatement p = connection.prepareStatement(query)) {
 
                 p.setInt(1, value);
@@ -291,7 +289,7 @@ public class DatabaseManager {
 
     public void updateTable(String playerName, String table, String columnName, Timestamp value) {
         try (Connection connection = getConnection()) {
-            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + User.getUuid(playerName) + "'";
+            String query = "UPDATE " + table + " SET " + columnName + "=? WHERE player_uuid='" + UserUtil.getUuid(playerName) + "'";
             try (PreparedStatement p = connection.prepareStatement(query)) {
 
                 p.setTimestamp(1, value);

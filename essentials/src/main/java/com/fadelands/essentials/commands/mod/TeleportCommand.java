@@ -1,6 +1,6 @@
 package com.fadelands.essentials.commands.mod;
 
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.essentials.Main;
 import org.bukkit.Bukkit;
@@ -27,7 +27,7 @@ public class TeleportCommand implements CommandExecutor {
         }
 
         Player player = (Player)sender;
-            if ((User.isMod(player.getName())) && (args.length == 2)) {
+            if ((UserUtil.isMod(player.getName())) && (args.length == 2)) {
                 if (Bukkit.getPlayerExact(args[0]) != null && Bukkit.getPlayerExact(args[1]) != null)
                 {
                     Player targetPlayer = player.getServer().getPlayer(args[0]);
@@ -44,7 +44,7 @@ public class TeleportCommand implements CommandExecutor {
                 player.sendMessage(Utils.No_Perm);
             }
             if ((args.length == 1) || (args.length == 0)) {
-                if (User.isMod(player.getName()))
+                if (UserUtil.isMod(player.getName()))
                 {
                     if (args.length == 0)
                     {

@@ -1,8 +1,8 @@
 package com.fadelands.sbair.skyblockmanager;
 
+import com.fadelands.core.utils.ItemBuilder;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.sbair.Main;
-import com.fadelands.sbair.utils.ItemBuilder;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

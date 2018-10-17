@@ -1,7 +1,7 @@
 package com.fadelands.core.manager;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -67,7 +67,7 @@ public class ServerManager implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void playerLogin(AsyncPlayerPreLoginEvent event) {
         if (lockdownActive()) {
-            if(User.isRedTag(event.getName())) {
+            if(UserUtil.isRedTag(event.getName())) {
                 event.allow();
                 return;
             }

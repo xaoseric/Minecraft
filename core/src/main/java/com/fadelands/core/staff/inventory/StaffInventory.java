@@ -1,7 +1,7 @@
 package com.fadelands.core.staff.inventory;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -33,7 +33,7 @@ public class StaffInventory implements Listener {
     }
 
     public void updateInventory(Inventory inventory, String targetName) {
-        String uuid = User.getUuid(targetName);
+        String uuid = UserUtil.getUuid(targetName);
 
         Connection connection = null;
         PreparedStatement ps = null;

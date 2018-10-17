@@ -2,7 +2,7 @@ package com.fadelands.core.staff.command;
 
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.staff.inventory.StaffInventory;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
@@ -25,7 +25,7 @@ public class StaffCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player = (Player) sender;
 
-        if (!(User.isAdmin(player.getName()))) {
+        if (!(UserUtil.isAdmin(player.getName()))) {
             player.sendMessage(Utils.No_Perm);
             return true;
         }
@@ -42,7 +42,7 @@ public class StaffCommand implements CommandExecutor {
             }
 
             String target = args[1];
-            if (!User.hasPlayedBefore(target)) {
+            if (!UserUtil.hasPlayedBefore(target)) {
                 player.sendMessage(Utils.Prefix + "§cThat's not a valid user.");
                 return true;
             }
@@ -56,7 +56,7 @@ public class StaffCommand implements CommandExecutor {
             try {
                 connection = plugin.getDatabaseManager().getConnection();
                 ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
-                ps.setString(1, User.getUuid(target));
+                ps.setString(1, UserUtil.getUuid(target));
                 rs = ps.executeQuery();
                 boolean exists = rs.next();
 
@@ -73,12 +73,12 @@ public class StaffCommand implements CommandExecutor {
                         ") " +
                         "VALUES (?,?)");
 
-                ps2.setString(1, User.getUuid(target));
+                ps2.setString(1, UserUtil.getUuid(target));
                 ps2.setTimestamp(2, new Timestamp(new DateTime(DateTimeZone.UTC).getMillis()));
                 ps2.executeUpdate();
 
                 ps3 = connection.prepareStatement("INSERT INTO staff_settings (player_uuid) VALUES (?)");
-                ps3.setString(1, User.getUuid(target));
+                ps3.setString(1, UserUtil.getUuid(target));
                 ps3.executeUpdate();
 
                 player.sendMessage(Utils.Prefix + "§aSuccessfully added " + target + " to staff database.");
@@ -98,7 +98,7 @@ public class StaffCommand implements CommandExecutor {
             }
 
             String target = args[1];
-            if (!User.hasPlayedBefore(target)) {
+            if (!UserUtil.hasPlayedBefore(target)) {
                 player.sendMessage(Utils.Prefix + "§cThat's not a valid user.");
                 return true;
             }
@@ -110,7 +110,7 @@ public class StaffCommand implements CommandExecutor {
             try {
                 connection = plugin.getDatabaseManager().getConnection();
                 ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
-                ps.setString(1, User.getUuid(target));
+                ps.setString(1, UserUtil.getUuid(target));
                 rs = ps.executeQuery();
                 boolean exists = rs.next();
                 if (!exists) {
@@ -134,7 +134,7 @@ public class StaffCommand implements CommandExecutor {
             }
 
             String target = args[1];
-            if (!User.hasPlayedBefore(target)) {
+            if (!UserUtil.hasPlayedBefore(target)) {
                 player.sendMessage(Utils.Prefix + "§cThat's not a valid user.");
                 return true;
             }
@@ -146,7 +146,7 @@ public class StaffCommand implements CommandExecutor {
             try {
                 connection = plugin.getDatabaseManager().getConnection();
                 ps = connection.prepareStatement("SELECT * FROM staff_members WHERE player_uuid = ?");
-                ps.setString(1, User.getUuid(target));
+                ps.setString(1, UserUtil.getUuid(target));
                 rs = ps.executeQuery();
                 if (!rs.next()) {
                     player.sendMessage(Utils.Prefix + "§cCouldn't find any staff statistics of that user.");

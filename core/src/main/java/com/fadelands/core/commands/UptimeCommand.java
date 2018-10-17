@@ -1,7 +1,7 @@
 package com.fadelands.core.commands;
 
 import com.fadelands.core.Core;
-import com.fadelands.core.player.User;
+import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.TimeUtils;
 import com.fadelands.core.utils.Utils;
 import org.bukkit.command.Command;
@@ -19,7 +19,7 @@ public class UptimeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        if(!(User.isRedTag(player.getName()))) {
+        if(!(UserUtil.isRedTag(player.getName()))) {
             sender.sendMessage(Utils.No_Perm);
             return true;
 
