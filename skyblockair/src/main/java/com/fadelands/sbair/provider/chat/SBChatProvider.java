@@ -1,5 +1,6 @@
 package com.fadelands.sbair.provider.chat;
 
+import com.fadelands.core.Core;
 import com.fadelands.core.playerdata.PlayerData;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.sbair.Main;
@@ -25,15 +26,10 @@ public class SBChatProvider implements com.fadelands.core.provider.chat.provider
         Chat chat = main.getChat();
         Permission permission = main.getPermissions();
 
-        PlayerData playerData = PlayerData.get(player.getUniqueId());
-        assert playerData != null;
-        PlayerData.Statistics playerStats = playerData.getStats();
-
         // Network Level
-        ComponentBuilder levelComponent = new ComponentBuilder("§7" +  playerStats.getNetworkLevel() + " ");
+        ComponentBuilder levelComponent = new ComponentBuilder(Core.plugin.getEconomyManager().getNetworkLevel(player.getUniqueId().toString()) + " ");
         levelComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.NETWORK_LEVEL_MSG
-                .replace("{0}", String.valueOf(playerStats.getNetworkLevel()))).create()));
-
+                .replace("{0}", Core.plugin.getEconomyManager().getNetworkLevel(player.getUniqueId().toString()))).create()));
 
         // Island level
         long level = main.getSkyBlockApi().getLongIslandLevel(player.getUniqueId());

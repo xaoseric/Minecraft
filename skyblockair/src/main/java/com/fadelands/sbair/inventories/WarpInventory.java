@@ -2,6 +2,7 @@ package com.fadelands.sbair.inventories;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.utils.ItemBuilder;
+import com.fadelands.essentials.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public class WarpInventory implements Listener {
 
@@ -47,31 +47,37 @@ public class WarpInventory implements Listener {
 
         switch (event.getSlot()) {
             case 3:
-                player.performCommand("warp info");
+                Main.instance.getWarps().warp(player, "info");
+                player.closeInventory();
                 break;
             case 5:
-                player.performCommand("is home");
+                player.performCommand("is");
                 break;
             case 11:
-                player.performCommand("warp crates");
+                Main.instance.getWarps().warp(player, "crates");
+                player.closeInventory();
                 break;
             case 12:
-                player.performCommand("warp enchant");
+                Main.instance.getWarps().warp(player, "enchanting");
+                player.closeInventory();
                 break;
             case 13:
-                player.performCommand("warp animalfarm");
+                Main.instance.getWarps().warp(player, "animalfarm");
+                player.closeInventory();
                 break;
             case 14:
-                player.performCommand("warp shop");
+                Main.instance.getWarps().warp(player, "shop");
+                player.closeInventory();
                 break;
             case 15:
                 player.performCommand("spawn");
                 break;
             case 21:
-                player.performCommand("is warp");
+                player.performCommand("is warps");
                 break;
             case 22:
-                player.performCommand("warp tutorials");
+                Main.instance.getWarps().warp(player, "tutorials");
+                player.closeInventory();
                 break;
             case 23:
                 player.closeInventory();

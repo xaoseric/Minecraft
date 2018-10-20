@@ -3,6 +3,7 @@ package com.fadelands.core.profile.inventory;
 import com.fadelands.core.Core;
 import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.ItemBuilder;
+import com.fadelands.core.utils.LPUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,6 +13,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 @SuppressWarnings("Duplicates")
 public class ProfileInventory implements Listener {
@@ -39,11 +42,15 @@ public class ProfileInventory implements Listener {
     public void updateProfileInventory(Inventory inv, Player executor, String target) {
         inv.clear();
 
-        inv.setItem(4, new ItemBuilder(Material.SKULL_ITEM).setData(3).setSkullOwner(target).setName("§6" + target).setLore(Arrays.asList("" +
+        UUID uuid = UUID.fromString(UserUtil.getUuid(target));
+
+        LPUtils.getPrefix(uuid);
+
+        inv.setItem(4, new ItemBuilder(Material.SKULL_ITEM).setData(3).setSkullOwner(target).setName(LPUtils.getPrefix(uuid)).setLore(Arrays.asList("" +
                 "§7Rank:§2 " + UserUtil.getRank(target).toUpperCase(),
-                "§7Network Level:§2 999",
-                "§7Points:§2 999",
-                "§7Tokens:§2 0")
+                "§7Network Level: " + plugin.getEconomyManager().getNetworkLevel(UserUtil.getUuid(target)),
+                "§7Points: §a" + plugin.getEconomyManager().getPoints(UserUtil.getUuid(target)),
+                "§7Tokens: §a" + plugin.getEconomyManager().getTokens(UserUtil.getUuid(target)))
         ).toItemStack());
 
         inv.setItem(11, new ItemBuilder(Material.BOOK).setName("§6Achievements").setLore("§7Click to view " + target + "'s achievements.").toItemStack());

@@ -64,7 +64,7 @@ public class ServerManager implements Listener {
         return "Reason not available -2";
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void playerLogin(AsyncPlayerPreLoginEvent event) {
         if (lockdownActive()) {
             if(UserUtil.isRedTag(event.getName())) {

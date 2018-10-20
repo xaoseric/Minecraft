@@ -32,16 +32,14 @@ public class IslandMenu implements Listener {
         updateInventory(inv, player);
 
         player.openInventory(inv);
-
     }
 
     private static ItemStack border() {
-        return new ItemBuilder(Material.STAINED_GLASS_PANE).setData(3).setName("§r").toItemStack();
+        return new ItemBuilder(Material.STAINED_GLASS_PANE).setData(1).setName("§r").toItemStack();
     }
 
     private static ItemStack borderWhite() {
         return new ItemBuilder(Material.STAINED_GLASS_PANE).setData(0).setName("§r").toItemStack();
-
     }
 
     public void updateInventory(Inventory inv, Player player) {
@@ -106,7 +104,6 @@ public class IslandMenu implements Listener {
         inv.setItem(34, borderWhite());
         inv.setItem(37, borderWhite());
         inv.setItem(43, borderWhite());
-
     }
 
     @EventHandler
@@ -141,8 +138,8 @@ public class IslandMenu implements Listener {
 
                 case 30:
                     player.closeInventory();
-                    plugin.getSkyBlockApi().calculateIslandLevel(player.getUniqueId());
                     player.sendMessage(Utils.Prefix + "§aCalculating your new island level...");
+                    plugin.getSkyBlockApi().calculateIslandLevel(player.getUniqueId());
                     player.sendMessage(Utils.Prefix_Green + "§aYour new island level is §2" + plugin.getSkyBlockApi().getLongIslandLevel(player.getUniqueId()) + "§a!");
                     break;
 

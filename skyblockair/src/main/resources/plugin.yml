@@ -2,7 +2,7 @@ name: SkyBlockAir
 main: com.fadelands.sbair.Main
 version: 1.0
 author: arrayofc
-depend: [Core, Core, SignGUI, ASkyBlock]
+depend: [Core, EssentialsFL, SignGUI, ASkyBlock]
 
 commands:
   islandmenu:

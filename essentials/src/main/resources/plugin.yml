@@ -26,3 +26,7 @@ commands:
     description: Feed a player.
   toggledownfall:
     description: Toggle the storm.
+  addwarp:
+    description: Add a warp
+  removewarp:
+    description: Remove a warp

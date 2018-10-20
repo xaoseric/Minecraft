@@ -1,5 +1,6 @@
 package com.fadelands.essentials.commands.admin.inventory;
 
+import com.fadelands.core.Core;
 import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.ItemBuilder;
 import com.fadelands.essentials.Main;
@@ -38,7 +39,7 @@ public class WhoisInventory implements Listener {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            connection = plugin.getInstance().getDatabaseManager().getConnection();
+            connection = Core.plugin.getDatabaseManager().getConnection();
             ps = connection.prepareStatement("SELECT * FROM players WHERE player_uuid = ?");
             ps.setString(1, uuid);
             rs = ps.executeQuery();
@@ -110,7 +111,7 @@ public class WhoisInventory implements Listener {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            plugin.getInstance().getDatabaseManager().closeComponents(rs, ps, connection);
+            Core.plugin.getDatabaseManager().closeComponents(rs, ps, connection);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.fadelands.essentials.commands.admin;
 
+import com.fadelands.core.Core;
 import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.Utils;
 import com.fadelands.essentials.Main;
@@ -37,7 +38,7 @@ public class CountryCommand implements CommandExecutor {
 
         String ip = UserUtil.getIp(target);
 
-        sender.sendMessage(Utils.Prefix + "§2Country of §a" + target + "§2: " + plugin.getInstance().getGeoManager().getCountry(ip));
+        sender.sendMessage(Utils.Prefix + "§2Country of §a" + target + "§2: " + Core.plugin.getGeoManager().getCountry(ip));
 
         return false;
     }

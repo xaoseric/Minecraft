@@ -23,14 +23,10 @@ public class SimpleChatProvider implements ChatProvider {
         Chat chat = plugin.getChat();
         Permission permission = plugin.getPermissions();
 
-        PlayerData playerData = PlayerData.get(player.getUniqueId());
-        assert playerData != null;
-        PlayerData.Statistics playerStats = playerData.getStats();
-
         // Network Level
-        ComponentBuilder levelComponent = new ComponentBuilder("§7" +  playerStats.getNetworkLevel() + " ");
+        ComponentBuilder levelComponent = new ComponentBuilder( plugin.getEconomyManager().getNetworkLevel(player.getUniqueId().toString()) + " ");
         levelComponent.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.NETWORK_LEVEL_MSG
-        .replace("{0}", String.valueOf(playerStats.getNetworkLevel()))).create()));
+        .replace("{0}", plugin.getEconomyManager().getNetworkLevel(player.getUniqueId().toString()))).create()));
 
         // Rank
         ComponentBuilder rankComponent = new ComponentBuilder(chat.getPlayerPrefix(player).replaceAll("&", "\u00a7"));

@@ -10,6 +10,7 @@ import com.fadelands.core.commands.help.guides.GuideMenu;
 import com.fadelands.core.commands.help.inventory.ApplyGui;
 import com.fadelands.core.commands.help.inventory.HelpInventory;
 import com.fadelands.core.commands.help.inventory.ServerStatsInventory;
+import com.fadelands.core.economy.EconomyManager;
 import com.fadelands.core.events.Events;
 import com.fadelands.core.database.DatabaseManager;
 import com.fadelands.core.manager.GeoManager;
@@ -77,6 +78,7 @@ public class Core extends JavaPlugin {
     private PerformanceManager performanceManager;
     private VPNManager vpnManager;
     private AchievementManager achievementManager;
+    private EconomyManager economyManager;
     private ServerStatistics serverStats;
     private StaffSettings staffSettings;
     private LuckPermsApi luckPerms;
@@ -156,6 +158,7 @@ public class Core extends JavaPlugin {
         this.npcManager = new NPCManager();
         this.vpnManager = new VPNManager();
         this.achievementManager = new AchievementManager();
+        this.economyManager = new EconomyManager(this);
         this.serverStats = new ServerStatistics();
         this.staffSettings = new StaffSettings();
         this.settings = new Settings();
@@ -321,6 +324,10 @@ public class Core extends JavaPlugin {
 
     public AchievementManager getAchManager() {
         return achievementManager;
+    }
+
+    public EconomyManager getEconomyManager() {
+        return economyManager;
     }
 
     public com.fadelands.core.provider.chat.Chat getServerChat() {
