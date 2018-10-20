@@ -2,6 +2,8 @@ package com.fadelands.core.playerdata;
 
 import com.fadelands.core.Core;
 import com.fadelands.core.achievements.Achievement;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

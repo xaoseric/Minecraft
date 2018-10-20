@@ -108,6 +108,14 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder hideEnchants() {
+        ItemMeta meta = this.itemstack.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        this.itemstack.setItemMeta(meta);
+        return this;
+    }
+
+
     public ItemStack toItemStack() {
         return this.itemstack;
     }

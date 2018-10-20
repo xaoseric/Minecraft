@@ -24,7 +24,7 @@ public class Tables {
 
         String statsglobal = "CREATE TABLE IF NOT EXISTS stats_global " +
                 "(player_uuid VARCHAR(64) PRIMARY KEY, " +
-                "network_level int default 0, " +
+                "exp int default 0, " +
                 "points int default 0, " +
                 "tokens int default 0," +
                 "messages_sent int default 0, " +
