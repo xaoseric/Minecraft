@@ -20,9 +20,9 @@ public class AchievementGui implements Listener {
     private final static String inventoryName = "Achievements";
 
     public void openAchievements(Player player, String target) {
-        if(!(UserUtil.hasPlayedBefore(target))) {
+        if (!(UserUtil.hasPlayedBefore(target))) {
             player.sendMessage(Utils.Prefix + "§cCouldn't find that player.");
-        } else{
+        } else {
             Inventory inv = Bukkit.createInventory(null, 9 * 6, inventoryName);
 
             updateInventory(inv, player, target);
@@ -35,7 +35,7 @@ public class AchievementGui implements Listener {
         UUID uuid = UUID.fromString(UserUtil.getUuid(target));
         PlayerData playerData = PlayerData.get(uuid);
 
-        if(playerData == null) {
+        if (playerData == null) {
             return;
         }
 
@@ -49,7 +49,7 @@ public class AchievementGui implements Listener {
     private ItemStack getAchievementDisplay(Achievement achievement, PlayerData playerData) {
         PlayerData.AchievementData achData = playerData.getAchivementData();
 
-        if(achData.hasCompleted(achievement)) {
+        if (achData.hasCompleted(achievement)) {
             return new ItemBuilder(Material.DIAMOND_BLOCK).setName("§6" + achievement.getDisplayName()).setLore(Arrays.asList(
                     "§7Difficulty: " + achievement.getDifficulty().getDisplay(),
                     "§7Description: §a" + achievement.getDescription().get(0),
@@ -57,14 +57,14 @@ public class AchievementGui implements Listener {
                     "§r", "§aThis achievement is unlocked.")).toItemStack();
         }
 
-        if(!(achData.hasStarted(achievement))) {
+        if (!(achData.hasStarted(achievement))) {
             return new ItemBuilder(Material.COAL_BLOCK).setName("§6" + achievement.getDisplayName()).setLore(Arrays.asList(
                     "§7Difficulty: " + achievement.getDifficulty().getDisplay(),
                     "§7Description: §a" + achievement.getDescription().get(0),
                     "§7Tokens: §a" + achievement.getDifficulty().getTokens(),
                     "§r", "§cYou haven't started this achievement yet.")).toItemStack();
         }
-        if(achData.hasStarted(achievement)) {
+        if (achData.hasStarted(achievement)) {
             return new ItemBuilder(Material.GOLD_BLOCK).setName("§6" + achievement.getDisplayName()).setLore(Arrays.asList(
                     "§7Difficulty: " + achievement.getDifficulty().getDisplay(),
                     "§7Description: §a" + achievement.getDescription().get(0),
