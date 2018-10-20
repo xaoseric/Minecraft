@@ -85,7 +85,7 @@ public class SkyblockGui implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getClickedInventory() == null) return;
+        if (event.getInventory() == null) return;
         if (event.getCurrentItem() == null) return;
 
         Player player = (Player) event.getWhoClicked();
