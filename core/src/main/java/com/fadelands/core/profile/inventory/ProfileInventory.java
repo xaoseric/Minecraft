@@ -4,6 +4,7 @@ import com.fadelands.core.Core;
 import com.fadelands.core.player.UserUtil;
 import com.fadelands.core.utils.ItemBuilder;
 import com.fadelands.core.utils.LPUtils;
+import me.lucko.luckperms.api.Contexts;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,7 +15,6 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 @SuppressWarnings("Duplicates")
 public class ProfileInventory implements Listener {
@@ -40,23 +40,24 @@ public class ProfileInventory implements Listener {
     }
 
     public void updateProfileInventory(Inventory inv, Player executor, String target) {
-        inv.clear();
-
         UUID uuid = UUID.fromString(UserUtil.getUuid(target));
 
-        LPUtils.getPrefix(uuid);
+        //first get user and wait till we have it
+        LPUtils.getUser(uuid, (user) -> {
+            //then clear the inventory
+            inv.clear();
+            //and update
+            inv.setItem(4, new ItemBuilder(Material.SKULL_ITEM).setData(3).setSkullOwner(target).setName(user.getCachedData().getMetaData(Contexts.global()).getPrefix())
+                    .setLore(Arrays.asList("§7Rank:§2 " + UserUtil.getRank(target).toUpperCase(),
+                    "§7Network Level: " + plugin.getEconomyManager().getNetworkLevel(UserUtil.getUuid(target)),
+                    "§7Points: §a" + plugin.getEconomyManager().getPoints(UserUtil.getUuid(target)),
+                    "§7Tokens: §a" + plugin.getEconomyManager().getTokens(UserUtil.getUuid(target)))
+            ).toItemStack());
 
-        inv.setItem(4, new ItemBuilder(Material.SKULL_ITEM).setData(3).setSkullOwner(target).setName(LPUtils.getPrefix(uuid)).setLore(Arrays.asList("" +
-                "§7Rank:§2 " + UserUtil.getRank(target).toUpperCase(),
-                "§7Network Level: " + plugin.getEconomyManager().getNetworkLevel(UserUtil.getUuid(target)),
-                "§7Points: §a" + plugin.getEconomyManager().getPoints(UserUtil.getUuid(target)),
-                "§7Tokens: §a" + plugin.getEconomyManager().getTokens(UserUtil.getUuid(target)))
-        ).toItemStack());
+            inv.setItem(11, new ItemBuilder(Material.BOOK).setName("§6Achievements").setLore("§7Click to view " + target + "'s achievements.").toItemStack());
 
-        inv.setItem(11, new ItemBuilder(Material.BOOK).setName("§6Achievements").setLore("§7Click to view " + target + "'s achievements.").toItemStack());
-
-        inv.setItem(15, new ItemBuilder(Material.BOW).setName("§6Statistics").setLore("§7Click to view " + target + "'s statistics.").toItemStack());
-
+            inv.setItem(15, new ItemBuilder(Material.BOW).setName("§6Statistics").setLore("§7Click to view " + target + "'s statistics.").toItemStack());
+        });
     }
 
     @EventHandler
