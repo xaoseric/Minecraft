@@ -3,7 +3,6 @@ package com.fadelands.lobby.events;
 import com.fadelands.lobby.Main;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,7 +11,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -142,7 +140,7 @@ public class LobbyEvents implements Listener {
     }
 
     @EventHandler
-    public void playerMoveEvent(PlayerMoveEvent event){
+    public void playerMoveEvent(PlayerMoveEvent event) {
         Location location = event.getTo();
         if(location.getBlockX() < 240 || location.getBlockX() > 640 || location.getBlockZ() < -690 || location.getBlockZ() > -290) {
             Player player = event.getPlayer();
@@ -151,7 +149,6 @@ public class LobbyEvents implements Listener {
             player.playEffect(player.getLocation(), Effect.LARGE_SMOKE, 2);
             player.playEffect(player.getLocation(), Effect.EXTINGUISH, 3);
             player.playEffect(player.getLocation(), Effect.FLAME, 2);
-
         }
     }
 }
