@@ -138,7 +138,7 @@ public class PlayerManager implements Listener {
         Connection connection = null;
         PreparedStatement ps = null;
 
-        String query = "UPDATE stats_global SET network_level=?," +
+        String query = "UPDATE stats_global SET exp=?," +
                 "points=?,tokens=?,messages_sent=?,commands_used=?," +
                 "login_count=?,blocks_placed=?,blocks_removed=?,playtime=?," +
                 "deaths=?,kills=? WHERE player_uuid = ?";
@@ -150,7 +150,7 @@ public class PlayerManager implements Listener {
             PlayerData playerData = PlayerData.get(uuid);
 
             if (playerData != null) {
-                ps.setInt(1, playerData.getStats().getNetworkLevel());
+                ps.setInt(1, playerData.getStats().getExp());
                 ps.setInt(2, playerData.getStats().getPoints());
                 ps.setInt(3, playerData.getStats().getTokens());
                 ps.setInt(4, playerData.getStats().getMessagesSent());
@@ -188,7 +188,7 @@ public class PlayerManager implements Listener {
             ps.setString(1, uuid.toString());
             rs = ps.executeQuery();
             if(rs.next()) {
-                playerData.getStats().setNetworkLevel(rs.getInt("network_level"));
+                playerData.getStats().setExp(rs.getInt("exp"));
                 playerData.getStats().setPoints(rs.getInt("points"));
                 playerData.getStats().setTokens(rs.getInt("tokens"));
                 playerData.getStats().setMessagesSent(rs.getInt("messages_sent"));

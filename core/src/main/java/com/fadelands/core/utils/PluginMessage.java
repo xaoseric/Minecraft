@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -135,6 +136,14 @@ public class PluginMessage implements PluginMessageListener {
         Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
     }
 
+    @Nullable
+    public String getServers() {
+        ByteArrayDataOutput output = ByteStreams.newDataOutput();
+
+        output.writeUTF("GetServers");
+        return "na";
+    }
+
     public void sendMessageToAll(Player sender, String text) {
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
 
@@ -147,7 +156,6 @@ public class PluginMessage implements PluginMessageListener {
 
     public boolean isOnline(String username) {
         String[] players = getPlayerNames("ALL");
-
 
         List<String> names = Arrays.stream(players).filter(Objects::nonNull).collect(Collectors.toList());
         return names.contains(username);
